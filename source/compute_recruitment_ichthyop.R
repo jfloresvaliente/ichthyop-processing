@@ -36,7 +36,7 @@ compute_recruitment_ichthyop <- function(
   # new_path = path where '.xml' files are stored
   
   # The '.csv' output file will have the form.....
-  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Day',...
+  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Month',...
   # ...'Depth','Age','Coast_Behavior','Temp_min','name_file','Recruitprop']
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
@@ -121,7 +121,6 @@ compute_recruitment_ichthyop <- function(
     # Gets the value for 'disipation rate'
     epsilon <- ncatt_get(nc , 0 , 'action.hdisp.epsilon')$value
     
-    
     nbdrifter <- lastdrifter-firstdrifter+1
     
     # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
@@ -154,6 +153,7 @@ compute_recruitment_ichthyop <- function(
       ,seq(1,nbreleasezones)
       ,rep(yearday[1],nbreleasezones)
       ,rep(yearday[2],nbreleasezones)
+      ,rep(epsilon,nbreleasezones)
       # ,rep(depth,nbreleasezones)
       ,rep(age,nbreleasezones)
       ,rep(coast_behavior,nbreleasezones)
@@ -226,8 +226,8 @@ compute_recruitment_ichthyop <- function(
     ,'NumberRecruited'
     ,'ReleaseArea'
     ,'Year'
-    ,'Day'
-    # ,'Depth'
+    ,'Month'
+    ,'Eps'
     ,'Age'
     ,'Coast_Behavior'
     ,'Temp_min'
@@ -241,22 +241,23 @@ compute_recruitment_ichthyop <- function(
   dataset$NumberRecruited <- as.numeric(dataset$NumberRecruited)
   dataset$ReleaseArea <- as.numeric(dataset$ReleaseArea)
   dataset$Year <- as.numeric(dataset$Year)
-  dataset$Day <- as.numeric(dataset$Day)
+  dataset$Month <- as.numeric(dataset$Month)
+  dataset$Eps <- as.numeric(dataset$Eps)
   dataset$Age <- as.numeric(dataset$Age)
   dataset$Temp_min <- as.numeric(dataset$Temp_min)
   dataset$Recruitprop <- as.numeric(dataset$Recruitprop)
 
   rownames(dataset) <- NULL
   return (dataset)
-  #mod <- lm(recruitprop ~ factor(ReleaseArea) + factor(Day) + factor(Year) + factor(Depth)
-  #			+ factor(ReleaseArea):factor(Day) + factor(ReleaseArea):factor(Year) + factor(ReleaseArea):factor(Depth)
-  #			+ factor(Day):factor(Year) + factor(Day):factor(Depth) + factor(Year):factor(Depth), data = dataset)
+  #mod <- lm(recruitprop ~ factor(ReleaseArea) + factor(Month) + factor(Year) + factor(Depth)
+  #			+ factor(ReleaseArea):factor(Month) + factor(ReleaseArea):factor(Year) + factor(ReleaseArea):factor(Depth)
+  #			+ factor(Month):factor(Year) + factor(Month):factor(Depth) + factor(Year):factor(Depth), data = dataset)
   #aov <- anova(mod)
   #print(aov)
   #print(100 * aov[2] / sum(aov[2]))
-  #interaction.plot(dataset$Day,dataset$ReleaseArea,recruitprop,fixed=TRUE,xlab='Release day',ylab='Transport success (%)',lty=1,col=seq(1,length(areaplot)))
+  #interaction.plot(dataset$Month,dataset$ReleaseArea,recruitprop,fixed=TRUE,xlab='Release day',ylab='Transport success (%)',lty=1,col=seq(1,length(areaplot)))
   #interaction.plot(dataset$Depth,dataset$ReleaseArea,recruitprop,fixed=TRUE,xlab='Release depth (m)',ylab='Transport success (%)',lty=1,col=seq(1,length(areaplot)))
-  #interaction.plot(dataset$Day,dataset$Year,recruitprop,fixed=TRUE,xlab='Release day',ylab='Transport success (%)',lty=1,col=seq(1,length(yearplot)))
+  #interaction.plot(dataset$Month,dataset$Year,recruitprop,fixed=TRUE,xlab='Release day',ylab='Transport success (%)',lty=1,col=seq(1,length(yearplot)))
 }
 
 #=============================================================================#
