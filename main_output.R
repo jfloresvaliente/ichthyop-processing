@@ -1,19 +1,19 @@
 library(ncdf4)
 source('source/compute_recruitment_ichthyop.R')
-# nc <- nc_open('D:/ICHTHYOP/peru10km/ichthyopPeru/out/out_ichthyop-run201902141409_s1.nc')
+# nc <- nc_open('D:/ICHTHYOP/peru02km/ichthyopPeru/out/out_ichthyop-run201902141409_s1.nc')
 
-# dirpath <- 'D:/ICHTHYOP/peru10km/ichthyopPeruBathy/out/'
-# old_path = '/run/media/jtam/JORGE_NEW/ICHTHYOP/peru10km/ichthyopPeruBathy/cfg/'
-# new_path = 'D:/ICHTHYOP/peru10km/ichthyopPeruBathy/cfg/'
+# dirpath <- 'D:/ICHTHYOP/peru02km/ichthyopPeruBathy/out/'
+# old_path = '/run/media/jtam/JORGE_NEW/ICHTHYOP/peru02km/ichthyopPeruBathy/cfg/'
+# new_path = 'D:/ICHTHYOP/peru02km/ichthyopPeruBathy/cfg/'
 
-dirpath <- 'G:/ICHTHYOP/peru10km/ichthyopPeruCoast/out/'
-old_path = '/run/media/jtam/JORGE_NEW/ICHTHYOP/peru10km/ichthyopPeruCoast/cfg/'
-new_path = 'G:/ICHTHYOP/peru10km/ichthyopPeruCoast/cfg/'
+dirpath <- 'D:/ICHTHYOP/peru02km/ichthyopPeruBathy/out/'
+old_path = '/run/media/jtam/JORGE_OLD/ICHTHYOP/peru02km/ichthyopPeruBathy/cfg/'
+new_path = 'D:/ICHTHYOP/peru02km/ichthyopPeruBathy/cfg/'
 
 firstdrifter = 1
 lastdrifter = 20000
 computeattime = 31
-nbreleasezones = 4
+nbreleasezones = 5
 recruitmentzone = 1
 ymax = 60
 dates <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
