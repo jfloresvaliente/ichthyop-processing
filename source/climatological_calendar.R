@@ -11,24 +11,13 @@ climatological_calendar <- function(){
   months <- 1:12
   days   <- 1:30
   
-  dates <- NULL
-  for(i in years){
-    for(j in months){
-      for(k in days){
-        for(l in 1:2){ # Esto permite que el conteo se inicie al medio dia
-          fecha_day <- c(i,j,k,l)
-          dates <- rbind(dates, fecha_day)
-        }
-      }
-    }
-  }
-  
-  # Number of days in seconds
-  days_in_seconds <- seq(from = 0, to = 311040000-60, by = 86400/2)
-  dates <- cbind(dates, days_in_seconds)
-  dates <- subset(dates, dates[,4] == 1) 
-  
-  dates <- dates[,c(1,2,3,5)]
+  # Number of days in hours
+  horas <- seq(from = 0, to = (length(years)*360*24*60*60), by = 3600)[-c(1)]
+  dias  <- rep(1:30, each = 24, length.out = length(horas))
+  meses <- rep(1:12, each = 30*24, length.out = length(horas))
+  ans   <- rep(1:10, each = 12*30*24, length.out = length(horas))
+
+  dates <- cbind(ans, meses, dias, horas)
   colnames(dates) <- c('Year', 'Month', 'Day', 'Seconds')
   rownames(dates) <- NULL
   return(dates)
