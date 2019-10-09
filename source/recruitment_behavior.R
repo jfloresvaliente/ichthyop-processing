@@ -41,10 +41,10 @@ recruitment_behavior = function(dataset, a = 0.05){
       s  <- sd(x)
       tt <- -qt(a/2,n-1)
       ee <- sd(x)/sqrt(n)  # standard error
-      e  <- tt*ee        # error range
-      d  <- e/m          # relative error, says that the confidence interval is a percentage of the value
-      li <- m-e           # lower limit
-      ls <- m+e           # upper limit
+      # e  <- tt*ee        # error range
+      # d  <- e/m          # relative error, says that the confidence interval is a percentage of the value
+      li <- m-ee           # lower limit
+      ls <- m+ee           # upper limit
       stat <- c(m, li, ls)
     }
     return(stat)
@@ -56,7 +56,7 @@ recruitment_behavior = function(dataset, a = 0.05){
   for(i in 1:length(fact)){
     fact_ini <- c(fact_ini, strsplit(x = fact[i], split = '-')[[1]][1])
   }
-  fact     <- fact[order(as.numeric(fact_ini))]
+  # fact     <- fact[order(as.numeric(fact_ini))]
   
   # Get mean and error bars
   errors <- NULL
