@@ -1,13 +1,13 @@
 #=============================================================================#
-# Name   : recruitment_bathy
+# Name   : recruitment_eps
 # Author : Jorge Flores
 # Date   : 
 # Version:
 # Aim    : Calculate the mean, the lower and upper limits of the error bars
-#          (confidence interval or standard error) for each release bathymetry
+#          (confidence interval or standard error) for each epsilon parameter
 # URL    : 
 #=============================================================================#
-recruitment_bathy = function(dataset, a = 0.05){
+recruitment_eps = function(dataset, a = 0.05){
   
   #============ ============ Arguments ============ ============#
   
@@ -51,7 +51,7 @@ recruitment_bathy = function(dataset, a = 0.05){
   }
   
   # Get the name of the factors (for string factors)
-  fact     <- levels(factor(dataset$Bathy))
+  fact     <- levels(factor(dataset$Eps))
   fact_ini <- NULL
   for(i in 1:length(fact)){
     fact_ini <- c(fact_ini, strsplit(x = fact[i], split = '-')[[1]][1])
@@ -61,7 +61,7 @@ recruitment_bathy = function(dataset, a = 0.05){
   # Get mean and error bars
   errors <- NULL
   for(i in fact){
-    facsub <- subset(dataset, dataset$Bathy == i)
+    facsub <- subset(dataset, dataset$Eps == i)
     facsub <- facsub$Recruitprop
     err    <- error_bar(x = facsub)
     errors <- rbind(errors, err)
