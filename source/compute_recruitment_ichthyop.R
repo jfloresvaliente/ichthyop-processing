@@ -104,8 +104,8 @@ compute_recruitment_ichthyop <- function(
     zone_charac <- NULL
     for(i in 1:length(zone_names)){
       # print(i)
-      zon <- c(zone_names[i], paste0(mindepth[1],'-',maxdepth[i]), paste0(inshore[i],'-',offshore[i]))
-      # zon <- c(paste0(mindepth[1],'-',maxdepth[i]), paste0(inshore[i],'-',offshore[i]))
+      zon <- c(zone_names[i], paste0(mindepth[i],'-',maxdepth[i]), paste0(inshore[i],'-',offshore[i]))
+      # zon <- c(paste0(mindepth[i],'-',maxdepth[i]), paste0(inshore[i],'-',offshore[i]))
       zone_charac <- rbind(zone_charac, zon)
     }
     

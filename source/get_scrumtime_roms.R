@@ -43,7 +43,7 @@ timer <- function(
       # You must change the particular 'name' of each ROMS simulation
       
       # ncfile <- paste0(dirpath, 'roms_avg_Y',i, 'M',j,'.newperushtopoP.nc')
-      # ncfile <- paste0(dirpath, 'roms_avg_Y',i,'M',j,'.AscatMerClim.nc')
+      ncfile <- paste0(dirpath, 'roms_avg_Y',i,'M',j,'.AscatMerClim.nc')
       # ncfile <- paste0(dirpath, 'roms_avg_6d_Y',i,'M',j,'.AscatMerClim.nc')
       # ncfile <- paste0(dirpath, 'roms6b_avg.Y',i,'.M',j,'.rl1b.nc')
       # ncfile <- paste0(dirpath, 'newperush_avg.Y',i,'.M',j,'.newperush.nc')
@@ -51,7 +51,7 @@ timer <- function(
       # ncfile <- paste0(dirpath, 'sacw3_avg.Y',i,'M',j,'.nc')
       # ncfile <- paste0(dirpath, 'roms6b_avg.Y',i,'.M',j,'.rsodi1.nc')
       # ncfile <- paste0(dirpath, 'roms_avg_Y',i,'M',j,'.Jaard10kmClim.nc')
-      ncfile <- paste0(dirpath, 'roms_avg_6d_Y',i,'M',j,'.AscatMerClim.nc')
+      # ncfile <- paste0(dirpath, 'roms_avg_6d_Y',i,'M',j,'.AscatMerClim.nc')
       
       print(ncfile)
       nc <- nc_open(ncfile)
@@ -90,8 +90,8 @@ timer <- function(
   )
   return(file_date)
 }
-dirpath <- 'E:/ROMS_SIMULATIONS/peru10kmAvg6days/'
-a <- timer(dirpath = dirpath, yearini = 2009, yearend = 2011)
+dirpath <- 'E:/ROMS_SIMULATIONS/peru10km/'
+a <- timer(dirpath = dirpath, yearini = 2008, yearend = 2011)
 write.table(x = a, file = paste0(dirpath, 'date_scrum_time_ichthyop.csv'), sep = ';', row.names = F)
 #=============================================================================#
 # END OF PROGRAM
