@@ -1,4 +1,5 @@
 library(ncdf4)
+library(stringr)
 source('source/compute_recruitment_ichthyop.R')
 source('source/recruitment_age.R')
 source('source/recruitment_area.R')
@@ -11,19 +12,20 @@ source('source/recruitment_temp.R')
 source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
 
-# Siempre se debe abrir un archivo .nc para verificar los parametros de la simulacion
-nc <- nc_open('E:/ICHTHYOP/peru10km/LatitudeBathyDepth/out/10000/out_ichthyop-run201910120208_s1.nc')
-dirpath    <- 'E:/ICHTHYOP/peru10km/LatitudeBathyDepth/out/10000/'
-new_path   <- 'E:/ICHTHYOP/peru10km/LatitudeBathyDepth/cfg/'
-old_path   <- 'E:/ICHTHYOP/peru10km/LatitudeBathyDepth/cfg/'
+dirpath   <- 'E:/ICHTHYOP/peru10km/LatitudeBathy/out/'
+new_path  <- 'E:/ICHTHYOP/peru10km/LatitudeBathy/cfg/'
+ymax      <- 60
 
-firstdrifter = 1
-lastdrifter = 10000
-computeattime = 31
-nbreleasezones = 36
-recruitmentzone = 1
-ymax = 60
-dates <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
+#---- Do not change anythig after here ----#
+nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
+cfgnc           <- ncatt_get(nc = nc, 0 , 'xml_file')$value
+old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
+firstdrifter    <- 1
+lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
+computeattime   <- length(ncvar_get(nc, 'time'))
+nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
+recruitmentzone <- 1
+dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 
 dat <- compute_recruitment_ichthyop(dirpath = dirpath,
                                     firstdrifter = firstdrifter,
@@ -36,13 +38,14 @@ dat <- compute_recruitment_ichthyop(dirpath = dirpath,
                                     old_path = old_path,
                                     new_path = new_path)
 
-dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
-write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', row.names = F)
-
 dat$Zone_name[grep(pattern = 'zone1', x = dat$Zone_name)] <- 'zone1'
 dat$Zone_name[grep(pattern = 'zone2', x = dat$Zone_name)] <- 'zone2'
 dat$Zone_name[grep(pattern = 'zone3', x = dat$Zone_name)] <- 'zone3'
 dat$Zone_name[grep(pattern = 'zone4', x = dat$Zone_name)] <- 'zone4'
+# dat$Zone_name[grep(pattern = 'zone5', x = dat$Zone_name)] <- 'zone5'
+
+dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
+write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', row.names = F)
 
 year  <- recruitment_year(dat)
 day   <- recruitment_day(dat)
@@ -68,6 +71,7 @@ bathyplot <- barplot(bathy[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), l
 arrows(bathyplot, bathy[,2], bathyplot, bathy[,3], angle = 90, code = 3, length = 0.05)
 
 zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = c('6º-8º','8º-10º','10º-12º','12º-14º')); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+# zoneplot <- barplot(zone[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
 arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
 
 # yearplot <- barplot(year[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
@@ -77,10 +81,3 @@ arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.
 # barplot(eps, ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
 # barplot(area, ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
 dev.off()
-
-
-
-
-
-
-

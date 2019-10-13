@@ -56,7 +56,7 @@ recruitment_bathy = function(dataset, a = 0.05){
   for(i in 1:length(fact)){
     fact_ini <- c(fact_ini, strsplit(x = fact[i], split = '-')[[1]][1])
   }
-  # fact     <- fact[order(as.numeric(fact_ini))]
+  fact     <- fact[order(as.numeric(fact_ini))]
   
   # Get mean and error bars
   errors <- NULL
