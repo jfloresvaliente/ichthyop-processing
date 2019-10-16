@@ -12,8 +12,8 @@ source('source/recruitment_temp.R')
 source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
 
-dirpath   <- 'E:/ICHTHYOP/peru10km/LatitudeBathy/out/'
-new_path  <- 'E:/ICHTHYOP/peru10km/LatitudeBathy/cfg/'
+dirpath   <- 'D:/ICHTHYOP/peru02kmcorregir/ichthyopPeruCoast/out/'
+new_path  <- 'D:/ICHTHYOP/peru02kmcorregir/ichthyopPeruCoast/cfg/'
 ymax      <- 60
 
 #---- Do not change anythig after here ----#
@@ -33,15 +33,14 @@ dat <- compute_recruitment_ichthyop(dirpath = dirpath,
                                     computeattime = computeattime,
                                     nbreleasezones = nbreleasezones,
                                     recruitmentzone = recruitmentzone,
-                                    ymax = ymax,
                                     dates = dates,
                                     old_path = old_path,
                                     new_path = new_path)
 
-dat$Zone_name[grep(pattern = 'zone1', x = dat$Zone_name)] <- 'zone1'
-dat$Zone_name[grep(pattern = 'zone2', x = dat$Zone_name)] <- 'zone2'
-dat$Zone_name[grep(pattern = 'zone3', x = dat$Zone_name)] <- 'zone3'
-dat$Zone_name[grep(pattern = 'zone4', x = dat$Zone_name)] <- 'zone4'
+# dat$Zone_name[grep(pattern = 'zone1', x = dat$Zone_name)] <- 'zone1'
+# dat$Zone_name[grep(pattern = 'zone2', x = dat$Zone_name)] <- 'zone2'
+# dat$Zone_name[grep(pattern = 'zone3', x = dat$Zone_name)] <- 'zone3'
+# dat$Zone_name[grep(pattern = 'zone4', x = dat$Zone_name)] <- 'zone4'
 # dat$Zone_name[grep(pattern = 'zone5', x = dat$Zone_name)] <- 'zone5'
 
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
@@ -59,7 +58,10 @@ bathy <- recruitment_bathy(dat)
 zone  <- recruitment_zone(dat)
 
 png(filename = paste0(dirpath, '/results/ichthyop_output.png'), height = 850, width = 1250, res = 120)
-par(mfrow = c(2,2), mar = c(4,4,1,1))
+par(mfrow = c(2,3), mar = c(4,4,1,1))
+
+yearplot <- barplot(year[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+arrows(yearplot, year[,2], yearplot, year[,3], angle = 90, code = 3, length = 0.05)
 
 dayplot <- barplot(day[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
 arrows(dayplot, day[,2], dayplot, day[,3], angle = 90, code = 3, length = 0.05)
@@ -74,10 +76,5 @@ zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = c('6º-8º','8º-10
 # zoneplot <- barplot(zone[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
 arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
 
-# yearplot <- barplot(year[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-# arrows(yearplot, year[,2], yearplot, year[,3], angle = 90, code = 3, length = 0.05)
-
-# barplot(coast, ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
-# barplot(eps, ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
-# barplot(area, ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
 dev.off()
+

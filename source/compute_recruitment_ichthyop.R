@@ -9,14 +9,13 @@
 compute_recruitment_ichthyop <- function(
   dirpath
   ,firstdrifter = 1
-  ,lastdrifter = 20000
-  ,computeattime = 55
+  ,lastdrifter = 5000
+  ,computeattime = 31
   ,nbreleasezones = 1
   ,recruitmentzone = 1
-  ,ymax
-  ,dates
   ,old_path
   ,new_path
+  ,dates
 ){
   #============ ============ Arguments ============ ============#
   
@@ -29,15 +28,17 @@ compute_recruitment_ichthyop <- function(
   # computeattime   = The time record at which to compute recruitment
   # nbreleasezones  = The number of release zones
   # recruitmentzone = The index of the recruitment zone for which recruitment is computed
-  # ymax            = The maximum value of the larval retention/transport success for 'ylabel' in the plot (in %)
   
   # To read 'xml' files from a directory different to original directory where files were stored
   # old_path = path written in each ncdf input file as attribute
   # new_path = path where '.xml' files are stored
   
+  # dates = .csv file with YEAR - MONTH index to match with t0
+  
   # The '.csv' output file will have the form.....
-  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Day',...
-  # ...'Depth','Age','Coast_Behavior','Temp_min','name_file','Recruitprop']
+  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Day','Eps','Age','Coast_Behavior', ...
+  #  'Temp_min','Name_file','Zone_name','Depth','Bathy','Particles','Recruitprop']
+  
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
   
@@ -47,7 +48,7 @@ compute_recruitment_ichthyop <- function(
   library(XML)
   library(stringr)
   
-  # An inner function that computes recruitment for one file
+  # An inner function that computes recruitment for one .nc output file
   compute_recruitment_file <- function(filename){
     
     # An inner function that computes year and day from time in seconds
@@ -55,12 +56,10 @@ compute_recruitment_ichthyop <- function(
       nbdays <- 1+time/86400
       year <- 1+as.integer(nbdays/360)
       day <- as.integer(nbdays-360*(year-1))
-      #if (day < 10) day <- paste('0',day,sep='')
-      #if (as.numeric(day) < 100) day <- paste('0',day,sep='')
       return(c(year,day))
     }
     
-    nc <- nc_open(paste0(filename))
+    nc <- nc_open(filename)
     
     # Gets the value of time of release
     t0 <- ncvar_get(nc,'time',1,1)
@@ -85,13 +84,13 @@ compute_recruitment_ichthyop <- function(
     filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
     filezone <- xmlTreeParse(filezone, useInternalNode=TRUE)
     
-    # Gets bathymetry limits
+    # Gets bathymetry limits for each release zone
     inshore  <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_inshore'))
     inshore  <- as.numeric(as.character(inshore[,1]))
     offshore <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_offshore'))
     offshore <- as.numeric(as.character(offshore[,1]))
     
-    # Gets spawning depth limits
+    # Gets spawning depth limits for each release zone
     mindepth <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/thickness/upper_depth'))
     mindepth <- as.numeric(as.character(mindepth[,1]))
     maxdepth <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/thickness/lower_depth'))
@@ -101,12 +100,10 @@ compute_recruitment_ichthyop <- function(
     zone_names <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/key'))
     zone_names <- as.character(zone_names[,1])
     
-    zone_charac <- NULL
+    zone_char <- NULL
     for(i in 1:length(zone_names)){
-      # print(i)
       zon <- c(zone_names[i], paste0(mindepth[i],'-',maxdepth[i]), paste0(inshore[i],'-',offshore[i]))
-      # zon <- c(paste0(mindepth[i],'-',maxdepth[i]), paste0(inshore[i],'-',offshore[i]))
-      zone_charac <- rbind(zone_charac, zon)
+      zone_char <- rbind(zone_char, zon)
     }
     
     # Gets the value for 'Cold Lethal Temperature' for larvae. 'temp_min' will be '0' if it was not activated in the model
@@ -127,8 +124,7 @@ compute_recruitment_ichthyop <- function(
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,computeattime),c(1,nbdrifter,1))
     
     # Gets the value of release zone for all drifters
-    releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,nbdrifter,1))
-    releasezone <- releasezone + 1
+    releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,nbdrifter,1)) + 1
     
     # Calculates the number of recruits from every release zone
     recruitnb <- hist(recruited*releasezone,seq(0,nbreleasezones+1)-0.5,plot=FALSE)$counts[2:(nbreleasezones+1)]
@@ -160,18 +156,10 @@ compute_recruitment_ichthyop <- function(
       ,rep(coast_behavior,nbreleasezones)
       ,rep(temp_min,nbreleasezones)
       ,rep(name_file, nbreleasezones)
-      ,zone_charac
+      ,zone_char
       ,particles
     ))
   }
-  
-  # An inner function that computes statistics of recruitment for a given factor
-  # compute_recruitment_stats <- function(released,recruited,factor){
-  #   mean <- tapply(recruited,factor,sum)/tapply(released,factor,sum)
-  #   var  <- tapply(recruited^2,factor,sum)/tapply(released^2,factor,sum)-mean^2
-  #   sem  <- sqrt(var/table(factor))
-  #   return(cbind(mean,sem))
-  # }
   
   # Gets filenames of all files in the dirpath directory  '.*\\.txt'
   filenames <- list.files(path = dirpath, pattern = '.*\\.nc', full.names = TRUE, recursive = F)
@@ -188,38 +176,6 @@ compute_recruitment_ichthyop <- function(
     dataset <- rbind(dataset,data)
   }
   
-  # # Computes stats (mean, std error of the mean) of recruitment for every 'release area, year, day, and depth'
-  # dataarea_stats=compute_recruitment_stats(released = as.numeric(dataset[,1]), recruited = as.numeric(dataset[,2]), factor = as.factor(dataset[,10]))
-  # dataarea_mean=dataarea_stats[,1]
-  # dataarea_sem=dataarea_stats[,2]
-  # 
-  # datayear_stats=compute_recruitment_stats(as.numeric(dataset[,1]),as.numeric(dataset[,2]),as.numeric(dataset[,4]))
-  # datayear_mean=datayear_stats[,1]
-  # datayear_sem=datayear_stats[,2]
-  # 
-  # dataday_stats=compute_recruitment_stats(as.numeric(dataset[,1]),as.numeric(dataset[,2]),as.numeric(dataset[,5]))
-  # dataday_mean=dataday_stats[,1]
-  # dataday_sem=dataday_stats[,2]
-  # 
-  # datadepth_stats=compute_recruitment_stats(as.numeric(dataset[,1]),as.numeric(dataset[,2]),dataset[,11])
-  # datadepth_mean=datadepth_stats[,1]
-  # datadepth_sem=datadepth_stats[,2]
-  
-  # Makes the corresponding plots, only for 'release area, year, day, and depth' factors
-  # x11() ; par(mfrow=c(2,2))
-  # 
-  # areaplot <- barplot(100*dataarea_mean,xlab='Release area',ylab='Transport success (%)',ylim = c(0,ymax))
-  # arrows(areaplot,100*(dataarea_mean+dataarea_sem),areaplot,100*(dataarea_mean-dataarea_sem),angle=90,code=3,length=0.05)
-  # 
-  # dayplot <- barplot(100*dataday_mean,xlab='Release day',ylab='Transport success (%)',ylim = c(0,ymax))
-  # arrows(dayplot,100*(dataday_mean+dataday_sem),dayplot,100*(dataday_mean-dataday_sem),angle=90,code=3,length=0.05)
-  # 
-  # yearplot <- barplot(100*datayear_mean,xlab='Release year',ylab='Transport success (%)',ylim = c(0,ymax))
-  # arrows(yearplot,100*(datayear_mean+datayear_sem),yearplot,100*(datayear_mean-datayear_sem),angle=90,code=3,length=0.05)
-  # 
-  # depthplot <- barplot(100*datadepth_mean,xlab='Release depth (m)',ylab='Transport success (%)',ylim = c(0,ymax))
-  # arrows(depthplot,100*(datadepth_mean+datadepth_sem),depthplot,100*(datadepth_mean-datadepth_sem),angle=90,code=3,length=0.05)
-  # 
   recruitprop <- 100*as.numeric(dataset[,2])/as.numeric(dataset[,1])
   dataset <- as.data.frame(cbind(dataset , recruitprop), stringsAsFactors = FALSE)
   
@@ -249,7 +205,7 @@ compute_recruitment_ichthyop <- function(
   dataset$Age <- as.numeric(dataset$Age)
   dataset$Temp_min <- as.numeric(dataset$Temp_min)
   dataset$Recruitprop <- as.numeric(dataset$Recruitprop)
-
+  
   rownames(dataset) <- NULL
   return (dataset)
   #mod <- lm(recruitprop ~ factor(ReleaseArea) + factor(Day) + factor(Year) + factor(Depth)
@@ -262,7 +218,6 @@ compute_recruitment_ichthyop <- function(
   #interaction.plot(dataset$Depth,dataset$ReleaseArea,recruitprop,fixed=TRUE,xlab='Release depth (m)',ylab='Transport success (%)',lty=1,col=seq(1,length(areaplot)))
   #interaction.plot(dataset$Day,dataset$Year,recruitprop,fixed=TRUE,xlab='Release day',ylab='Transport success (%)',lty=1,col=seq(1,length(yearplot)))
 }
-
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
