@@ -133,9 +133,9 @@ compute_recruitment_ichthyop <- function(
     releasenb <- hist(releasezone,seq(0,nbreleasezones+1)-0.5,plot=FALSE)$counts[2:(nbreleasezones+1)]
     
     #Gets the name (not full name) of the '.nc' file
-    m <- str_locate(string = nc$filename, pattern = '-run') # Begin position of name
+    m <- str_locate(string = nc$filename, pattern = '/out') # Begin position of name
     n <- str_locate(string = nc$filename, pattern = '.nc') # End position of name
-    name_file <- substr(nc$filename , start = m[2]+1 , stop = n[1]-1)
+    name_file <- substr(nc$filename , start = m[2]+2 , stop = n[1]-1)
     
     particles <- ncatt_get(nc , 0 , 'release.zone.number_particles')$value 
     
