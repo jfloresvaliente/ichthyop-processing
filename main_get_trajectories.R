@@ -12,8 +12,8 @@ library(fields)
 library(stringr)
 source('source/get_trajectories.R')
 
-dirpath   <- 'E:/ICHTHYOP/peru10km/LatitudeBathyDepth/out/'
-new_path  <- 'E:/ICHTHYOP/peru10km/LatitudeBathyDepth/cfg/'
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica/out/'
+new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica/cfg/'
 
 ncfile       <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc           <- nc_open(ncfile)
