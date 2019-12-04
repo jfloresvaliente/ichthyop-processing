@@ -12,13 +12,14 @@ source('source/recruitment_temp.R')
 source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
 
-dirpath   <- 'D:/ICHTHYOP/peru10km/DistCoast/out/7zonas/'
-new_path  <- 'D:/ICHTHYOP/peru10km/DistCoast/cfg/'
-ymax      <- 60
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/mesoXd/10/'
+new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+ymax      <- 40
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
-cfgnc           <- ncatt_get(nc = nc, 0 , 'xml_file')$value
+# cfgnc           <- ncatt_get(nc = nc, 0 , 'xml_file')$value
+cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
 lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
@@ -37,9 +38,9 @@ dat <- compute_recruitment_ichthyop(dirpath = dirpath,
                                     old_path = old_path,
                                     new_path = new_path)
 
-for(i in 1:9){
-  dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
-}
+# for(i in 1:10){
+#   dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
+# }
 
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
 write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', row.names = F)
@@ -70,9 +71,11 @@ arrows(depthplot, depth[,2], depthplot, depth[,3], angle = 90, code = 3, length 
 bathyplot <- barplot(bathy[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
 arrows(bathyplot, bathy[,2], bathyplot, bathy[,3], angle = 90, code = 3, length = 0.05)
 
-# zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = c('6º-8º','8º-10º','10º-12º','12º-14º')); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-zoneplot <- barplot(zone[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
+# # zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = c('6º-8º','8º-10º','10º-12º','12º-14º')); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+# zoneplot <- barplot(zone[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+# arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
 
+areaplot <- barplot(area[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+arrows(areaplot, area[,2], areaplot, area[,3], angle = 90, code = 3, length = 0.05)
 dev.off()
 

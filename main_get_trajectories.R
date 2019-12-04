@@ -11,13 +11,15 @@ library(ggplot2)
 library(fields)
 library(stringr)
 source('source/get_trajectories.R')
+source('source/get_trajectories_DEB.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica/out/'
-new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica/cfg/'
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/mesoXd/10/'
+new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
 
 ncfile       <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc           <- nc_open(ncfile)
-cfgnc        <- ncatt_get(nc = nc, 0 , 'xml_file')$value
+# cfgnc        <- ncatt_get(nc = nc, 0 , 'xml_file')$value
+cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path     <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter <- 1
 lastdrifter  <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
@@ -36,7 +38,8 @@ for(i in 1:12){
   for(j in 1:length(month)){
     ncfile <- paste0(dirpath, month[j], '.nc')
     print(ncfile)
-    trajs <- get_trajectories(ncfile = ncfile
+    # trajs <- get_trajectories(ncfile = ncfile
+    trajs <- get_trajectories_DEB(ncfile = ncfile
                      ,firstdrifter = firstdrifter
                      ,lastdrifter = lastdrifter
                      ,firsttime = firsttime
@@ -49,8 +52,8 @@ for(i in 1:12){
   trajectories$Drifter <- rep(seq(1, lastdrifter*length(month)), each = lasttime)
   # Saving on object in RData format
   RData <- paste0(dirpath, '/results/', 'trajectoriesM', i, '.Rdata')
-  save(trajectories, file = RData)
   print(paste0('saving .....', RData))
+  save(trajectories, file = RData)
 }
 #=============================================================================#
 # END OF PROGRAM

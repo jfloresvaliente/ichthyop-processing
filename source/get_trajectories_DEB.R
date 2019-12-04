@@ -1,12 +1,12 @@
 #=============================================================================#
-# Name   : get_trajectories
+# Name   : get_trajectories_DEB
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
 # Aim    : Compute recruitment ICHTHYOP outputs
 # URL    : 
 #=============================================================================#
-get_trajectories <- function(
+get_trajectories_DEB <- function(
   ncfile = NULL
   ,firstdrifter = 1
   ,lastdrifter = 5000
@@ -50,6 +50,9 @@ get_trajectories <- function(
   lon     <- as.vector(t(ncvar_get(nc, 'lon',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   lat     <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+  size    <- as.vector(t(ncvar_get(nc, 'length',c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+  E       <- as.vector(t(ncvar_get(nc, 'E',     c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+  
   
   # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
   recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,lasttime),c(1,lastdrifter,1))
@@ -59,7 +62,7 @@ get_trajectories <- function(
   releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1
   releasezone <- rep(releasezone, each = lasttime)
   
-  df <- data.frame(drifter, timer, lon, lat, depth, recruited, releasezone)
+  df <- data.frame(drifter, timer, lon, lat, depth, size, E, recruited, releasezone)
   
   # Reads the XML release zones file
   # filezone <- ncatt_get(nc,0,'release.bottom.zone_file')$value ## if you release particles from BOTTOM
@@ -90,7 +93,7 @@ get_trajectories <- function(
     df$ReleaseBathy[df$releasezone == i] <- paste0(inshore[i],'-',offshore[i])
   }
   
-  colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy')
+  colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'Length', 'Energy','IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy')
   return(df)
 }
 #=============================================================================#

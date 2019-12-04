@@ -81,8 +81,7 @@ compute_recruitment_ichthyop <- function(
     # Reads the XML release zones file
     # filezone <- ncatt_get(nc,0,'release.bottom.zone_file')$value ## if you release particles from BOTTOM
     filezone <- ncatt_get(nc,0,'release.zone.zone_file')$value
-    # filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
-    filezone <- str_replace(string = filezone, pattern = old_path, replacement = new_path)
+    filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
     filezone <- xmlTreeParse(filezone, useInternalNode=TRUE)
     
     # Gets bathymetry limits for each release zone
@@ -134,9 +133,9 @@ compute_recruitment_ichthyop <- function(
     releasenb <- hist(releasezone,seq(0,nbreleasezones+1)-0.5,plot=FALSE)$counts[2:(nbreleasezones+1)]
     
     #Gets the name (not full name) of the '.nc' file
-    m <- str_locate(string = nc$filename, pattern = '/out') # Begin position of name
+    m <- str_locate(string = nc$filename, pattern = '/out_ichthyop') # Begin position of name
     n <- str_locate(string = nc$filename, pattern = '.nc') # End position of name
-    name_file <- substr(nc$filename , start = m[2]+2 , stop = n[1]-1)
+    name_file <- substr(nc$filename , start = m[1]+1 , stop = n[1]-1)
     
     particles <- ncatt_get(nc , 0 , 'release.zone.number_particles')$value 
     

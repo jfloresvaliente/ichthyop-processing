@@ -8,7 +8,7 @@
 #=============================================================================#
 library(fields)
 
-dirpath <- 'E:/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/'
+dirpath <- 'E:/ICHTHYOP/10kmparent/Fisica/out/results/'
 latilim <- c(-14, -6)   # Latitude extension of the area 
 zlim    <- c(50)        # Retention rate interval to be plotted
 nlevels <- 25           # Number of levels in the color palette
