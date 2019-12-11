@@ -12,8 +12,8 @@ source('source/recruitment_temp.R')
 source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/mesoXd/10/'
-new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+dirpath   <- 'E:/ICHTHYOP/peru10km/DistCoast/out/'
+new_path  <- 'E:/ICHTHYOP/peru10km/DistCoast/cfg/'
 ymax      <- 40
 
 #---- Do not change anythig after here ----#
