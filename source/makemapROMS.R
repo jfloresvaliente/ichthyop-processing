@@ -3,7 +3,7 @@ library(fields)
 library(maps)
 library(mapdata)
 
-path <- 'D:/ROMS_SIMULATIONS/peru02km/'
+path <- 'E:/ROMS_SIMULATIONS/peru02km/'
 ncfile <- list.files(path = path, pattern = '.nc', full.names = T)[13]
 nc <- nc_open(ncfile)
 lon <- ncvar_get(nc = nc, varid = 'lon_rho')
@@ -18,7 +18,7 @@ image.plot(lon, lat, temp*mask,
            xlab = '', ylab = '',
            legend.width = 3,
            legend.cex = 5,
-           zlim = c(15,30), xaxt= "n", yaxt= "n")
+           zlim = c(15,30), xaxt= 'n', yaxt= 'n')
 mtext(text = 'LON', side = 1, font = 2, line = 3, cex = 2)
 mtext(text = 'LAT', side = 2, font = 2, line = 3, cex = 2)
 axis(side = 1, font = 2, cex.axis=2, las = 1, lwd.ticks = 2)
