@@ -8,9 +8,9 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/peru02km/DistCoast/out/drifters/'
-new_path  <- 'E:/ICHTHYOP/peru02km/DistCoast/cfg/'
-ymax      <- 60
+dirpath   <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/out/'
+new_path  <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+ymax      <- 4
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
@@ -34,14 +34,14 @@ xy              <- read.table(paste0(new_path, 'lonlatDrifters.csv'), sep = ';')
 #   if(dim(pun)[1] == 0) next() else pch = pch + 1; points(pun[,1], pun[,2], pch = pch, cex = 0.5)
 # }
 
-dat <- compute_recruitment_ichthyop_drifters(dirpath = dirpath,
-                                             firstdrifter = firstdrifter,
-                                             lastdrifter = lastdrifter,
-                                             firsttime = firsttime,
-                                             lasttime = lasttime,
+dat <- compute_recruitment_ichthyop_drifters(dirpath         = dirpath,
+                                             firstdrifter    = firstdrifter,
+                                             lastdrifter     = lastdrifter,
+                                             firsttime       = firsttime,
+                                             lasttime        = lasttime,
                                              recruitmentzone = recruitmentzone,
-                                             dates = dates,
-                                             xy = xy
+                                             dates           = dates,
+                                             xy              = xy
                                              )
 
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
@@ -108,28 +108,3 @@ km <- as.numeric(pixel[,1])*10
 re <- as.numeric(pixel[,2])
 
 x11(); plot(km, re, ylim = c(0,40))
-
-
-# png(filename = paste0(dirpath, '/results/ichthyop_output.png'), height = 850, width = 1250, res = 120)
-# par(mfrow = c(2,3), mar = c(4,4,1,1))
-# 
-# yearplot <- barplot(year[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-# arrows(yearplot, year[,2], yearplot, year[,3], angle = 90, code = 3, length = 0.05)
-# 
-# dayplot <- barplot(day[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
-# arrows(dayplot, day[,2], dayplot, day[,3], angle = 90, code = 3, length = 0.05)
-# 
-# depthplot <- barplot(depth[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
-# arrows(depthplot, depth[,2], depthplot, depth[,3], angle = 90, code = 3, length = 0.05)
-# 
-# bathyplot <- barplot(bathy[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
-# arrows(bathyplot, bathy[,2], bathyplot, bathy[,3], angle = 90, code = 3, length = 0.05)
-# 
-# # # zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = c('6º-8º','8º-10º','10º-12º','12º-14º')); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-# # zoneplot <- barplot(zone[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-# # arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
-# 
-# areaplot <- barplot(area[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-# arrows(areaplot, area[,2], areaplot, area[,3], angle = 90, code = 3, length = 0.05)
-# dev.off()
-# 

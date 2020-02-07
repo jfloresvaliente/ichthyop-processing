@@ -179,16 +179,6 @@ compute_recruitment_ichthyop <- function(
   recruitprop <- 100*as.numeric(dataset[,2])/as.numeric(dataset[,1])
   dataset <- as.data.frame(cbind(dataset , recruitprop), stringsAsFactors = FALSE)
 
-  dataset$NumberReleased  <- as.numeric(dataset$NumberReleased)
-  dataset$NumberRecruited <- as.numeric(dataset$NumberRecruited)
-  dataset$ReleaseArea     <- as.numeric(dataset$ReleaseArea)
-  dataset$Year            <- as.numeric(dataset$Year)
-  dataset$Day             <- as.numeric(dataset$Day)
-  dataset$Eps             <- as.numeric(dataset$Eps)
-  dataset$Age             <- as.numeric(dataset$Age)
-  dataset$Temp_min        <- as.numeric(dataset$Temp_min)
-  dataset$Recruitprop     <- as.numeric(dataset$Recruitprop)
-
   rownames(dataset) <- NULL
   colnames(dataset) <- c(
     'NumberReleased'
@@ -207,6 +197,17 @@ compute_recruitment_ichthyop <- function(
     ,'Particles'
     ,'Recruitprop'
   )
+  
+  dataset$NumberReleased  <- as.numeric(dataset$NumberReleased)
+  dataset$NumberRecruited <- as.numeric(dataset$NumberRecruited)
+  dataset$ReleaseArea     <- as.numeric(dataset$ReleaseArea)
+  dataset$Year            <- as.numeric(dataset$Year)
+  dataset$Day             <- as.numeric(dataset$Day)
+  dataset$Eps             <- as.numeric(dataset$Eps)
+  dataset$Age             <- as.numeric(dataset$Age)
+  dataset$Temp_min        <- as.numeric(dataset$Temp_min)
+  dataset$Recruitprop     <- as.numeric(dataset$Recruitprop)
+  
   return (dataset)
   #mod <- lm(recruitprop ~ factor(ReleaseArea) + factor(Day) + factor(Year) + factor(Depth)
   #			+ factor(ReleaseArea):factor(Day) + factor(ReleaseArea):factor(Year) + factor(ReleaseArea):factor(Depth)

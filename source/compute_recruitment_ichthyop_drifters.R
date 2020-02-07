@@ -131,7 +131,7 @@ compute_recruitment_ichthyop_drifters <- function(
     ,'Lon'
     ,'Lat'
     ,'Depth'
-    ,'Recruited'
+    ,'IfRecruited'
     ,'Name_file'
     ,'PixelCoast'
     ,'ReleaseArea'

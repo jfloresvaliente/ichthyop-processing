@@ -15,24 +15,25 @@ get_trajectories <- function(
   ,recruitmentzone = 1
   ,old_path
   ,new_path
+  ,variname = NULL
 ){
   #============ ============ Arguments ============ ============#
   
-  # ncfile = ICHTHYOP netcdf output file
+  # ncfile = ncdf file which contains ICHTHYOP outputs
   
   # In case one wishes to consider only a subset of all drifters
-  # firstdrifter = Index of first drifter to be compued
-  # lastdrifter  = Index of last  drifter to be computed
-  
-  # In case one wishes to consider only a subset of all steptime to plot 
-  # firsttime   = The time record at which to compute recruitment
-  # lasttime  = The number of release zones
+  # firstdrifter = Index of first drifter to be computed
+  # lastdrifter  = Index of last drifter to be computed
+  # firsttime    = Index of first time to be computed
+  # lasttime     = Index of last  time to be computed
   
   # recruitmentzone = The index of the recruitment zone for which recruitment is computed
   
   # To read 'xml' files from a directory different to original directory where files were stored
   # old_path = path written in each ncdf input file as attribute
   # new_path = path where '.xml' files are stored
+  
+  # variname = name of environmental variable tracking
   
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
@@ -90,7 +91,17 @@ get_trajectories <- function(
     df$ReleaseBathy[df$releasezone == i] <- paste0(inshore[i],'-',offshore[i])
   }
   
-  colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy')
+  if(is.null(variname)){
+    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy')
+  }else{
+    for(i in 1:length(variname)){
+      vari    <- as.vector(t(ncvar_get(nc, variname[i],c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+      df <- cbind(df, vari)
+    }
+    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy', variname)
+  }
+  
+  rownames(df) <- NULL
   return(df)
 }
 #=============================================================================#

@@ -22,4 +22,4 @@ source('source/compute_recruitment_ichthyop.R')
 source('source/compute_recruitment_ichthyop_drifters.R')
 
 source('source/get_trajectories.R')
-source('source/get_trajectories_DEB.R')
+source('source/get_trajectories_drifters.R')

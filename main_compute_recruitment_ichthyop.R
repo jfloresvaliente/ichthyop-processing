@@ -8,10 +8,10 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'D:/ICHTHYOP/peru10km/LatitudeBathyDepth/out/'
-new_path  <- 'D:/ICHTHYOP/peru10km/LatitudeBathyDepth/cfg/'
+dirpath   <- 'D:/ICHTHYOP/10kmparent/Fisica/out/'
+new_path  <- 'D:/ICHTHYOP/10kmparent/Fisica/cfg/'
 ymax      <- 60
-lats      <- seq(from = 6, to = 14, by = 2)
+lats      <- seq(from = 2, to = 20, by = 2)
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
@@ -24,16 +24,15 @@ nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 
-dat <- compute_recruitment_ichthyop(dirpath = dirpath,
-                                    firstdrifter = firstdrifter,
-                                    lastdrifter = lastdrifter,
-                                    computeattime = computeattime,
-                                    nbreleasezones = nbreleasezones,
+dat <- compute_recruitment_ichthyop(dirpath         = dirpath,
+                                    firstdrifter    = firstdrifter,
+                                    lastdrifter     = lastdrifter,
+                                    computeattime   = computeattime,
+                                    nbreleasezones  = nbreleasezones,
                                     recruitmentzone = recruitmentzone,
-                                    dates = dates,
-                                    old_path = old_path,
-                                    new_path = new_path)
-
+                                    old_path        = old_path,
+                                    new_path        = new_path,
+                                    dates           = dates)
 
 for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
