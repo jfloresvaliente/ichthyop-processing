@@ -1,57 +1,65 @@
-library(ncdf4)
-library(stringr)
-library(fields)
-library(maps)
-library(mapdata)
-source('source/compute_recruitment_ichthyop_drifters.R')
+#=============================================================================#
+# Name   : main_compute_recruitment_ichthyop_drifters
+# Author : C. Lett; modified by Jorge Flores
+# Date   : 
+# Version:
+# Aim    : Compute recruitment ICHTHYOP outputs
+# URL    : 
+#=============================================================================#
+source('source/source_libraries_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/peru10km/DistCoast/out/drifters/'
-new_path  <- 'E:/ICHTHYOP/peru10km/DistCoast/cfg/'
-ymax      <- 40
+dirpath   <- 'E:/ICHTHYOP/peru02km/DistCoast/out/drifters/'
+new_path  <- 'E:/ICHTHYOP/peru02km/DistCoast/cfg/'
+ymax      <- 60
 
 #---- Do not change anythig after here ----#
-# firstdrifter = 1
-# lastdrifter = 19448
-# firsttime = 1
-# lasttime = 31
-# recruitmentzone = 1
-# dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
-# xy <- read.table(paste0(new_path, 'lonlatDrifters.csv'), sep = ';')
-# 
+nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
+# cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
+# old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
+firstdrifter    <- 1
+lastdrifter     <- dim(read.table(paste0(new_path, 'peru_drifters.txt')))[1]
+firsttime       <- 1
+lasttime        <- length(ncvar_get(nc, 'time'))
+recruitmentzone <- 1
+dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
+xy              <- read.table(paste0(new_path, 'lonlatDrifters.csv'), sep = ';')
+
 # x11()
 # pch = 0
 # map('worldHires', add=F, fill=T, col='gray', ylim = c(-15,-5), xlim = c(-85.5,-75.5))
 # axis(1); axis(2); box()
 # for(i in 1:50){
-#   
+#
 #   pun <- subset(xy, xy[,3] == i)
 #   if(dim(pun)[1] == 0) next() else pch = pch + 1; points(pun[,1], pun[,2], pch = pch, cex = 0.5)
 # }
 
-# dat <- compute_recruitment_ichthyop_drifters(dirpath = dirpath,
-#                                              firstdrifter = firstdrifter,
-#                                              lastdrifter = lastdrifter,
-#                                              firsttime = firsttime,
-#                                              lasttime = lasttime,
-#                                              recruitmentzone = recruitmentzone,
-#                                              old_path = old_path,
-#                                              new_path = new_path)
-# 
-# dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
-# write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', row.names = F)
+dat <- compute_recruitment_ichthyop_drifters(dirpath = dirpath,
+                                             firstdrifter = firstdrifter,
+                                             lastdrifter = lastdrifter,
+                                             firsttime = firsttime,
+                                             lasttime = lasttime,
+                                             recruitmentzone = recruitmentzone,
+                                             dates = dates,
+                                             xy = xy
+                                             )
 
-dat <- read.csv('E:/ICHTHYOP/peru10km/DistCoast/out/drifters/results/ichthyop_output.csv', sep = ';')
+dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
+write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', row.names = F)
+
+# dat <- read.csv(paste0(dirpath, 'results/ichthyop_output.csv'), sep = ';')
+
+
 x11();par(mfrow = c(1,3))
-
-# # Por year
-# year <- levels(factor(dat$Year))
-# yearper <- NULL
-# for(i in 1:length(year)){
-#   df <- subset(dat, dat$Year == year[i])
-#   rec <- sum(df$Recruited)
-#   yearper <- c(yearper, rec/dim(df)[1] * 100)
-# }
-# year <- cbind(year, yearper)
+# Por year
+year <- levels(factor(dat$Year))
+yearper <- NULL
+for(i in 1:length(year)){
+  df <- subset(dat, dat$Year == year[i])
+  rec <- sum(df$Recruited)
+  yearper <- c(yearper, rec/dim(df)[1] * 100)
+}
+year <- cbind(year, yearper)
 
 # Por mes
 day <- levels(factor(dat$Day))
@@ -62,7 +70,7 @@ for(i in 1:length(day)){
   dayper <- c(dayper, rec/dim(df)[1] * 100)
 }
 day <- cbind(as.numeric(day), as.numeric(dayper))
-barplot(day[,2], names.arg = day[,1], xlab = 'Release Month', ylab = 'Larval Retention (%)', ylim = c(0,20))
+barplot(day[,2], names.arg = day[,1], xlab = 'Release Month', ylab = 'Larval Retention (%)', ylim = c(0,ymax))
 
 # Por depth
 depth <- levels(factor(dat$Depth))
@@ -73,22 +81,7 @@ for(i in 1:length(depth)){
   depthper <- c(depthper, rec/dim(df)[1] * 100)
 }
 depth <- cbind(as.numeric(depth), as.numeric(depthper))
-barplot(depth[,2], names.arg = depth[,1], xlab = 'Release Depth (m)', ylab = 'Larval Retention (%)', ylim = c(0,20))
-
-# # Por pixel
-# pixel <- levels(factor(dat$PixelCoast))
-# pixelper <- NULL
-# for(i in 1:length(pixel)){
-#   df <- subset(dat, dat$PixelCoast == pixel[i])
-#   rec <- sum(df$Recruited)
-#   pixelper <- c(pixelper, rec/dim(df)[1] * 100)
-# }
-# pixel <- cbind(pixel, pixelper)
-#
-# km <- as.numeric(pixel[,1])*10
-# re <- as.numeric(pixel[,2])
-
-# plot(km, re)
+barplot(depth[,2], names.arg = depth[,1], xlab = 'Release Depth (m)', ylab = 'Larval Retention (%)', ylim = c(0,ymax))
 
 # Por latitud
 lati <- levels(factor(dat$ReleaseArea))
@@ -99,7 +92,22 @@ for(i in 1:length(lati)){
   latiper <- c(latiper, rec/dim(df)[1] * 100)
 }
 lati <- cbind(as.numeric(lati), as.numeric(latiper))
-barplot(lati[,2], names.arg = lati[,1], xlab = 'Latitude of Release (º)', ylab = 'Larval Retention (%)', ylim = c(0,20))
+barplot(lati[,2], names.arg = lati[,1], xlab = 'Latitude of Release (º)', ylab = 'Larval Retention (%)', ylim = c(0,ymax))
+
+# Por pixel
+pixel <- levels(factor(dat$PixelCoast))
+pixelper <- NULL
+for(i in 1:length(pixel)){
+  df <- subset(dat, dat$PixelCoast == pixel[i])
+  rec <- sum(df$Recruited)
+  pixelper <- c(pixelper, rec/dim(df)[1] * 100)
+}
+pixel <- cbind(pixel, pixelper)
+
+km <- as.numeric(pixel[,1])*10
+re <- as.numeric(pixel[,2])
+
+x11(); plot(km, re, ylim = c(0,40))
 
 
 # png(filename = paste0(dirpath, '/results/ichthyop_output.png'), height = 850, width = 1250, res = 120)

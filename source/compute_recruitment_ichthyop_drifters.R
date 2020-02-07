@@ -7,33 +7,34 @@
 # URL    : 
 #=============================================================================#
 compute_recruitment_ichthyop_drifters <- function(
-  dirpath = dirpath
-  ,firstdrifter = 1
-  ,lastdrifter = 5000
-  ,firsttime = 1
-  ,lasttime = 31
+  dirpath          = dirpath
+  ,firstdrifter    = 1
+  ,lastdrifter     = 5000
+  ,firsttime       = 1
+  ,lasttime        = 31
   ,recruitmentzone = 1
-  ,old_path
-  ,new_path
+  ,dates           = dates
+  ,xy              = xy
 ){
   #============ ============ Arguments ============ ============#
   
-  # ncfile = ICHTHYOP netcdf output file
+  # dirpath = Directory path which contains series of ICHTHYOP netcdf outputs
   
   # In case one wishes to consider only a subset of all drifters
-  # firstdrifter = Index of first drifter to be compued
-  # lastdrifter  = Index of last  drifter to be computed
-  
-  # In case one wishes to consider only a subset of all steptime to plot 
-  # firsttime   = The time record at which to compute recruitment
-  # lasttime  = The number of release zones
-  
+  # firstdrifter = Index of first drifter to be computed
+  # lastdrifter  = Index of last drifter to be computed
+  # firsttime    = Index of first time to be computed
+  # lasttime     = Index of last  time to be computed
+
   # recruitmentzone = The index of the recruitment zone for which recruitment is computed
   
-  # To read 'xml' files from a directory different to original directory where files were stored
-  # old_path = path written in each ncdf input file as attribute
-  # new_path = path where '.xml' files are stored
+  # dates = .csv file with YEAR/MONTH index to match with t0
   
+  # The '.csv' output file will have the form.....
+  # ['Drifter','Year','Day','Lon,'Lat','Depth','Recruited','Name_file','PixelCoast','ReleaseArea']
+  
+  # The '.txt' file with the initial positions of all particles and its pixel-distance to the coast
+
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
   
@@ -82,17 +83,18 @@ compute_recruitment_ichthyop_drifters <- function(
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,lasttime),c(1,lastdrifter,1))
     recruited <- rep(recruited, each = lasttime)
     
-    # # Gets the value of release zone for all drifters
-    # releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1
-    # releasezone <- rep(releasezone, each = lasttime)
+    #Gets the name (not full name) of the '.nc' file
+    m <- str_locate(string = nc$filename, pattern = '/out_ichthyop') # Begin position of name
+    n <- str_locate(string = nc$filename, pattern = '.nc') # End position of name
+    name_file <- substr(nc$filename , start = m[1]+1 , stop = n[1]-1)
     
-    # df <- data.frame(drifter, timer, lon, lat, depth, recruited, releasezone)
-    df <- data.frame(drifter, year, month, lon, lat, depth, recruited, timer)
+    df <- data.frame(drifter, year, month, lon, lat, depth, recruited, timer, name_file)
     df <- subset(df, df$timer == firsttime)
     
+    df$PixelCoast <- rep(NA, dim(df)[1])
     for(i in 1:dim(xy)[1]){
       index1 <- which(round(df$lon, 2) == round(xy$V1[i],2) & round(df$lat, 2) == round(xy$V2[i],2))
-      df$PixelCoast[index1] <- xy[i,3]
+      df$PixelCoast[c(index1)] <- xy[i,3]
     }
     df <- df[,-c(8)]
     
@@ -120,8 +122,20 @@ compute_recruitment_ichthyop_drifters <- function(
     # Adds recruitment data computed for file i to those computed from all previous files
     dataset <- rbind(dataset,data)
   }
-  colnames(dataset) <- c('Drifter', 'Year','Day','Lon','Lat', 'Depth', 'Recruited', 'PixelCoast','ReleaseArea')
+  
   rownames(dataset) <- NULL
+  colnames(dataset) <- c(
+    'Drifter'
+    ,'Year'
+    ,'Day'
+    ,'Lon'
+    ,'Lat'
+    ,'Depth'
+    ,'Recruited'
+    ,'Name_file'
+    ,'PixelCoast'
+    ,'ReleaseArea'
+    )
   return (dataset)
 }
 #=============================================================================#

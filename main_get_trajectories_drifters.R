@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : main_get_trajectories
+# Name   : main_get_trajectories_drifters
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
@@ -10,9 +10,10 @@ library(ncdf4)
 library(ggplot2)
 library(fields)
 library(stringr)
+source('source/get_trajectories_drifters.R')
 
-dirpath   <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/out/meso_track_variables/'
-new_path  <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+dirpath   <- 'E:/ICHTHYOP/peru02km/DistCoast/out/drifters/'
+new_path  <- 'E:/ICHTHYOP/peru02km/DistCoast/cfg/'
 
 #---- Do not change anythig after here ----#
 ncfile       <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
@@ -20,7 +21,7 @@ nc           <- nc_open(ncfile)
 cfgnc        <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path     <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter <- 1
-lastdrifter  <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
+lastdrifter  <- dim(read.table(paste0(new_path, 'peru_drifters.txt')))[1]
 firsttime    <- 1
 lasttime     <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
@@ -30,21 +31,22 @@ dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, s
 
 for(i in 1:12){
   month <- subset(dat, dat$Day == i)
-  month <- levels(factor(month$Name_file))
+  month <- levels(factor(month$Zone_name))
   
   trajectories <- NULL
   for(j in 1:length(month)){
     ncfile <- paste0(dirpath, month[j], '.nc')
     print(ncfile)
-    trajs <- get_trajectories(ncfile = ncfile
+    # trajs <- get_trajectories(ncfile = ncfile
     # trajs <- get_trajectories_DEB(ncfile = ncfile
-                     ,firstdrifter = firstdrifter
-                     ,lastdrifter = lastdrifter
-                     ,firsttime = firsttime
-                     ,lasttime = lasttime
-                     ,recruitmentzone = recruitmentzone
-                     ,old_path = old_path
-                     ,new_path = new_path)
+    trajs <- get_trajectories_drifters(ncfile = ncfile
+                              ,firstdrifter = firstdrifter
+                              ,lastdrifter = lastdrifter
+                              ,firsttime = firsttime
+                              ,lasttime = lasttime
+                              ,recruitmentzone = recruitmentzone
+                              ,old_path = old_path
+                              ,new_path = new_path)
     trajectories <- rbind(trajectories, trajs)
   }
   trajectories$Drifter <- rep(seq(1, lastdrifter*length(month)), each = lasttime)
@@ -60,7 +62,7 @@ for(i in 1:12){
 
 
 
- 
+
 
 # #------------------------------------------------#
 # dat <- get_trajectories(ncfile = ncfile, old_path = old_path, new_path = new_path)

@@ -1,24 +1,20 @@
-library(ncdf4)
-library(stringr)
-source('source/compute_recruitment_ichthyop.R')
-source('source/recruitment_age.R')
-source('source/recruitment_area.R')
-source('source/recruitment_bathy.R')
-source('source/recruitment_behavior.R')
-source('source/recruitment_day.R')
-source('source/recruitment_depth.R')
-source('source/recruitment_eps.R')
-source('source/recruitment_temp.R')
-source('source/recruitment_year.R')
-source('source/recruitment_zone.R')
+#=============================================================================#
+# Name   : main_compute_recruitment_ichthyop
+# Author : C. Lett; modified by Jorge Flores
+# Date   : 
+# Version:
+# Aim    : Compute recruitment ICHTHYOP outputs
+# URL    : 
+#=============================================================================#
+source('source/source_libraries_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/peru10km/DistCoast/out/'
-new_path  <- 'E:/ICHTHYOP/peru10km/DistCoast/cfg/'
-ymax      <- 40
+dirpath   <- 'D:/ICHTHYOP/peru10km/LatitudeBathyDepth/out/'
+new_path  <- 'D:/ICHTHYOP/peru10km/LatitudeBathyDepth/cfg/'
+ymax      <- 60
+lats      <- seq(from = 6, to = 14, by = 2)
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
-# cfgnc           <- ncatt_get(nc = nc, 0 , 'xml_file')$value
 cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
@@ -38,13 +34,12 @@ dat <- compute_recruitment_ichthyop(dirpath = dirpath,
                                     old_path = old_path,
                                     new_path = new_path)
 
-# for(i in 1:10){
-#   dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
-# }
 
+for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
 write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', row.names = F)
 
+# dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', header = T)
 year  <- recruitment_year(dat)
 day   <- recruitment_day(dat)
 age   <- recruitment_age(dat)
@@ -57,25 +52,48 @@ bathy <- recruitment_bathy(dat)
 zone  <- recruitment_zone(dat)
 
 png(filename = paste0(dirpath, '/results/ichthyop_output.png'), height = 850, width = 1250, res = 120)
-par(mfrow = c(2,3), mar = c(4,4,1,1))
+par(mfrow = c(2,3), mar = c(5,4,1,1))
 
-yearplot <- barplot(year[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+yet <- seq(1:3)
+yearlab <- NULL
+for(i in 1:length(yet)) yearlab <- c(yearlab, paste0('Y', yet[i]))
+
+yearplot <- barplot(year[,1], ylim = c(0, ymax), axes = F, names.arg = yearlab)
+axis(2, las = 2)
+abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
 arrows(yearplot, year[,2], yearplot, year[,3], angle = 90, code = 3, length = 0.05)
+mtext(text = 'Release Year', side = 1, line = 2, cex = 0.75)
 
-dayplot <- barplot(day[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
+dayplot <- barplot(day[,1], ylim = c(0, ymax), axes = F)
+axis(2, las = 2)
+abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
 arrows(dayplot, day[,2], dayplot, day[,3], angle = 90, code = 3, length = 0.05)
+mtext(text = 'Release Month', side = 1, line = 2, cex = 0.75)
 
-depthplot <- barplot(depth[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
+depthplot <- barplot(depth[,1], ylim = c(0, ymax), axes = F, names.arg = rownames(depth))
+axis(2, las = 2)
+abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
 arrows(depthplot, depth[,2], depthplot, depth[,3], angle = 90, code = 3, length = 0.05)
+mtext(text = 'Release Depth', side = 1, line = 2, cex = 0.75)
 
-bathyplot <- barplot(bathy[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
+bathyplot <- barplot(bathy[,1], ylim = c(0, ymax), axes = F)
+axis(2, las = 2)
+abline(h = seq(0,ymax,10), lty = 2, lwd = .25)
 arrows(bathyplot, bathy[,2], bathyplot, bathy[,3], angle = 90, code = 3, length = 0.05)
+mtext(text = 'Release Bathymetry', side = 1, line = 2, cex = 0.75)
 
-# # zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = c('6º-8º','8º-10º','10º-12º','12º-14º')); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-# zoneplot <- barplot(zone[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-# arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
+latlab <- NULL
+for(i in 1:(length(lats)-1)) latlab <- c(latlab, paste0(lats[i],'º-', lats[i] + 2, 'º'))
 
-areaplot <- barplot(area[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
-arrows(areaplot, area[,2], areaplot, area[,3], angle = 90, code = 3, length = 0.05)
+zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = latlab, axisnames = FALSE, axes = F)
+axis(1, at=dayplot, labels = FALSE, tick = FALSE)
+text(zoneplot, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
+axis(2, las = 2)
+abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
+mtext(text = 'Release Latitude', side = 1, line = 2, cex = 0.75)
+
+# areaplot <- barplot(area[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
+# arrows(areaplot, area[,2], areaplot, area[,3], angle = 90, code = 3, length = 0.05)
+
 dev.off()
-

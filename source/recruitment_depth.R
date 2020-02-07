@@ -11,24 +11,22 @@ recruitment_depth = function(dataset, a = 0.05){
   
   #============ ============ Arguments ============ ============#
   
-  # dataset = dataframe with recruitment information
-  # with the following format and name of columns
-  # [NumberReleased, NumberRecruited, ReleaseArea, Year, Day, Depth, ...
-  #  Age, Coast_Behavior, Temp_min, name_file, t_x, Recruitprop ]
-  
+  # dataset = Dataframe of ichthyop output information with the following format and name of columns
+  # ['NumberReleased', 'NumberRecruited', 'ReleaseArea', 'Year', 'Day', 'Eps', ...
+  # 'Age', 'Coast_Behavior', 'Temp_min', 'Name_file', 'Zone_name', 'Depth' ...
+  # 'Bathy', 'Particles', 'Recruitprop']
   # a = confidence interval; if a == NULL, the standard error is calculated
   
   #============ ============ Arguments ============ ============#
   
   #Internal function to calculate error bars
   error_bar <- function(x){
-    # x = vector o matrix with data to evaluate
+    # x = vector or matrix with data to evaluate
     
     if(!is.null(a)){
       n  <- length(x)
       m  <- mean(x, na.rm = T)
-      s  <- sd(x)
-      tt <- -qt(a/2,n-1)
+      tt <- -qt(p = a/2, df = n-1)
       ee <- sd(x)/sqrt(n)  # standard error
       e  <- tt*ee          # error range
       d  <- e/m            # relative error, says that the confidence interval is a percentage of the value
@@ -38,11 +36,8 @@ recruitment_depth = function(dataset, a = 0.05){
     }else{
       n  <- length(x)
       m  <- mean(x, na.rm = T)
-      s  <- sd(x)
-      tt <- -qt(a/2,n-1)
+      tt <- -qt(p = a/2, df = n-1)
       ee <- sd(x)/sqrt(n)  # standard error
-      # e  <- tt*ee        # error range
-      # d  <- e/m          # relative error, says that the confidence interval is a percentage of the value
       li <- m-ee           # lower limit
       ls <- m+ee           # upper limit
       stat <- c(m, li, ls)
@@ -68,7 +63,6 @@ recruitment_depth = function(dataset, a = 0.05){
   }
   colnames(errors) <- c('mean', 'emin', 'emax')
   rownames(errors) <- fact
-  
   return(errors)
 }
 #=============================================================================#

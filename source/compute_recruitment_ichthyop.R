@@ -7,23 +7,23 @@
 # URL    : 
 #=============================================================================#
 compute_recruitment_ichthyop <- function(
-  dirpath
-  ,firstdrifter = 1
-  ,lastdrifter = 5000
-  ,computeattime = 31
-  ,nbreleasezones = 1
+  dirpath          = dirpath
+  ,firstdrifter    = 1
+  ,lastdrifter     = 5000
+  ,computeattime   = 31
+  ,nbreleasezones  = 1
   ,recruitmentzone = 1
   ,old_path
   ,new_path
-  ,dates
+  ,dates           = dates
 ){
   #============ ============ Arguments ============ ============#
   
   # dirpath = Directory path which contains series of ICHTHYOP netcdf outputs
   
   # In case one wishes to consider only a subset of all drifters
-  # firstdrifter = Index of first drifter to be compued
-  # lastdrifter  = Index of last  drifter to be computed
+  # firstdrifter = Index of first drifter to be computed
+  # lastdrifter  = Index of last drifter to be computed
   
   # computeattime   = The time record at which to compute recruitment
   # nbreleasezones  = The number of release zones
@@ -33,11 +33,11 @@ compute_recruitment_ichthyop <- function(
   # old_path = path written in each ncdf input file as attribute
   # new_path = path where '.xml' files are stored
   
-  # dates = .csv file with YEAR - MONTH index to match with t0
+  # dates = .csv file with YEAR/MONTH index to match with t0
   
   # The '.csv' output file will have the form.....
   # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Day','Eps','Age','Coast_Behavior', ...
-  #  'Temp_min','Name_file','Zone_name','Depth','Bathy','Particles','Recruitprop']
+  # 'Temp_min','Name_file','Zone_name','Depth','Bathy','Particles','Recruitprop']
   
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
@@ -79,8 +79,8 @@ compute_recruitment_ichthyop <- function(
     yearday <- c(year,month)
     
     # Reads the XML release zones file
-    # filezone <- ncatt_get(nc,0,'release.bottom.zone_file')$value ## if you release particles from BOTTOM
-    filezone <- ncatt_get(nc,0,'release.zone.zone_file')$value
+    # filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.bottom.zone_file')$value) # if you release particles from BOTTOM
+    filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.zone.zone_file')$value)
     filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
     filezone <- xmlTreeParse(filezone, useInternalNode=TRUE)
     
@@ -178,7 +178,18 @@ compute_recruitment_ichthyop <- function(
   
   recruitprop <- 100*as.numeric(dataset[,2])/as.numeric(dataset[,1])
   dataset <- as.data.frame(cbind(dataset , recruitprop), stringsAsFactors = FALSE)
-  
+
+  dataset$NumberReleased  <- as.numeric(dataset$NumberReleased)
+  dataset$NumberRecruited <- as.numeric(dataset$NumberRecruited)
+  dataset$ReleaseArea     <- as.numeric(dataset$ReleaseArea)
+  dataset$Year            <- as.numeric(dataset$Year)
+  dataset$Day             <- as.numeric(dataset$Day)
+  dataset$Eps             <- as.numeric(dataset$Eps)
+  dataset$Age             <- as.numeric(dataset$Age)
+  dataset$Temp_min        <- as.numeric(dataset$Temp_min)
+  dataset$Recruitprop     <- as.numeric(dataset$Recruitprop)
+
+  rownames(dataset) <- NULL
   colnames(dataset) <- c(
     'NumberReleased'
     ,'NumberRecruited'
@@ -196,17 +207,6 @@ compute_recruitment_ichthyop <- function(
     ,'Particles'
     ,'Recruitprop'
   )
-  dataset$NumberReleased  <- as.numeric(dataset$NumberReleased)
-  dataset$NumberRecruited <- as.numeric(dataset$NumberRecruited)
-  dataset$ReleaseArea <- as.numeric(dataset$ReleaseArea)
-  dataset$Year <- as.numeric(dataset$Year)
-  dataset$Day <- as.numeric(dataset$Day)
-  dataset$Eps <- as.numeric(dataset$Eps)
-  dataset$Age <- as.numeric(dataset$Age)
-  dataset$Temp_min <- as.numeric(dataset$Temp_min)
-  dataset$Recruitprop <- as.numeric(dataset$Recruitprop)
-  
-  rownames(dataset) <- NULL
   return (dataset)
   #mod <- lm(recruitprop ~ factor(ReleaseArea) + factor(Day) + factor(Year) + factor(Depth)
   #			+ factor(ReleaseArea):factor(Day) + factor(ReleaseArea):factor(Year) + factor(ReleaseArea):factor(Depth)
