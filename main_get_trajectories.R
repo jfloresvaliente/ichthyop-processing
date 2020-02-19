@@ -8,8 +8,8 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/out/meso/'
-new_path  <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+dirpath   <- 'D:/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/'
+new_path  <- 'D:/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/cfg/'
 
 #---- Do not change anythig after here ----#
 ncfile          <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
@@ -21,12 +21,14 @@ lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles'
 firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
-variname        <- c('E','length')
+# variname        <- c('E','length','MESO','temp')
+variname        <- NULL
+nc_close(nc)
 
 # The paths of all .nc ichthyop files will be extracted month by month and combined into a single .RData file
 dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, sep = ';')
 
-for(i in 1:1){
+for(i in 1:12){
   month <- subset(dat, dat$Day == i)
   month <- levels(factor(month$Name_file))
   
@@ -55,10 +57,30 @@ for(i in 1:1){
 # END OF PROGRAM
 #=============================================================================#
 
+# rec <- subset(trajectories, trajectories$IfRecruited == 1)
+# range(rec$length)
+# 
+# las <- subset(rec, rec$Timer == 31)
+# range(las$length)
 
-
-
+# length(las$length[which(las$length >= 20)])
  
+# 
+# library(fields)
+# library(maps)
+# library(mapdata)
+# 
+# plot_traj_ggmap_depth(df = las)
+
+
+
+
+
+
+
+
+
+
 
 # #------------------------------------------------#
 # dat <- get_trajectories(ncfile = ncfile, old_path = old_path, new_path = new_path)

@@ -19,7 +19,9 @@ source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
 
 source('source/compute_recruitment_ichthyop.R')
+source('source/compute_recruitment_ichthyop_DEB.R')
 source('source/compute_recruitment_ichthyop_drifters.R')
+source('source/compute_recruitment_ichthyop_drifters_DEB.R')
 
 source('source/get_trajectories.R')
 source('source/get_trajectories_drifters.R')

@@ -21,7 +21,7 @@ lastdrifter     <- dim(read.table(paste0(new_path, 'peru_drifters.txt')))[1]
 firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
-variname        <- c('E','length','MESO','temp','O2')
+variname        <- c('stage','E','length','MESO','temp','O2')
 
 # The paths of all .nc ichthyop files will be extracted month by month and combined into a single .RData file
 dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, sep = ';')

@@ -11,12 +11,12 @@ library(fields)
 library(maps)
 library(mapdata)
 
-dirpath       <- 'E:/ROMS_SIMULATIONS/peru10km/'
+dirpath       <- 'D:/ROMS_SIMULATIONS/peru10km/'
 nc            <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
 kmdist        <- 50 # Distancia en pixeles desde la costa
 pixinterval   <- 2 # Intervalo de pixeles respecto a la costa
-lat_1         <- -6.5 # Latmxax
-lat_2         <- -13.5 # Latmin
+lat_1         <- -2 # Latmxax
+lat_2         <- -20 # Latmin
 maxdepth      <- 50 # Profundidad maxima para posicionar los drifters
 intervaldepth <- 5 # Intervalo de profundaid para los drifters
 
@@ -47,7 +47,7 @@ lat_vals <- lat[index[,2]]
 # Obtener valores de profundidad en cada drifter elegido
 h_vals <- NULL
 for(i in 1:dim(index)[1]){
-  h_vals <- c(h_vals, h[index[i,1], index[i,2]]) 
+  h_vals <- c(h_vals, h[index[i,1], index[i,2]])
 }
 h_vals[h_vals > maxdepth] <- maxdepth
 lonlat <- cbind(lon_vals, lat_vals, floor(h_vals))
@@ -57,7 +57,7 @@ lonlat <- cbind(lonlat, rep(kmdist:1, length.out = dim(index)[1]))
 lonlat <- subset(lonlat, lonlat[,4] %in% seq(from = 2, to = kmdist, by = pixinterval))
 lonlat <- lonlat[,-c(4)]
 # Para guardar lon lat y el indice de distancia a la costa de cada particula
-write.table(x = lonlat[,-c(3)], file = paste0(dirpath, 'lonlatDrifters.csv'), col.names = F, row.names = F, sep = ';')
+write.table(x = lonlat[,-c(3)], file = paste0(dirpath, 'peru_drifters.csv'), col.names = F, row.names = F, sep = ';')
 
 x11()
 image.plot(lon, lat, mask2, axes = F)

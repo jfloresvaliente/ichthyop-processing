@@ -67,7 +67,8 @@ get_trajectories_drifters <- function(
     }
     colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', variname)
   }
-
+  nc_close(nc)
+  rownames(df) <- NULL
   return(df)
 }
 #=============================================================================#

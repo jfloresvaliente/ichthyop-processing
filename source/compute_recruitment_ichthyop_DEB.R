@@ -1,12 +1,12 @@
 #=============================================================================#
-# Name   : compute_recruitment_ichthyop
+# Name   : compute_recruitment_ichthyop_DEB
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
 # Aim    : Compute recruitment ICHTHYOP outputs
 # URL    : 
 #=============================================================================#
-compute_recruitment_ichthyop <- function(
+compute_recruitment_ichthyop_DEB <- function(
   dirpath          = dirpath
   ,firstdrifter    = 1
   ,lastdrifter     = 5000
@@ -16,6 +16,7 @@ compute_recruitment_ichthyop <- function(
   ,old_path
   ,new_path
   ,dates           = dates
+  ,length_min      = 20
 ){
   #============ ============ Arguments ============ ============#
   
@@ -34,6 +35,8 @@ compute_recruitment_ichthyop <- function(
   # new_path = path where '.xml' files are stored
   
   # dates = .csv file with YEAR/MONTH index to match with t0
+  
+  # length_min = minimum length to consider a particle as recruited
   
   # The '.csv' output file will have the form.....
   # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Day','Eps','Age','Coast_Behavior', ...
@@ -118,9 +121,17 @@ compute_recruitment_ichthyop <- function(
     # Gets the value for 'disipation rate'
     epsilon <- ncatt_get(nc , 0 , 'action.hdisp.epsilon')$value
     
-    # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
+    # get length#
     nbdrifter <- lastdrifter-firstdrifter+1
+    talla <- ncvar_get(nc,'length', c(firstdrifter,computeattime),c(nbdrifter,1))
+    talla[talla <  length_min] <- 0
+    talla[talla >= length_min] <- 1
+
+    # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,computeattime),c(1,nbdrifter,1))
+    recruited <- recruited + talla
+    recruited[recruited != 2] <- 0
+    recruited[recruited == 2] <- 1
     
     # Gets the value of release zone for all drifters
     releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,nbdrifter,1)) + 1
@@ -177,7 +188,7 @@ compute_recruitment_ichthyop <- function(
   
   recruitprop <- 100*as.numeric(dataset[,2])/as.numeric(dataset[,1])
   dataset <- as.data.frame(cbind(dataset , recruitprop), stringsAsFactors = FALSE)
-
+  
   rownames(dataset) <- NULL
   colnames(dataset) <- c(
     'NumberReleased'

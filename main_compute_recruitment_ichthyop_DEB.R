@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : main_compute_recruitment_ichthyop
+# Name   : main_compute_recruitment_ichthyop_DEB
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
@@ -8,12 +8,12 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica/out/zones/'
-new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica/cfg/'
-ymax      <- 60
+dirpath   <- 'D:/ICHTHYOP/peru10km/Bathy/out/'
+new_path  <- 'D:/ICHTHYOP/peru10km/Bathy/cfg/'
+ymax      <- 40
 lats      <- seq(from = 2, to = 20, by = 2)
 hlines    <- seq(0,ymax,10)
-yet       <- seq(1:2)
+yet       <- seq(1:3)
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
@@ -25,9 +25,11 @@ computeattime   <- length(ncvar_get(nc, 'time'))
 nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
+length_min      <- 20
 nc_close(nc)
 
-dat <- compute_recruitment_ichthyop(dirpath          = dirpath,
+
+dat <- compute_recruitment_ichthyop_DEB(dirpath      = dirpath,
                                     firstdrifter     = firstdrifter
                                     ,lastdrifter     = lastdrifter
                                     ,computeattime   = computeattime
@@ -36,6 +38,7 @@ dat <- compute_recruitment_ichthyop(dirpath          = dirpath,
                                     ,old_path        = old_path
                                     ,new_path        = new_path
                                     ,dates           = dates
+                                    ,length_min      = length_min
 )
 
 for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
@@ -75,13 +78,13 @@ mtext(text = 'Release Month', side = 1, line = 2, cex = 0.75)
 
 depthplot <- barplot(depth[,1], ylim = c(0, ymax), axes = F, names.arg = rownames(depth))
 axis(2, las = 2)
-abline(h = hlines, lty = 3, lwd = .05)
+abline(h = hlines, lty = 2, lwd = .25)
 arrows(depthplot, depth[,2], depthplot, depth[,3], angle = 90, code = 3, length = 0.05)
 mtext(text = 'Release Depth', side = 1, line = 2, cex = 0.75)
 
 bathyplot <- barplot(bathy[,1], ylim = c(0, ymax), axes = F)
 axis(2, las = 2)
-abline(h = hlines, lty = 3, lwd = .05)
+abline(h = hlines, lty = 2, lwd = .25)
 arrows(bathyplot, bathy[,2], bathyplot, bathy[,3], angle = 90, code = 3, length = 0.05)
 mtext(text = 'Release Bathymetry', side = 1, line = 2, cex = 0.75)
 
@@ -100,6 +103,3 @@ mtext(text = 'Release Latitude', side = 1, line = 2, cex = 0.75)
 # arrows(areaplot, area[,2], areaplot, area[,3], angle = 90, code = 3, length = 0.05)
 
 dev.off()
-#=============================================================================#
-# END OF PROGRAM
-#=============================================================================#

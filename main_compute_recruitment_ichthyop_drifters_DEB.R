@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : main_compute_recruitment_ichthyop_drifters
+# Name   : main_compute_recruitment_ichthyop_drifters_DEB
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
@@ -21,6 +21,7 @@ lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 xy              <- read.table(paste0(new_path, 'lonlatDrifters.csv'), sep = ';')
+length_min      <- 20
 
 # x11()
 # pch = 0
@@ -31,15 +32,16 @@ xy              <- read.table(paste0(new_path, 'lonlatDrifters.csv'), sep = ';')
 #   pun <- subset(xy, xy[,3] == i)
 #   if(dim(pun)[1] == 0) next() else pch = pch + 1; points(pun[,1], pun[,2], pch = pch, cex = 0.5)
 # }
-# 
-dat <- compute_recruitment_ichthyop_drifters(dirpath         = dirpath,
+
+dat <- compute_recruitment_ichthyop_drifters_DEB(dirpath     = dirpath,
                                              firstdrifter    = firstdrifter,
                                              lastdrifter     = lastdrifter,
                                              firsttime       = firsttime,
                                              lasttime        = lasttime,
                                              recruitmentzone = recruitmentzone,
                                              dates           = dates,
-                                             xy              = xy
+                                             xy              = xy,
+                                             length_min      = length_min
 )
 
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
@@ -65,15 +67,11 @@ for(j in 1:12){
 x11()
 cols <- rep(c('red','blue','green','black'), each = 3)
 pc <- rep(c(1,2,5), 4)
-plot(0:500, type = 'n', ylim = c(0,50), xlab = 'Distance to the coast (km)', ylab = 'Retention (%)')
-legend('topright', legend = c('Summer', 'Autumn', 'Winter','Spring'), bty = 'n', text.col = c('red','blue','green','black'))
-
+plot(0:500, type = 'n', ylim = c(0,50))
 for(i in 1:12){
   lines(as.numeric(pixel)*10, pixelmat[,i] , col = cols[i])
   points(as.numeric(pixel)*10, pixelmat[,i], col = cols[i], pch = pc[i])
 }
-
-
 
 
 # x11();par(mfrow = c(1,3))
@@ -134,3 +132,4 @@ for(i in 1:12){
 # re <- as.numeric(pixel[,2])
 # 
 # x11(); plot(km, re, ylim = c(0,40)); abline(h = 0, col = 'grey90')
+

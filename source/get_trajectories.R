@@ -100,7 +100,7 @@ get_trajectories <- function(
     }
     colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy', variname)
   }
-  
+  nc_close(nc)
   rownames(df) <- NULL
   return(df)
 }

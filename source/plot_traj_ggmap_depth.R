@@ -32,8 +32,8 @@ plot_traj_ggmap_depth <- function(
 
   map <- ggplot(data = df)
   map   <- map +
-    # geom_point(data = df, aes(x = Lon, y = Lat, colour = Depth), size = .075) +
-    geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Depth), size = .25) +
+    geom_point(data = df, aes(x = Lon, y = Lat, colour = Depth), size = .075) +
+    # geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Depth), size = .25) +
     scale_colour_gradientn(colours = tim.colors(n = 64, alpha = 1), limits = zlim, expression(Depth)) +
     labs(x = 'Longitude (W)', y = 'Latitude (S)', title = title) +
     borders(fill='grey',colour='grey') +

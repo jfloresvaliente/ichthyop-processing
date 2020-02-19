@@ -1,12 +1,12 @@
 #=============================================================================#
-# Name   : compute_recruitment_ichthyop_drifters
+# Name   : compute_recruitment_ichthyop_drifters_DEB
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
 # Aim    : Compute recruitment ICHTHYOP outputs
 # URL    : 
 #=============================================================================#
-compute_recruitment_ichthyop_drifters <- function(
+compute_recruitment_ichthyop_drifters_DEB <- function(
   dirpath          = dirpath
   ,firstdrifter    = 1
   ,lastdrifter     = 5000
@@ -15,6 +15,7 @@ compute_recruitment_ichthyop_drifters <- function(
   ,recruitmentzone = 1
   ,dates           = dates
   ,xy              = xy
+  ,length_min      = 20
 ){
   #============ ============ Arguments ============ ============#
   
@@ -25,16 +26,18 @@ compute_recruitment_ichthyop_drifters <- function(
   # lastdrifter  = Index of last drifter to be computed
   # firsttime    = Index of first time to be computed
   # lasttime     = Index of last  time to be computed
-
+  
   # recruitmentzone = The index of the recruitment zone for which recruitment is computed
   
   # dates = .csv file with YEAR/MONTH index to match with t0
+  
+  # length_min = minimum length to consider a particle as recruited
   
   # The '.csv' output file will have the form.....
   # ['Drifter','Year','Day','Lon,'Lat','Depth','Recruited','Name_file','PixelCoast','ReleaseArea']
   
   # The '.txt' file with the initial positions of all particles and its pixel-distance to the coast
-
+  
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
   
@@ -79,9 +82,18 @@ compute_recruitment_ichthyop_drifters <- function(
     lat     <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
     depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
     
+    # get length#
+    talla <- ncvar_get(nc,'length', c(firstdrifter,lasttime),c(lastdrifter,1))
+    talla[talla <  length_min] <- 0
+    talla[talla >= length_min] <- 1
+    
     # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,lasttime),c(1,lastdrifter,1))
+    recruited <- recruited + talla
+    recruited[recruited != 2] <- 0
+    recruited[recruited == 2] <- 1
     recruited <- rep(recruited, each = lasttime)
+
     
     #Gets the name (not full name) of the '.nc' file
     m <- str_locate(string = nc$filename, pattern = '/out_ichthyop') # Begin position of name
@@ -135,7 +147,7 @@ compute_recruitment_ichthyop_drifters <- function(
     ,'Name_file'
     ,'PixelCoast'
     ,'ReleaseArea'
-    )
+  )
   return (dataset)
 }
 #=============================================================================#
