@@ -98,8 +98,9 @@ compute_recruitment_ichthyop_drifters <- function(
     }
     df <- df[,-c(8)]
     
-    lat1 <- seq(-2, -20, -1)
-    lat2 <- seq(-3, -21, -1)
+    lats <- round(range(xy[,2]))
+    lat1 <- seq(lats[2]+1, lats[1]-1, -1)
+    lat2 <- lat1 - 1
     for(i in 1:length(lat1)){
       lati <- which(df$lat < lat1[i] & df$lat >= lat2[i])
       if(length(lati) == 0) next() else df$MeanLat[lati] <- abs(mean(c(lat1[i], lat2[i])))

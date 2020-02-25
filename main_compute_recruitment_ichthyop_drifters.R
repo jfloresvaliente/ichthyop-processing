@@ -20,7 +20,7 @@ firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
-xy              <- read.table(paste0(new_path, 'lonlatDrifters.csv'), sep = ';')
+xy              <- read.table(paste0(new_path, 'peru_drifters.txt'), sep = '')
 
 # x11()
 # pch = 0
@@ -47,31 +47,31 @@ write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep
 
 # dat <- read.csv(paste0(dirpath, 'results/ichthyop_output.csv'), sep = ';')
 
-pixelmat <- NULL
-for(j in 1:12){
-  mes <- subset(dat, dat$Day == j)
-  
-  # Por pixel
-  pixel <- levels(factor(dat$PixelCoast))
-  pixelper <- NULL
-  for(i in 1:length(pixel)){
-    df       <- subset(mes, mes$PixelCoast == pixel[i])
-    rec      <- sum(df$IfRecruited)
-    pixelper <- c(pixelper, (rec*100)/dim(df)[1])
-  }
-  pixelmat <- cbind(pixelmat, pixelper)
-}
-
-x11()
-cols <- rep(c('red','blue','green','black'), each = 3)
-pc <- rep(c(1,2,5), 4)
-plot(0:500, type = 'n', ylim = c(0,50), xlab = 'Distance to the coast (km)', ylab = 'Retention (%)')
-legend('topright', legend = c('Summer', 'Autumn', 'Winter','Spring'), bty = 'n', text.col = c('red','blue','green','black'))
-
-for(i in 1:12){
-  lines(as.numeric(pixel)*10, pixelmat[,i] , col = cols[i])
-  points(as.numeric(pixel)*10, pixelmat[,i], col = cols[i], pch = pc[i])
-}
+# pixelmat <- NULL
+# for(j in 1:12){
+#   mes <- subset(dat, dat$Day == j)
+#   
+#   # Por pixel
+#   pixel <- levels(factor(dat$PixelCoast))
+#   pixelper <- NULL
+#   for(i in 1:length(pixel)){
+#     df       <- subset(mes, mes$PixelCoast == pixel[i])
+#     rec      <- sum(df$IfRecruited)
+#     pixelper <- c(pixelper, (rec*100)/dim(df)[1])
+#   }
+#   pixelmat <- cbind(pixelmat, pixelper)
+# }
+# 
+# x11()
+# cols <- rep(c('red','blue','green','black'), each = 3)
+# pc <- rep(c(1,2,5), 4)
+# plot(0:500, type = 'n', ylim = c(0,50), xlab = 'Distance to the coast (km)', ylab = 'Retention (%)')
+# legend('topright', legend = c('Summer', 'Autumn', 'Winter','Spring'), bty = 'n', text.col = c('red','blue','green','black'))
+# 
+# for(i in 1:12){
+#   lines(as.numeric(pixel)*10, pixelmat[,i] , col = cols[i])
+#   points(as.numeric(pixel)*10, pixelmat[,i], col = cols[i], pch = pc[i])
+# }
 
 
 

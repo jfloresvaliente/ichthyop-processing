@@ -8,8 +8,8 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'D:/ICHTHYOP/peru10km/Bathy/out/'
-new_path  <- 'D:/ICHTHYOP/peru10km/Bathy/cfg/'
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/'
+new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
 ymax      <- 40
 lats      <- seq(from = 2, to = 20, by = 2)
 hlines    <- seq(0,ymax,10)
