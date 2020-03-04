@@ -1,4 +1,4 @@
-#===============================================================================
+#=============================================================================#
 # Name   : plot_traj_ggmap_day
 # Author : Lett; modified by Jorge Flores
 # Date   : 
@@ -6,13 +6,12 @@
 # Aim    : Plot particle paths from data.frame of the form
 #          ['Drifter','Lon','Lat','Depth','Year','Month','ReleaseDepth','Age']
 # URL    : 
-#===============================================================================
+#=============================================================================#
 plot_traj_ggmap_day <- function(
   df
-  ,xlim = c(-82, -80.15)
-  ,ylim = c(-7,-5)
-  ,zlim = c(0,28)
-  ,XY = c(-81,-6)
+  ,xlim = c(-90, -70)
+  ,ylim = c(-20, 0)
+  ,zlim = c(-60,0)
   ,pngfile = NULL
   ,title = ''
   ){
@@ -21,8 +20,7 @@ plot_traj_ggmap_day <- function(
   # df = Data frame with the form ['Drifter','Lon','Lat','Depth','Year','Month','ReleaseDepth','Age']
   # xlim = range for X axis (longitude)
   # ylim = range for Y axis (latitude)
-  # zlim = range for Z axis (depth)
-  # XY = Central point from where the satellite image will be taken
+  # zlim = range for Z axis (day)
   # pngfile = file name to save the plot. If NULL, plot and show in graphic device
   # title = title of the plot, If '', then, title is not show
   
@@ -31,13 +29,13 @@ plot_traj_ggmap_day <- function(
   library(ggmap)
   library(fields)
 
-  mymap <- get_map(location = c(lon = XY[1], lat = XY[2]), zoom = 8, maptype = 'satellite', color='bw')
-  map   <- ggmap(mymap)
+  map   <- ggplot(data = df)
   map   <- map +
-    # geom_point(data = df, aes(x = Lon, y = Lat, colour = Day), size = .075) +
-    geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Day), size = .5) +
+    # geom_point(data = df, aes(x = Lon, y = Lat, colour = Depth), size = .075) +
+    geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Day), size = .075) +
     scale_colour_gradientn(colours = tim.colors(n = 64, alpha = 1), limits = zlim, expression(Days )) +
     labs(x = 'Longitude (W)', y = 'Latitude (S)', title = title) +
+    borders(fill='grey',colour='grey') +
     coord_fixed(xlim = xlim, ylim = ylim, ratio = 2/2) +
     theme(axis.text.x  = element_text(face='bold', color='black', size=15, angle=0),
           axis.text.y  = element_text(face='bold', color='black', size=15, angle=0),
@@ -52,6 +50,6 @@ plot_traj_ggmap_day <- function(
   print(pngfile); flush.console()
   if(!is.null(pngfile)) ggsave(filename = pngfile, width = 9, height = 9) else map
 }
-#===============================================================================
+#=============================================================================#
 # END OF PROGRAM
-#===============================================================================
+#=============================================================================#

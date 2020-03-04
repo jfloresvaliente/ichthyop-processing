@@ -15,23 +15,13 @@ ymax      <- 20
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
 firstdrifter    <- 1
-lastdrifter     <- dim(read.table(paste0(new_path, 'peru_drifters.txt')))[1]
+lastdrifter     <- 50498 #dim(read.table(paste0(new_path, 'peru_drifters.txt')))[1]
 firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
-xy              <- read.table(paste0(new_path, 'lonlatDrifters.csv'), sep = ';')
+xy              <- read.table(paste0(new_path, 'peru_drifters.csv'), sep = ';')
 length_min      <- 20
-
-# x11()
-# pch = 0
-# map('worldHires', add=F, fill=T, col='gray', ylim = c(-15,-5), xlim = c(-85.5,-75.5))
-# axis(1); axis(2); box()
-# for(i in 1:50){
-#
-#   pun <- subset(xy, xy[,3] == i)
-#   if(dim(pun)[1] == 0) next() else pch = pch + 1; points(pun[,1], pun[,2], pch = pch, cex = 0.5)
-# }
 
 dat <- compute_recruitment_ichthyop_drifters_DEB(dirpath     = dirpath,
                                              firstdrifter    = firstdrifter,
@@ -47,31 +37,6 @@ dat <- compute_recruitment_ichthyop_drifters_DEB(dirpath     = dirpath,
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
 write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', row.names = F)
 
-# dat <- read.csv(paste0(dirpath, 'results/ichthyop_output.csv'), sep = ';')
-
-pixelmat <- NULL
-for(j in 1:12){
-  mes <- subset(dat, dat$Day == j)
-  
-  # Por pixel
-  pixel <- levels(factor(dat$PixelCoast))
-  pixelper <- NULL
-  for(i in 1:length(pixel)){
-    df       <- subset(mes, mes$PixelCoast == pixel[i])
-    rec      <- sum(df$IfRecruited)
-    pixelper <- c(pixelper, (rec*100)/dim(df)[1])
-  }
-  pixelmat <- cbind(pixelmat, pixelper)
-}
-
-x11()
-cols <- rep(c('red','blue','green','black'), each = 3)
-pc <- rep(c(1,2,5), 4)
-plot(0:500, type = 'n', ylim = c(0,50))
-for(i in 1:12){
-  lines(as.numeric(pixel)*10, pixelmat[,i] , col = cols[i])
-  points(as.numeric(pixel)*10, pixelmat[,i], col = cols[i], pch = pc[i])
-}
 
 
 # x11();par(mfrow = c(1,3))
@@ -133,3 +98,6 @@ for(i in 1:12){
 # 
 # x11(); plot(km, re, ylim = c(0,40)); abline(h = 0, col = 'grey90')
 
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#

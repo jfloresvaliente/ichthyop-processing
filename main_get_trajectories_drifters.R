@@ -8,8 +8,8 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/out/'
-new_path  <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/lati220/'
+new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
 
 #---- Do not change anythig after here ----#
 ncfile          <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
@@ -17,7 +17,7 @@ nc              <- nc_open(ncfile)
 cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
-lastdrifter     <- dim(read.table(paste0(new_path, 'peru_drifters.txt')))[1]
+lastdrifter     <- 50498 #dim(read.table(paste0(new_path, 'peru_drifters.txt')))[1]
 firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
@@ -26,7 +26,7 @@ variname        <- c('stage','E','length','MESO','temp','O2')
 # The paths of all .nc ichthyop files will be extracted month by month and combined into a single .RData file
 dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, sep = ';')
 
-for(i in 1:1){
+for(i in 1:12){
   month <- subset(dat, dat$Day == i)
   month <- levels(factor(month$Name_file))
   

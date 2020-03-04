@@ -31,7 +31,7 @@ compute_recruitment_ichthyop_drifters_DEB <- function(
   
   # dates = .csv file with YEAR/MONTH index to match with t0
   
-  # length_min = minimum length to consider a particle as recruited
+  # length_min = minimum length (in mm) to consider a particle as recruited
   
   # The '.csv' output file will have the form.....
   # ['Drifter','Year','Day','Lon,'Lat','Depth','Recruited','Name_file','PixelCoast','ReleaseArea']
@@ -82,7 +82,7 @@ compute_recruitment_ichthyop_drifters_DEB <- function(
     lat     <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
     depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
     
-    # get length#
+    # Get the length to test if a particle is considered as recruited
     talla <- ncvar_get(nc,'length', c(firstdrifter,lasttime),c(lastdrifter,1))
     talla[talla <  length_min] <- 0
     talla[talla >= length_min] <- 1

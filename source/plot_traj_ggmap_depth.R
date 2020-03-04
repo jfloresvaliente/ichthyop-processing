@@ -21,7 +21,6 @@ plot_traj_ggmap_depth <- function(
   # xlim = range for X axis (longitude)
   # ylim = range for Y axis (latitude)
   # zlim = range for Z axis (depth)
-  # XY = Central point from where the satellite image will be taken
   # pngfile = file name to save the plot. If NULL, plot and show in graphic device
   # title = title of the plot, If '', then, title is not show
 
@@ -30,10 +29,10 @@ plot_traj_ggmap_depth <- function(
   library(ggplot2)
   library(fields)
 
-  map <- ggplot(data = df)
+  map   <- ggplot(data = df)
   map   <- map +
-    geom_point(data = df, aes(x = Lon, y = Lat, colour = Depth), size = .075) +
-    # geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Depth), size = .25) +
+    # geom_point(data = df, aes(x = Lon, y = Lat, colour = Depth), size = .075) +
+    geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Depth), size = .075) +
     scale_colour_gradientn(colours = tim.colors(n = 64, alpha = 1), limits = zlim, expression(Depth)) +
     labs(x = 'Longitude (W)', y = 'Latitude (S)', title = title) +
     borders(fill='grey',colour='grey') +

@@ -14,14 +14,13 @@ plot_traj_ggmap_length <- function(
   ,zlim = c(-60,0)
   ,pngfile = NULL
   ,title = ''
-){
+  ){
   #============ ============ Arguments ============ ============#
   
   # df = Data frame with the form ['Drifter','Lon','Lat','Depth','Year','Month','ReleaseDepth','Age']
   # xlim = range for X axis (longitude)
   # ylim = range for Y axis (latitude)
   # zlim = range for Z axis (length)
-  # XY = Central point from where the satellite image will be taken
   # pngfile = file name to save the plot. If NULL, plot and show in graphic device
   # title = title of the plot, If '', then, title is not show
   
@@ -30,10 +29,10 @@ plot_traj_ggmap_length <- function(
   library(ggplot2)
   library(fields)
   
-  map <- ggplot(data = df)
+  map   <- ggplot(data = df)
   map   <- map +
-    geom_point(data = df, aes(x = Lon, y = Lat, colour = Length), size = .075) +
-    # geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Depth), size = .5) +
+    # geom_point(data = df, aes(x = Lon, y = Lat, colour = Depth), size = .075) +
+    geom_path(data = df, aes(group = Drifter, x = Lon, y = Lat, colour = Length), size = .075) +
     scale_colour_gradientn(colours = tim.colors(n = 64, alpha = 1), limits = zlim, expression(Length)) +
     labs(x = 'Longitude (W)', y = 'Latitude (S)', title = title) +
     borders(fill='grey',colour='grey') +
@@ -54,22 +53,3 @@ plot_traj_ggmap_length <- function(
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
-
-
-dirpath <- 'E:/kinesis_escenarios_outputs/escenario_t4c0.5/outM2/'
-load(paste0(dirpath, 'df.RData'))
-colnames(df) <- c('Lon', 'Lat', 'exSST', 'exPY','exSZ', 'exMZ', 'Length', 'Wweight', 'PA', 'TGL', 'Drifter', 'Day', 'Age')
-
-
-# source('source/plot_traj_ggmap_length.R')
-
-xlim = c(-90, -70)
-ylim = c(-20, 0)
-zlim = c(0,15)
-title = ''
-
-for(i in round(seq(1,360,length.out = 30))){
-  pngfile <- paste0(paste0(dirpath, 'age', i, '.png'))
-  dat <- subset(df, df$Age == i)
-  plot_traj_ggmap_length(df = dat, pngfile = pngfile, zlim = zlim, xlim = xlim, ylim = ylim)
-}

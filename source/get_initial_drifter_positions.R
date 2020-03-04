@@ -11,22 +11,22 @@ library(fields)
 library(maps)
 library(mapdata)
 
-dirpath       <- 'D:/ROMS_SIMULATIONS/peru10km/'
+dirpath       <- 'E:/ROMS_SILUMATIONS/10kmparent/'
 nc            <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
-kmdist        <- 50 # Distancia en pixeles desde la costa
-pixinterval   <- 2 # Intervalo de pixeles respecto a la costa
-lat_1         <- -2 # Latmxax
-lat_2         <- -20 # Latmin
-maxdepth      <- 50 # Profundidad maxima para posicionar los drifters
-intervaldepth <- 5 # Intervalo de profundaid para los drifters
+kmdist        <- 50   # Distancia en pixeles desde la costa
+pixinterval   <- 2    # Intervalo de pixeles respecto a la costa
+lat_1         <- -2   # Latmxax
+lat_2         <- -20  # Latmin
+maxdepth      <- 50   # Profundidad maxima para posicionar los drifters
+intervaldepth <- 5    # Intervalo de profundaid para los drifters
 
 #-------------- Do not change anything after here----------------#
-mask <- ncvar_get(nc, 'mask_rho'); mask2 <- mask     # matrix
-lon  <- ncvar_get(nc, 'lon_rho')[,1]   # matrix
-lat  <- ncvar_get(nc, 'lat_rho')[1,]   # matrix
+mask <- ncvar_get(nc, 'mask_rho'); mask2 <- mask    # matrix
+lon  <- ncvar_get(nc, 'lon_rho')[,1]                # matrix
+lat  <- ncvar_get(nc, 'lat_rho')[1,]                # matrix
 h    <- ncvar_get(nc, 'h')
 
-a <- mask[-c(1:kmdist), ] # quito 6 filas de la parte superior
+a <- mask[-c(1:kmdist), ] # quito filas de la parte superior
 b <- matrix (0 , kmdist , ncol(a)) # crea una matriz de ceros para suplir las faltantes
 c <- rbind(a,b) # suma a (con filas faltantes) y b (con las filas llenas de ceros)
 mask <- mask - c # resto para tener la mascara deseada
@@ -49,15 +49,16 @@ h_vals <- NULL
 for(i in 1:dim(index)[1]){
   h_vals <- c(h_vals, h[index[i,1], index[i,2]])
 }
-h_vals[h_vals > maxdepth] <- maxdepth
+# h_vals[h_vals > maxdepth + 5] <- maxdepth
 lonlat <- cbind(lon_vals, lat_vals, floor(h_vals))
+
+a <- which(lonlat[,3] < maxdepth + intervaldepth)
+lonlat[a,3] <- lonlat[a,3] - intervaldepth
+lonlat[,3][lonlat[,3] > maxdepth] <- maxdepth 
 
 # Para guardar posiciones por cada columna
 lonlat <- cbind(lonlat, rep(kmdist:1, length.out = dim(index)[1]))
 lonlat <- subset(lonlat, lonlat[,4] %in% seq(from = 2, to = kmdist, by = pixinterval))
-lonlat <- lonlat[,-c(4)]
-# Para guardar lon lat y el indice de distancia a la costa de cada particula
-write.table(x = lonlat[,-c(3)], file = paste0(dirpath, 'peru_drifters.csv'), col.names = F, row.names = F, sep = ';')
 
 x11()
 image.plot(lon, lat, mask2, axes = F)
@@ -66,11 +67,13 @@ axis(1); axis(2, las = 2)
 points(lonlat[,1], lonlat[,2], pch = 1, cex = 0.1)
 box()
 
+
+
 # Dar profundidad a los drifters
 drif <- NULL
 for(i in 1:dim(lonlat)[1]){
   d_h <- lonlat[i,3]/intervaldepth + 1
-  
+  if(d_h > maxdepth + 5) d_h <- maxdepth
   depth <- 0
   for(j in 1:floor(d_h)){
     drif <- rbind(drif, cbind(lonlat[i,1], lonlat[i,2], depth))
@@ -78,8 +81,12 @@ for(i in 1:dim(lonlat)[1]){
   }
 }
 
+# Para guardar lon lat y profundidad en formato txt para ichthyop
 drif[,3][drif[,3] == 0] <- 1 
 write.table(x = drif, file = paste0(dirpath, 'peru_drifters.txt'), col.names = F, row.names = F)
+
+# Para guardar lon lat y el indice de distancia a la costa de cada particula
+write.table(x = lonlat[,-c(3)], file = paste0(dirpath, 'peru_drifters.csv'), col.names = F, row.names = F, sep = ';')
 
 
 # library(geosphere)

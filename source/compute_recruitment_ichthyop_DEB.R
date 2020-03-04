@@ -36,7 +36,7 @@ compute_recruitment_ichthyop_DEB <- function(
   
   # dates = .csv file with YEAR/MONTH index to match with t0
   
-  # length_min = minimum length to consider a particle as recruited
+  # length_min = minimum length (in mm) to consider a particle as recruited
   
   # The '.csv' output file will have the form.....
   # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Day','Eps','Age','Coast_Behavior', ...
@@ -121,7 +121,7 @@ compute_recruitment_ichthyop_DEB <- function(
     # Gets the value for 'disipation rate'
     epsilon <- ncatt_get(nc , 0 , 'action.hdisp.epsilon')$value
     
-    # get length#
+    # Get the length to test if a particle is considered as recruited
     nbdrifter <- lastdrifter-firstdrifter+1
     talla <- ncvar_get(nc,'length', c(firstdrifter,computeattime),c(nbdrifter,1))
     talla[talla <  length_min] <- 0

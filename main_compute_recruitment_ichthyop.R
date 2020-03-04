@@ -8,16 +8,16 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica/out/zones/'
-new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica/cfg/'
-ymax      <- 60
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/MESO/'
+new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+ymax      <- 40
 lats      <- seq(from = 2, to = 20, by = 2)
 hlines    <- seq(0,ymax,10)
 yet       <- seq(1:2)
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
-cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
+cfgnc           <- gsub(pattern = '////', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
 lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
