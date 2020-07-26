@@ -7,15 +7,15 @@
 # URL    : 
 #=============================================================================#
 get_trajectories_drifters_DEB <- function(
-  ncfile = NULL
-  ,firstdrifter = 1
-  ,lastdrifter = 5000
-  ,firsttime = 1
-  ,lasttime = 31
+  ncfile           = NULL
+  ,firstdrifter    = 1
+  ,lastdrifter     = 5000
+  ,firsttime       = 1
+  ,lasttime        = 31
   ,recruitmentzone = 1
   ,old_path
   ,new_path
-  ,variname = NULL
+  ,variname        = NULL
   ,length_min      = 20
 ){
   #============ ============ Arguments ============ ============#
@@ -35,6 +35,7 @@ get_trajectories_drifters_DEB <- function(
   # new_path = path where '.xml' files are stored
   
   # variname = name of environmental variable tracking
+  # length_min = minimum length (in mm) to consider a particle as recruited
   
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
@@ -53,7 +54,7 @@ get_trajectories_drifters_DEB <- function(
   lat     <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   
-  # get length#
+  # Get the length to test if a particle is considered as recruited
   nbdrifter <- lastdrifter-firstdrifter+1
   talla <- ncvar_get(nc,'length', c(firstdrifter,lasttime),c(nbdrifter,1))
   talla[talla <  length_min] <- 0

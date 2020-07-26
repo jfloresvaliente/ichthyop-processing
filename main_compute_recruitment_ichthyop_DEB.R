@@ -6,15 +6,16 @@
 # Aim    : Compute recruitment ICHTHYOP outputs
 # URL    : 
 #=============================================================================#
-source('source/source_libraries_functions.R')
+source('source/functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/MESO/'
-new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
-ymax      <- 40
-lats      <- seq(from = 2, to = 20, by = 2)
-hlines    <- seq(0,ymax,10)
-yet       <- seq(1:2)
-
+dirpath    <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/MESO60dias/'
+new_path   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+ymax       <- 60
+lats       <- seq(from = 2, to = 20, by = 2)
+hlines     <- seq(0,ymax,10)
+yet        <- seq(1:3)
+length_min <- 20
+depth_min  <- 50
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
 cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
@@ -25,8 +26,9 @@ computeattime   <- length(ncvar_get(nc, 'time'))
 nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
-length_min      <- 20
 nc_close(nc)
+
+polyg <- read.table(paste0(new_path, 'ichthyop_recruitment_polygon.txt'))
 
 dat <- compute_recruitment_ichthyop_DEB(dirpath      = dirpath,
                                     firstdrifter     = firstdrifter
@@ -38,6 +40,8 @@ dat <- compute_recruitment_ichthyop_DEB(dirpath      = dirpath,
                                     ,new_path        = new_path
                                     ,dates           = dates
                                     ,length_min      = length_min
+                                    ,depth_min       = depth_min
+                                    ,polyg           = polyg
 )
 
 for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)

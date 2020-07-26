@@ -7,16 +7,19 @@
 # URL    : 
 #=============================================================================#
 get_trajectories_DEB <- function(
-  ncfile = NULL
-  ,firstdrifter = 1
-  ,lastdrifter = 5000
-  ,firsttime = 1
-  ,lasttime = 31
+  ncfile           = NULL
+  ,firstdrifter    = 1
+  ,lastdrifter     = 5000
+  ,firsttime       = 1
+  ,lasttime        = 31
   ,recruitmentzone = 1
   ,old_path
   ,new_path
-  ,variname = NULL
+  ,variname        = NULL
   ,length_min      = 20
+  ,depth_min       = 50
+  ,polyg           = polyg
+  ,days            = 30
 ){
   #============ ============ Arguments ============ ============#
   
@@ -35,6 +38,7 @@ get_trajectories_DEB <- function(
   # new_path = path where '.xml' files are stored
   
   # variname = name of environmental variable tracking
+  # length_min = minimum length (in mm) to consider a particle as recruited
   
   # Then you can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
@@ -47,31 +51,41 @@ get_trajectories_DEB <- function(
   
   nc <- nc_open(ncfile)
   
+  # Test if a particle is considered as recruited
+  lon       <- ncvar_get(nc, 'lon')
+  lat       <- ncvar_get(nc, 'lat')
+  xy        <- cbind(as.vector(lon), as.vector(lat))
+  talla     <- ncvar_get(nc, 'length')
+  depth     <- abs(ncvar_get(nc, 'depth'))
+  
+  cond1 <- talla >= length_min
+  cond2 <- depth <= depth_min
+  cond3 <- matrix(data = in.out(bnd = as.matrix(polyg), x = xy), nrow = lastdrifter, ncol = lasttime)
+  
+  recruited <- cond1 + cond2 + cond3
+  recruited[recruited != 3] <- 0
+  recruited[recruited == 3] <- 1  
+  
+  for(timer in 1:lasttime){
+    if(sum(recruited[,timer]) != 0){
+      drifs <- which(recruited[,timer] == 1)
+      recruited[c(drifs), timer:lasttime] <- 1
+    }
+  }
+  recruited <- as.vector(t(recruited))
+  
   drifter <- rep(seq(firstdrifter, lastdrifter), each = lasttime)
   timer   <- rep(seq(firsttime, lasttime), times = lastdrifter)
   lon     <- as.vector(t(ncvar_get(nc, 'lon',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   lat     <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   
-  # get length#
-  nbdrifter <- lastdrifter-firstdrifter+1
-  talla <- ncvar_get(nc,'length', c(firstdrifter,lasttime),c(nbdrifter,1))
-  talla[talla <  length_min] <- 0
-  talla[talla >= length_min] <- 1
-  
-  # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
-  recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,lasttime),c(1,lastdrifter,1))
-  recruited <- recruited + talla
-  recruited[recruited != 2] <- 0
-  recruited[recruited == 2] <- 1
-  recruited <- rep(recruited, each = lasttime)
-  
   # Gets the value of release zone for all drifters
   releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1
   releasezone <- rep(releasezone, each = lasttime)
   
   df <- data.frame(drifter, timer, lon, lat, depth, recruited, releasezone)
-  
+
   # Reads the XML release zones file
   # filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.bottom.zone_file')$value) # if you release particles from BOTTOM
   filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.zone.zone_file')$value)
@@ -111,6 +125,10 @@ get_trajectories_DEB <- function(
     colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy', variname)
   }
   nc_close(nc)
+  
+  df <- subset(df, df$Timer %in% seq(1,lasttime, length.out = (days+1)))
+  df$Timer <- rep(1:(days+1), times = lastdrifter)
+
   rownames(df) <- NULL
   return(df)
 }

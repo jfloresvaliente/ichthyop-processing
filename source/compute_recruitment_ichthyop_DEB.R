@@ -17,6 +17,8 @@ compute_recruitment_ichthyop_DEB <- function(
   ,new_path
   ,dates           = dates
   ,length_min      = 20
+  ,depth_min       = 50
+  ,polyg           = polyg
 ){
   #============ ============ Arguments ============ ============#
   
@@ -56,9 +58,9 @@ compute_recruitment_ichthyop_DEB <- function(
     
     # An inner function that computes year and day from time in seconds
     compute_yearday <- function(time){
-      nbdays <- 1+time/86400
-      year <- 1+as.integer(nbdays/360)
-      day <- as.integer(nbdays-360*(year-1))
+      nbdays <- 1 + time/86400
+      year   <- 1 + as.integer(nbdays/360)
+      day    <- as.integer(nbdays-360*(year-1))
       return(c(year,day))
     }
     
@@ -77,15 +79,15 @@ compute_recruitment_ichthyop_DEB <- function(
     t_x <- dates$t_x
     
     # Get the year and month of release particles from 'times'
-    year <- dates$Y
-    month <- dates$M
+    year    <- dates$Y
+    month   <- dates$M
     yearday <- c(year,month)
     
     # Reads the XML release zones file
     # filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.bottom.zone_file')$value) # if you release particles from BOTTOM
     filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.zone.zone_file')$value)
     filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
-    filezone <- xmlTreeParse(filezone, useInternalNode=TRUE)
+    filezone <- xmlTreeParse(filezone, useInternalNode = TRUE)
     
     # Gets bathymetry limits for each release zone
     inshore  <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_inshore'))
@@ -121,19 +123,31 @@ compute_recruitment_ichthyop_DEB <- function(
     # Gets the value for 'disipation rate'
     epsilon <- ncatt_get(nc , 0 , 'action.hdisp.epsilon')$value
     
-    # Get the length to test if a particle is considered as recruited
-    nbdrifter <- lastdrifter-firstdrifter+1
-    talla <- ncvar_get(nc,'length', c(firstdrifter,computeattime),c(nbdrifter,1))
-    talla[talla <  length_min] <- 0
-    talla[talla >= length_min] <- 1
+    # Test if a particle is considered as recruited
+    lon       <- ncvar_get(nc, 'lon')
+    lat       <- ncvar_get(nc, 'lat')
+    xy        <- cbind(as.vector(lon), as.vector(lat))
+    talla     <- ncvar_get(nc, 'length')
+    depth     <- abs(ncvar_get(nc, 'depth'))
+    
+    cond1 <- talla >= length_min
+    cond2 <- depth <= depth_min
+    cond3 <- matrix(data = in.out(bnd = as.matrix(polyg), x = xy), nrow = lastdrifter, ncol = computeattime)
 
-    # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
-    recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,computeattime),c(1,nbdrifter,1))
-    recruited <- recruited + talla
-    recruited[recruited != 2] <- 0
-    recruited[recruited == 2] <- 1
+    recruited <- cond1 + cond2 + cond3
+    recruited[recruited != 3] <- 0
+    recruited[recruited == 3] <- 1  
+
+    for(timer in 1:computeattime){
+      if(sum(recruited[,timer]) != 0){
+        drifs <- which(recruited[,timer] == 1)
+        recruited[c(drifs), timer:computeattime] <- 1
+      }
+    }
+    recruited <- recruited[,computeattime]
     
     # Gets the value of release zone for all drifters
+    nbdrifter <- lastdrifter - firstdrifter + 1
     releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,nbdrifter,1)) + 1
     
     # Calculates the number of recruits from every release zone

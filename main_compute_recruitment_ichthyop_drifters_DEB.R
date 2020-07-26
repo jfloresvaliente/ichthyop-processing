@@ -8,7 +8,7 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/lati220/'
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/lati2-20/'
 new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
 ymax      <- 20
 
@@ -22,6 +22,8 @@ recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 xy              <- read.table(paste0(new_path, 'peru_drifters.csv'), sep = ';')
 length_min      <- 20
+depth_min       <- 50
+polyg <- read.table(paste0(new_path, 'ichthyop_recruitment_polygon.txt'))
 
 dat <- compute_recruitment_ichthyop_drifters_DEB(dirpath     = dirpath,
                                              firstdrifter    = firstdrifter,
@@ -31,7 +33,9 @@ dat <- compute_recruitment_ichthyop_drifters_DEB(dirpath     = dirpath,
                                              recruitmentzone = recruitmentzone,
                                              dates           = dates,
                                              xy              = xy,
-                                             length_min      = length_min
+                                             length_min      = length_min,
+                                             depth_min       = depth_min,
+                                             polyg           = polyg
 )
 
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)

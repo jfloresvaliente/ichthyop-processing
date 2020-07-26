@@ -6,9 +6,10 @@
 # Aim    : Get trajectories from ICHTHYOP simulations
 # URL    : 
 #=============================================================================#
-source('source/source_libraries_functions.R')
+source('source/ichthyop_libraries.R')
+source('source/ichthyop_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/MESO/'
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/MESO60dias/'
 new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
 
 #---- Do not change anythig after here ----#
@@ -21,12 +22,16 @@ lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles'
 firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
-variname        <- c('E','length','MESO','temp')
-# variname        <- NULL
-nc_close(nc)
+variname        <- c('E','length','MESO','temp','O2')
+length_min      <- 20
+depth_min       <- 50
+days            <- 60
 
+nc_close(nc)
+polyg <- read.table(paste0(new_path, 'ichthyop_recruitment_polygon.txt'))
 # The paths of all .nc ichthyop files will be extracted month by month and combined into a single .RData file
 dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, sep = ';')
+dat <- subset(dat, dat$Year == 2013)
 
 for(i in 1:12){
   month <- subset(dat, dat$Day == i)
@@ -44,10 +49,17 @@ for(i in 1:12){
                               ,recruitmentzone = recruitmentzone
                               ,old_path        = old_path
                               ,new_path        = new_path
-                              ,variname        = variname)
+                              ,variname        = variname
+                              ,length_min      = 20
+                              ,depth_min       = 50
+                              ,polyg           = polyg
+                              ,days            = days
+                              )
     trajectories <- rbind(trajectories, trajs)
   }
-  trajectories$Drifter <- rep(seq(1, lastdrifter*length(month)), each = lasttime)
+  trajectories$Drifter <- rep(seq(1, lastdrifter*length(month)), each = (days+1))
+  # trajectories$Drifter <- rep(seq(1, lastdrifter*length(month)), each = 721)
+  
   # Saving on object in RData format
   RData <- paste0(dirpath, '/results/', 'trajectoriesM', i, '.Rdata')
   print(paste0('saving .....', RData))

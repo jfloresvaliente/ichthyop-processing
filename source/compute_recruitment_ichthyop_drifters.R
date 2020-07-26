@@ -71,7 +71,6 @@ compute_recruitment_ichthyop_drifters <- function(
     # Get the year and month of release particles from 'times'
     year <- dates$Y
     month <- dates$M
-    # yearday <- c(year,month)
     
     drifter <- rep(seq(firstdrifter, lastdrifter), each = lasttime)
     timer   <- rep(seq(firsttime, lasttime), times = lastdrifter)

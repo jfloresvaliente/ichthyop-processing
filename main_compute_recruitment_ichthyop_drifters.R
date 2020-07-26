@@ -8,7 +8,7 @@
 #=============================================================================#
 source('source/source_libraries_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/lati220/'
+dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/lati2-20/'
 new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
 ymax      <- 20
 

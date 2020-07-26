@@ -7,15 +7,15 @@
 # URL    : 
 #=============================================================================#
 get_trajectories <- function(
-  ncfile = NULL
-  ,firstdrifter = 1
-  ,lastdrifter = 5000
-  ,firsttime = 1
-  ,lasttime = 31
+  ncfile           = NULL
+  ,firstdrifter    = 1
+  ,lastdrifter     = 5000
+  ,firsttime       = 1
+  ,lasttime        = 31
   ,recruitmentzone = 1
   ,old_path
   ,new_path
-  ,variname = NULL
+  ,variname        = NULL
 ){
   #============ ============ Arguments ============ ============#
   
@@ -53,8 +53,7 @@ get_trajectories <- function(
   depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   
   # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
-  recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,lasttime),c(1,lastdrifter,1))
-  recruited <- rep(recruited, each = lasttime)
+  recruited <- as.vector(ncvar_get(nc,'recruited_zone')[recruitmentzone,,])
   
   # Gets the value of release zone for all drifters
   releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1

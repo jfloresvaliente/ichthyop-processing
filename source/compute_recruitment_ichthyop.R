@@ -53,9 +53,9 @@ compute_recruitment_ichthyop <- function(
     
     # An inner function that computes year and day from time in seconds
     compute_yearday <- function(time){
-      nbdays <- 1+time/86400
-      year <- 1+as.integer(nbdays/360)
-      day <- as.integer(nbdays-360*(year-1))
+      nbdays <- 1 + time/86400
+      year   <- 1 + as.integer(nbdays/360)
+      day    <- as.integer(nbdays-360*(year-1))
       return(c(year,day))
     }
     
@@ -74,15 +74,15 @@ compute_recruitment_ichthyop <- function(
     t_x <- dates$t_x
     
     # Get the year and month of release particles from 'times'
-    year <- dates$Y
-    month <- dates$M
+    year    <- dates$Y
+    month   <- dates$M
     yearday <- c(year,month)
     
     # Reads the XML release zones file
     # filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.bottom.zone_file')$value) # if you release particles from BOTTOM
     filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.zone.zone_file')$value)
     filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
-    filezone <- xmlTreeParse(filezone, useInternalNode=TRUE)
+    filezone <- xmlTreeParse(filezone, useInternalNode = TRUE)
     
     # Gets bathymetry limits for each release zone
     inshore  <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_inshore'))
@@ -119,7 +119,7 @@ compute_recruitment_ichthyop <- function(
     epsilon <- ncatt_get(nc , 0 , 'action.hdisp.epsilon')$value
     
     # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
-    nbdrifter <- lastdrifter-firstdrifter+1
+    nbdrifter <- lastdrifter - firstdrifter + 1
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,computeattime),c(1,nbdrifter,1))
     
     # Gets the value of release zone for all drifters

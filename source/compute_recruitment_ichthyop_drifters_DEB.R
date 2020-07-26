@@ -16,6 +16,8 @@ compute_recruitment_ichthyop_drifters_DEB <- function(
   ,dates           = dates
   ,xy              = xy
   ,length_min      = 20
+  ,depth_min       = 50
+  ,polyg           = polyg
 ){
   #============ ============ Arguments ============ ============#
   
@@ -74,26 +76,36 @@ compute_recruitment_ichthyop_drifters_DEB <- function(
     # Get the year and month of release particles from 'times'
     year <- dates$Y
     month <- dates$M
-    # yearday <- c(year,month)
+
+    # Test if a particle is considered as recruited
+    lon       <- ncvar_get(nc, 'lon')
+    lat       <- ncvar_get(nc, 'lat')
+    xy_par    <- cbind(as.vector(lon), as.vector(lat))
+    talla     <- ncvar_get(nc, 'length')
+    depth     <- abs(ncvar_get(nc, 'depth'))
     
+    cond1 <- talla >= length_min
+    cond2 <- depth <= depth_min
+    cond3 <- matrix(data = in.out(bnd = as.matrix(polyg), x = xy_par), nrow = lastdrifter, ncol = lasttime)
+    
+    recruited <- cond1 + cond2 + cond3
+    recruited[recruited != 3] <- 0
+    recruited[recruited == 3] <- 1  
+    
+    for(timer in 1:lasttime){
+      if(sum(recruited[,timer]) != 0){
+        drifs <- which(recruited[,timer] == 1)
+        recruited[c(drifs), timer:lasttime] <- 1
+      }
+    }
+    recruited <- recruited[,lasttime]
+    recruited <- rep(recruited, each = lasttime)
+
     drifter <- rep(seq(firstdrifter, lastdrifter), each = lasttime)
     timer   <- rep(seq(firsttime, lasttime), times = lastdrifter)
     lon     <- as.vector(t(ncvar_get(nc, 'lon',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
     lat     <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
     depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
-    
-    # Get the length to test if a particle is considered as recruited
-    talla <- ncvar_get(nc,'length', c(firstdrifter,lasttime),c(lastdrifter,1))
-    talla[talla <  length_min] <- 0
-    talla[talla >= length_min] <- 1
-    
-    # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
-    recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,lasttime),c(1,lastdrifter,1))
-    recruited <- recruited + talla
-    recruited[recruited != 2] <- 0
-    recruited[recruited == 2] <- 1
-    recruited <- rep(recruited, each = lasttime)
-
     
     #Gets the name (not full name) of the '.nc' file
     m <- str_locate(string = nc$filename, pattern = '/out_ichthyop') # Begin position of name
