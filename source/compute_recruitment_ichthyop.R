@@ -121,7 +121,7 @@ compute_recruitment_ichthyop <- function(
     # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
     nbdrifter <- lastdrifter - firstdrifter + 1
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,computeattime),c(1,nbdrifter,1))
-    
+
     # Gets the value of release zone for all drifters
     releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,nbdrifter,1)) + 1
     

@@ -1,6 +1,7 @@
 # Plot de simus DEB-matlab (parametros anchoveta del mediterraneo) vs VonBertalanffy (Marzloff et al 2009)
+dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/'
 
-dat <- read.table('C:/Users/jflores/Desktop/DEB_4years_vari_Temp.txt', header = F, sep = ',')
+dat <- read.table(paste0(dirpath, '/DEB_4years_vari_Temp.txt'), header = F, sep = ',')
 colnames(dat) <- c('t', 10:20)
 # dat <- dat[seq(1,dim(dat)[1],100),]
 t_y <- dat[,1]/365
@@ -45,7 +46,7 @@ VB   <- data.frame(t_VB,L)
 
 #----------- plots -----------#
 # Plot 4 years: DEB vs VonBertalanffy
-png(filename = 'C:/Users/jflores/Desktop/DEB_VB_4years.png', width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath,'/DEB_VB_4years.png'), width = 850, height = 850, res = 120)
 par(lwd = 2)
 plot(t_y, m[1,], type = 'n', xlab = '', ylab = '', xlim = c(0,4), ylim = c(0,22), axes = F)
 axis(1, font = 2, lwd = 2)
@@ -75,7 +76,7 @@ t_VB   <- t_VB[1:in_VB]
 L      <- L[1:in_VB]
 
 # Plot 40 days: DEB vs VonBertalanffy
-png(filename = 'C:/Users/jflores/Desktop/DEB_VB_40days.png', width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, '/DEB_VB_40days.png'), width = 850, height = 850, res = 120)
 par(lwd = 2)
 plot(t_d, m[1,], type = 'n', xlab = '', ylab = '', xlim = c(0,day), ylim = c(0,5), axes = F)
 axis(1, font = 2, lwd = 2)
