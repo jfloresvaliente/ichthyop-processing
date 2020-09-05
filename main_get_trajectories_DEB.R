@@ -9,8 +9,8 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/MESO60dias/'
-new_path  <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+dirpath   <- 'C:/Users/jflores/Desktop/ichthyop-3.2_src/dist/output/'
+new_path  <- 'C:/Users/jflores/Desktop/ichthyop-3.2_src/dist/cfg/'
 
 #---- Do not change anythig after here ----#
 ncfile          <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
@@ -31,7 +31,7 @@ nc_close(nc)
 polyg <- read.table(paste0(new_path, 'ichthyop_recruitment_polygon.txt'))
 # The paths of all .nc ichthyop files will be extracted month by month and combined into a single .RData file
 dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, sep = ';')
-dat <- subset(dat, dat$Year == 2013)
+#dat <- subset(dat, dat$Year == 2013)
 
 for(i in 1:12){
   month <- subset(dat, dat$Day == i)

@@ -6,14 +6,15 @@
 # Aim    : Compute recruitment ICHTHYOP outputs
 # URL    : 
 #=============================================================================#
-source('source/source_libraries_functions.R')
+source('source/ichthyop_libraries.R')
+source('source/ichthyop_functions.R')
 
-dirpath    <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/out/MESO60dias/'
-new_path   <- 'E:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
-ymax       <- 60
-lats       <- seq(from = 2, to = 20, by = 2)
-hlines     <- seq(0,ymax,10)
-yet        <- seq(1:3)
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB/out/E_ringens/'
+new_path <- 'E:/ICHTHYOP/10kmparent/DEB/cfg/'
+ymax     <- 10
+lats     <- seq(from = 2, to = 20, by = 2)
+hlines   <- seq(0,ymax,10)
+years    <- seq(1:3) # number of years
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
@@ -58,7 +59,7 @@ png(filename = paste0(dirpath, '/results/ichthyop_output.png'), height = 850, wi
 par(mfrow = c(2,3), mar = c(5,4,1,1))
 
 yearlab <- NULL
-for(i in 1:length(yet)) yearlab <- c(yearlab, paste0('Y', yet[i]))
+for(i in 1:length(years)) yearlab <- c(yearlab, paste0('Y', years[i]))
 
 yearplot <- barplot(year[,1], ylim = c(0, ymax), axes = F, names.arg = yearlab)
 axis(2, las = 2)

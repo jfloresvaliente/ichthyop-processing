@@ -6,10 +6,11 @@
 # Aim    : Get trajectories from ICHTHYOP simulations
 # URL    : 
 #=============================================================================#
-source('source/source_libraries_functions.R')
+source('source/ichthyop_libraries.R')
+source('source/ichthyop_functions.R')
 
-dirpath   <- 'D:/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/'
-new_path  <- 'D:/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/cfg/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB/out/mediterraneo/'
+new_path <- 'E:/ICHTHYOP/10kmparent/DEB/cfg/'
 
 #---- Do not change anythig after here ----#
 ncfile          <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
@@ -21,8 +22,8 @@ lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles'
 firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
-# variname        <- c('E','length','MESO','temp')
-variname        <- NULL
+variname        <- c('E','length','MESO','temp')
+# variname        <- NULL
 nc_close(nc)
 
 # The paths of all .nc ichthyop files will be extracted month by month and combined into a single .RData file

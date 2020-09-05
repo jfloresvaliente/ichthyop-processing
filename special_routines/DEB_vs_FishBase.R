@@ -1,4 +1,4 @@
-deb_simu <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEB_4years_vari_Temp.txt'
+deb_simu <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEB_4years_vari_Temp.txt'
 fishbase <- 'C:/Users/jflores/Desktop/fishbase_Eringens.csv'
 
 dat1 <- read.table(deb_simu, header = F, sep = ',')

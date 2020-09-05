@@ -134,7 +134,7 @@ compute_recruitment_ichthyop <- function(
     #Gets the name (not full name) of the '.nc' file
     m <- str_locate(string = nc$filename, pattern = '/out_ichthyop') # Begin position of name
     n <- str_locate(string = nc$filename, pattern = '.nc') # End position of name
-    name_file <- substr(nc$filename , start = m[1]+1 , stop = n[1]-1)
+    name_file <- substr(nc$filename, start = m[1]+1 , stop = n[1]-1)
     
     particles <- ncatt_get(nc , 0 , 'release.zone.number_particles')$value 
     

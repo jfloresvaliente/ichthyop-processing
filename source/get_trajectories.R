@@ -53,8 +53,8 @@ get_trajectories <- function(
   depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   
   # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
-  recruited <- as.vector(ncvar_get(nc,'recruited_zone')[recruitmentzone,,])
-  
+  recruited <- as.vector(t(ncvar_get(nc, 'recruited_zone', c(recruitmentzone, firstdrifter, firsttime), c(recruitmentzone, lastdrifter, lasttime))))
+
   # Gets the value of release zone for all drifters
   releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1
   releasezone <- rep(releasezone, each = lasttime)
