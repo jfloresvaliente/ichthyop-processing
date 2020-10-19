@@ -9,12 +9,12 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB/out/E_ringens/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB/out/encrasicolus40m/'
 new_path <- 'E:/ICHTHYOP/10kmparent/DEB/cfg/'
-ymax     <- 10
+ymax     <- 70
 lats     <- seq(from = 2, to = 20, by = 2)
 hlines   <- seq(0,ymax,10)
-years    <- seq(1:3) # number of years
+years    <- seq(1:1) # number of years
 
 #---- Do not change anythig after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])

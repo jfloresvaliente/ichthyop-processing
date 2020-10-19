@@ -6,7 +6,7 @@ clc
 dirpath  = 'E:/ROMS_SILUMATIONS/10kmparent/';
 ver_lev  = [-1 -5 -10 -15 -20 -25 -30 -35 -40 -45 -50 -60 -70 -80 -90 -100]; % Niveles verticales (Z) para interpolar
 N        = 64; % Numero de niveles RHO
-var_name = 'MESO'; % Nombre de la variable a interpolar
+var_name = 'v'; % Nombre de la variable a interpolar
 
 %% Create a new directory to store interpolated variables
 mkdir([dirpath , 'interpolated']);
@@ -19,6 +19,7 @@ for month = 1:12
     nc = [dirpath,'roms_avg_Y2012M', num2str(month),'.Jaard10kmClim.nc'];
     disp (['Reading ... ' nc]); % Display current nc file name
     ncload(nc, 'time_step', 'h', var_name);
+
     var_name    = eval(var_name);
 
     vtransform  = 1; 
@@ -37,3 +38,6 @@ for month = 1:12
     save([outpath out_name 'M' num2str(month) '.mat'],'newvar');
     var_name = out_name;
 end
+
+out = table(ver_lev', 'VariableNames', {'depth'});
+writetable(out, strcat(outpath, 'depth.txt'))
