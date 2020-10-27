@@ -16,7 +16,7 @@ lats     <- seq(from = 2, to = 20, by = 2)
 hlines   <- seq(0,ymax,10)
 years    <- seq(1:1) # number of years
 
-#---- Do not change anythig after here ----#
+#---- Do not change anything after here ----#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
 cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
