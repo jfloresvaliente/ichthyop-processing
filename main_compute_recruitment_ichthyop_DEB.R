@@ -9,9 +9,9 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath    <- 'C:/Users/jflores/Desktop/ichthyop-3.2_src/dist/output/'
-new_path   <- 'C:/Users/jflores/Desktop/ichthyop-3.2_src/dist/cfg/'
-ymax       <- 50
+dirpath    <- 'E:/ICHTHYOP/10kmparent/DEB/out/encrasicolus/'
+new_path   <- 'E:/ICHTHYOP/10kmparent/DEB/cfg/'
+ymax       <- 60
 lats       <- seq(from = 2, to = 20, by = 2)
 hlines     <- seq(0,ymax,10)
 years      <- seq(1:3) # number of years

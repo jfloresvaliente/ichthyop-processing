@@ -130,14 +130,25 @@ compute_recruitment_ichthyop_DEB <- function(
     talla     <- ncvar_get(nc, 'length')
     depth     <- abs(ncvar_get(nc, 'depth'))
     
-    cond1 <- talla >= length_min
+        
+    # # Criterio de reclutamiento: talla + profunidad + zona
+    # cond1 <- talla >= length_min
+    # cond2 <- depth <= depth_min
+    # cond3 <- matrix(data = in.out(bnd = as.matrix(polyg), x = xy), nrow = lastdrifter, ncol = computeattime)
+    # recruited <- cond1 + cond2 + cond3
+    # recruited[recruited != 3] <- 0
+    # recruited[recruited == 3] <- 1
+
+    # Criterio de reclutamiento: edad + profunidad + zona
+    edad <- matrix(data = 1:computeattime, nrow = lastdrifter, ncol = computeattime, byrow = T)
+    cond1 <- edad  >= 30+1
     cond2 <- depth <= depth_min
     cond3 <- matrix(data = in.out(bnd = as.matrix(polyg), x = xy), nrow = lastdrifter, ncol = computeattime)
-
     recruited <- cond1 + cond2 + cond3
     recruited[recruited != 3] <- 0
-    recruited[recruited == 3] <- 1  
-
+    recruited[recruited == 3] <- 1
+    
+    
     for(timer in 1:computeattime){
       if(sum(recruited[,timer]) != 0){
         drifs <- which(recruited[,timer] == 1)

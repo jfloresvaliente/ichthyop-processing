@@ -2,14 +2,14 @@ source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
 dirpath <- 'E:/ICHTHYOP/10kmparent/'
-dat1 <- read.table(paste0(dirpath,'/DEB/out/E_ringens/results_30days/ichthyop_output.csv'), header = T, sep = ';')
-dat2 <- read.table(paste0(dirpath,'/DEB/out/E_ringens/results_60days/ichthyop_output.csv'), header = T, sep = ';')
+dat1 <- read.table('E:/ICHTHYOP/10kmparent/FISICA/out/results_60days/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('E:/ICHTHYOP/10kmparent/DEB/out/encrasicolus/results_60days/ichthyop_output.csv', header = T, sep = ';')
 
 lats     <- seq(from = 2, to = 20, by = 2)
-ymax     <- 15
+ymax     <- 65
 col_bars <- c('grey30','grey80')
-# legend   <- c( 'Age criteria', 'Size criteria')
-legend   <- c( '30-days', '60-days')
+legend   <- c( 'Age criteria', 'Size criteria')
+# legend   <- c( '30-days', '60-days')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
 ######---------#
 day1 <- recruitment_day(dat1)
