@@ -22,7 +22,7 @@ cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = 
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
 lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
-computeattime   <- length(ncvar_get(nc, 'time'))
+computeattime   <- 32#length(ncvar_get(nc, 'time'))
 nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')

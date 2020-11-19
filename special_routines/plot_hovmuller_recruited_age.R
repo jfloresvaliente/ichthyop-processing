@@ -9,10 +9,10 @@
 library(fields)
 library(ggplot2)
 library(stringr)
-library(reshape2)
+# library(reshape2)
 library(hexbin)
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/FISICA/out/results/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB/out/results/'
 days     <- 60
 latilim  <- c(-20, -2)    # Latitude extension of the area 
 zlim     <- c(30,40)            # Retention rate interval to be plotted

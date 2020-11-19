@@ -3,7 +3,7 @@
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : 
+# Aim    : Plot latitudinal zones for Ichthyop simulations
 # URL    : 
 #=============================================================================#
 library(ncdf4)
@@ -70,17 +70,25 @@ for(i in seq_along(lat_in)){
 new_mask[new_mask == 0] <- NA
 new_mask <- new_mask - 1
 
-png(filename = 'C:/Users/jflores/Desktop/ich_zones_map2.png', width = 850, height = 850, res = 120)
+# Puntos extremos del dominio ROMS 2 km
+x <- c(-87.12209, -80.69843, -73.90596, -80.45255)
+y <- c(-7.570634, -4.086924, -15.852085, -19.427472)
+
+x_name <- c(-80.87991, -81.25923, -80.42472, -79.43849, -78.22467, -77.23843, -75.87288, -72.45900, -70.71412)
+y_name <- c(-3.096295, -5.235192, -7.179643, -9.075484, -11.068547, -12.867165, -15.054674, -17.242182, -18.603298)
+
+png(filename = 'C:/Users/jflores/Desktop/ich_zones_map.png', width = 850, height = 850, res = 120)
 par(mar = c(4,4,.5,.5))
-image.plot(lon, lat, new_mask, xlab = '', ylab = '', xlim = c(-85,-70), ylim = c(-20,0),axes = F)
-polygon(x = c(-82,-75,-75,-82), y = c(-6,-6,-14,-14), lty = 2, border = 'grey25', angle = 45, lwd = 2)
+image.plot(lon, lat, new_mask, xlab = '', ylab = '', xlim = c(-90,-70), ylim = c(-20,0),axes = F, col = tim.colors(n = 9, alpha = .4))
+polygon(x = x, y = y, lty = 2, border = 'grey25', angle = 45, lwd = 2)
 map('worldHires', add=T, fill=T, col='grey')
-contour(lon[,1], lat[1,], h, levels = c(100, 500,2000), add = T, xlim = c(-85,-70), ylim = c(-20,-2), lty = 2)
+contour(lon[,1], lat[1,], h, levels = c(100, 500,2000), add = T, lty = 2)
 axis(side = 1, font = 2, lwd = 2)
 axis(side = 2, font = 2, lwd = 2, las = 2)
 box(lwd = 2)
 mtext(side = 1, font = 2, line = 2.5, text = 'Longitude')
 mtext(side = 2, font = 2, line = 2.5, text = 'Latitude')
+text(x = x_name, y = y_name, labels = 1:9)
 dev.off()
 #=============================================================================#
 # END OF PROGRAM

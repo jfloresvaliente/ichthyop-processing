@@ -1,9 +1,22 @@
+#=============================================================================#
+# Name   : makemapROMS
+# Author : 
+# Date   : 
+# Version:
+# Aim    : Plot a sample map (all domain) of temperature for a ROMS file
+# URL    : 
+#=============================================================================#
 library(ncdf4)
 library(fields)
 library(maps)
 library(mapdata)
 
-dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+dirpath <- 'D:/ROMS_SIMULATIONS/peru02km/'
+
+#=============================================================================#
+#===================== Do not change anything from here ======================#
+#=============================================================================#
+
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc      <- nc_open(nc_file)
 lon     <- ncvar_get(nc, 'lon_rho')
@@ -27,3 +40,6 @@ mtext(side = 2, font = 2, line = 2.5, text = 'Latitude')
 dev.off()
 
 rm(list = ls())
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#
