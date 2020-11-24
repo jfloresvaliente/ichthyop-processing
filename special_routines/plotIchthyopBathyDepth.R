@@ -1,4 +1,4 @@
-dirpath <- 'C:/Users/jflores/Desktop/'
+dirpath <- 'D:/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/results/'
 
 dat <- read.table(file = paste0(dirpath,'ichthyop_output.csv'), header = T, sep = ';')
 

@@ -8,19 +8,24 @@
 #=============================================================================#
 library(fields)
 
-dirpath       <- 'E:/ICHTHYOP/10kmparent/FISICA/out/results/'
+dirpath       <- 'C:/Users/jflores/Desktop/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/results/'
 latilim       <- c(-20, -2)   # Latitude extension of the spawning zone
-lat_div       <- .25          # Latitudinal resolution
-computeattime <- 32           # Step time to calculate larval retention
+lat_div       <- 2          # Latitudinal resolution
+computeattime <- 31           # Step time to calculate larval retention
 lastdrifter   <- 5000         # Number of particles released in each simulation
 year_rep      <- 3            # Number of years (in case of climatological approach)
+
+# Plot Hovmuller
+zlim     <- 70            # Retention rate interval to be plotted
+nlevels  <- 25            # Number of levels in the color palette
+isolines <- seq(0,zlim,5) # Isolines to be plotted
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 
 lat_ini <- seq(latilim[1], latilim[2], lat_div)
-lat_out <- lat_ini + 2
+lat_out <- lat_ini + lat_div
 
 m <- NULL
 for(j in 1:12){
@@ -30,7 +35,6 @@ for(j in 1:12){
   dat <- trajectories; rm(trajectories)
   
   dat_ini <- subset(dat, dat$Timer == 1)
-  
   
   drif_end <- seq(from = 0, to = dim(dat_ini)[1], by = lastdrifter)
   drif_ini <- drif_end + 1
@@ -69,17 +73,12 @@ for(j in 1:12){
   m <- cbind(m, percent)
 }
 
-# Plot Hovmuller
-zlim     <- 60            # Retention rate interval to be plotted
-nlevels  <- 25            # Number of levels in the color palette
-isolines <- seq(0,zlim,5) # Isolines to be plotted
-
 z <- t(m)
 x <- seq(from = 1, to = 12, length.out = 12*year_rep)
 y <- seq(from = latilim[1], to = latilim[2], length.out = dim(z)[2])
 lev <- seq(from = 0, to = zlim, length.out = nlevels)
 
-png(filename = paste0(dirpath, 'hovmullerRecruited.png'), width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, 'hovmullerRecruited_revisado.png'), width = 850, height = 850, res = 120)
 filled.contour(x = x, y = y, z = z, zlim = c(0,zlim), col = tim.colors(length(lev)-1), levels = lev,
                xlab = 'Months', ylab = 'Latitude',
                plot.axes = {
@@ -89,7 +88,7 @@ filled.contour(x = x, y = y, z = z, zlim = c(0,zlim), col = tim.colors(length(le
                })
 dev.off()
 
-png(filename = paste0(dirpath, 'hovmullerRecruitedImagePlot.png'), width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, 'hovmullerRecruitedImagePlot_revisado.png'), width = 850, height = 850, res = 120)
 image.plot(x,y,z, axes = F, xlab = 'Months', ylab = 'Latitude', zlim = c(0, zlim))
 axis(1)
 axis(2)

@@ -9,8 +9,8 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/FISICA/out/'
-new_path <- 'E:/ICHTHYOP/10kmparent/FISICA/cfg/'
+dirpath  <- 'C:/Users/jflores/Desktop/ich_deb/peru10km/LatitudeBathy/out/'
+new_path <- 'C:/Users/jflores/Desktop/ich_deb/peru10km/LatitudeBathy/cfg/'
 
 #---- Do not change anythig after here ----#
 ncfile          <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
