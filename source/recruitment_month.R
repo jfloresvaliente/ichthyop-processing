@@ -1,18 +1,18 @@
 #=============================================================================#
-# Name   : recruitment_day
+# Name   : recruitment_month
 # Author : Jorge Flores
 # Date   : 
 # Version:
 # Aim    : Calculate the mean, the lower and upper limits of the error bars
-#          (confidence interval or standard error) for each release day (month)
+#          (confidence interval or standard error) for each release month
 # URL    :
 #=============================================================================#
-recruitment_day = function(dataset, a = 0.05){
+recruitment_month = function(dataset, a = 0.05){
   
   #============ ============ Arguments ============ ============#
   
   # dataset = Dataframe of ichthyop output information with the following format and name of columns
-  # ['NumberReleased', 'NumberRecruited', 'ReleaseArea', 'Year', 'Day', 'Eps', ...
+  # ['NumberReleased', 'NumberRecruited', 'ReleaseArea', 'Year', 'Month', 'Eps', ...
   # 'Age', 'Coast_Behavior', 'Temp_min', 'Name_file', 'Zone_name', 'Depth' ...
   # 'Bathy', 'Particles', 'Recruitprop']
   # a = confidence interval; if a == NULL, the standard error is calculated
@@ -46,7 +46,7 @@ recruitment_day = function(dataset, a = 0.05){
   }
   
   # Get the name of the factors (for string factors)
-  fact     <- levels(factor(dataset$Day))
+  fact     <- levels(factor(dataset$Month))
   fact_ini <- NULL
   for(i in 1:length(fact)){
     fact_ini <- c(fact_ini, strsplit(x = fact[i], split = '-')[[1]][1])
@@ -56,7 +56,7 @@ recruitment_day = function(dataset, a = 0.05){
   # Get mean and error bars
   errors <- NULL
   for(i in fact){
-    facsub <- subset(dataset, dataset$Day == i)
+    facsub <- subset(dataset, dataset$Month == i)
     facsub <- facsub$Recruitprop
     err    <- error_bar(x = facsub)
     errors <- rbind(errors, err)

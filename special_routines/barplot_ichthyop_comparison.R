@@ -1,19 +1,26 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath <- 'E:/ICHTHYOP/10kmparent/'
-dat1 <- read.table('E:/ICHTHYOP/10kmparent/FISICA/out/results_60days/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('E:/ICHTHYOP/10kmparent/DEB/out/encrasicolus/results_60days/ichthyop_output.csv', header = T, sep = ';')
+dirpath <- 'C:/Users/jflores/Desktop/'
+dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 
-lats     <- seq(from = 2, to = 20, by = 2)
+ylab <- 'Retention (%)'
+# ylab <- 'Recruitment (%)'
+
+lats     <- seq(from = 6, to = 14, by = 2)
 ymax     <- 65
 col_bars <- c('grey30','grey80')
-legend   <- c( 'Age criteria', 'Size criteria')
+# legend   <- c( 'Age criteria', 'Size criteria')
+legend   <- c( '10 km', '2 km')
 # legend   <- c( '30-days', '60-days')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
+
+
+
 ######---------#
-day1 <- recruitment_day(dat1)
-day2 <- recruitment_day(dat2)
+day1 <- recruitment_month(dat1)
+day2 <- recruitment_month(dat2)
 day  <- rbind(day1[,1], day2[,1])
 
 depth1 <- recruitment_depth(dat1)
@@ -48,7 +55,7 @@ arrows(dayplot[2,], day2[,2],
        angle=90,code=3,length=0.025)
 legend('topleft', legend = legend, bty = 'n', fill = col_bars)
 mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Month')
-mtext(side = 2, line = 2, cex = 0.75, font = 2, text = 'Recruitment (%)')
+mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
 
 #=====Plot by release depth=====#
 par(mar=c(4 , 5 , 1.5 , 0.3))
@@ -63,7 +70,7 @@ arrows(depthplot[2,], depth2[,2],
        angle=90,code=3,length=0.025)
 legend('topleft', legend = legend, bty = 'n', fill = col_bars)
 mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Depth')
-mtext(side = 2, line = 2, cex = 0.75, font = 2, text = 'Recruitment (%)')
+mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
 
 #=====Plot by release bathymetry=====#
 par(mar=c(4 , 5 , 1.5 , 0.3))
@@ -78,7 +85,7 @@ arrows(bathyplot[2,], bathy2[,2],
        angle=90,code=3,length=0.025)
 legend('topleft', legend = legend, bty = 'n', fill = col_bars)
 mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Bathymetry')
-mtext(side = 2, line = 2, cex = 0.75, font = 2, text = 'Recruitment (%)')
+mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
 
 #=====Plot by release latitude=====#
 par(mar=c(4 , 5 , 1.5 , 0.3))
@@ -93,7 +100,7 @@ arrows(zoneplot[2,], zone2[,2],
        angle=90,code=3,length=0.025)
 legend('topleft', legend = legend, bty = 'n', fill = col_bars)
 mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Latitude')
-mtext(side = 2, line = 2, cex = 0.75, font = 2, text = 'Recruitment (%)')
+mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
 text((zoneplot[1,]+zoneplot[2,])/2, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
 
 dev.off()

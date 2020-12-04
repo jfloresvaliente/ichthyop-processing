@@ -3,7 +3,7 @@
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
-# Aim    : Compute recruitment ICHTHYOP outputs
+# Aim    : Compute recruitment from ICHTHYOP simulations
 # URL    : 
 #=============================================================================#
 compute_recruitment_ichthyop <- function(
@@ -13,15 +13,16 @@ compute_recruitment_ichthyop <- function(
   ,computeattime   = 31
   ,nbreleasezones  = 1
   ,recruitmentzone = 1
-  ,old_path
-  ,new_path
+  ,old_path        = old_path
+  ,new_path        = new_path
   ,dates           = dates
 ){
+
   #============ ============ Arguments ============ ============#
   
   # dirpath = Directory path which contains series of ICHTHYOP netcdf outputs
   
-  # In case one wishes to consider only a subset of all drifters
+  # In case one wishes to consider only a subset from all drifters
   # firstdrifter = Index of first drifter to be computed
   # lastdrifter  = Index of last drifter to be computed
   
@@ -29,14 +30,14 @@ compute_recruitment_ichthyop <- function(
   # nbreleasezones  = The number of release zones
   # recruitmentzone = The index of the recruitment zone for which recruitment is computed
   
-  # To read 'xml' files from a directory different to original directory where files were stored
+  # To read configuration files (.xml) from a directory different to original directory where files were stored
   # old_path = path written in each ncdf input file as attribute
   # new_path = path where '.xml' files are stored
   
   # dates = .csv file with YEAR/MONTH index to match with t0
   
   # The '.csv' output file will have the form.....
-  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Day','Eps','Age','Coast_Behavior', ...
+  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Month','Eps','Age','Coast_Behavior', ...
   # 'Temp_min','Name_file','Zone_name','Depth','Bathy','TotalParticles','Recruitprop']
   
   # Then you can calculate new features.
@@ -61,7 +62,7 @@ compute_recruitment_ichthyop <- function(
     
     nc <- nc_open(filename)
     
-    # Gets the value of time of release
+    # Get the value of time of release
     t0 <- ncvar_get(nc,'time',1,1)
     
     # Computes year and day of release
@@ -78,25 +79,25 @@ compute_recruitment_ichthyop <- function(
     month   <- dates$M
     yearday <- c(year,month)
     
-    # Reads the XML release zones file
+    # Read .XML release zones file
     # filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.bottom.zone_file')$value) # if you release particles from BOTTOM
     filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.zone.zone_file')$value)
     filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
     filezone <- xmlTreeParse(filezone, useInternalNode = TRUE)
     
-    # Gets bathymetry limits for each release zone
+    # Get bathymetry limits for each release zone
     inshore  <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_inshore'))
     inshore  <- as.numeric(as.character(inshore[,1]))
     offshore <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_offshore'))
     offshore <- as.numeric(as.character(offshore[,1]))
     
-    # Gets spawning depth limits for each release zone
+    # Get spawning depth limits for each release zone
     mindepth <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/thickness/upper_depth'))
     mindepth <- as.numeric(as.character(mindepth[,1]))
     maxdepth <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/thickness/lower_depth'))
     maxdepth <- as.numeric(as.character(maxdepth[,1]))
     
-    # Gets spawning zones names
+    # Get spawning zones names
     zone_names <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/key'))
     zone_names <- as.character(zone_names[,1])
     
@@ -106,43 +107,42 @@ compute_recruitment_ichthyop <- function(
       zone_char <- rbind(zone_char, zon)
     }
     
-    # Gets the value for 'Cold Lethal Temperature' for larvae. 'temp_min' will be '0' if it was not activated in the model
+    # Get the value for 'Cold Lethal Temperature' for larvae. 'temp_min' will be '0' if it was not activated in the model
     temp_min <- ncatt_get(nc,0,'action.lethal_temp.cold_lethal_temperature_larva')$value
     
-    # Gets the value for 'Age minimal recruitment'
+    # Get the value for 'Age minimal recruitment'
     age <- ncatt_get(nc , 0 , 'action.recruitment.zone.limit_age')$value
     
-    # Gets the value for 'coastline_behavior'
+    # Get the value for 'coastline_behavior'
     coast_behavior <- ncatt_get(nc , 0 , 'app.transport.coastline_behavior')$value
     
-    # Gets the value for 'disipation rate'
+    # Get the value for 'disipation rate'
     epsilon <- ncatt_get(nc , 0 , 'action.hdisp.epsilon')$value
     
-    # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
+    # Get the value of recruited for the recruitment zone considered for all drifters at time of computation
     nbdrifter <- lastdrifter - firstdrifter + 1
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,computeattime),c(1,nbdrifter,1))
 
-    # Gets the value of release zone for all drifters
+    # Get the value of release zone for all drifters
     releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,nbdrifter,1)) + 1
     
-    # Calculates the number of recruits from every release zone
+    # Calculate the number of recruits from every release zone
     recruitnb <- hist(recruited*releasezone,seq(0,nbreleasezones+1)-0.5,plot=FALSE)$counts[2:(nbreleasezones+1)]
     
-    # Calculates the number of released from every release zone
+    # Calculate the number of released from every release zone
     releasenb <- hist(releasezone,seq(0,nbreleasezones+1)-0.5,plot=FALSE)$counts[2:(nbreleasezones+1)]
     
-    #Gets the name (not full name) of the '.nc' file
-    m <- str_locate(string = nc$filename, pattern = '/out_ichthyop') # Begin position of name
-    n <- str_locate(string = nc$filename, pattern = '.nc') # End position of name
-    name_file <- substr(nc$filename, start = m[1]+1 , stop = n[1]-1)
+    # Get the name (not full name) of the '.nc' file
+    name_file <- str_remove(string = nc$filename, pattern = dirpath)
     
+    # Get the total number of particles released
     particles <- ncatt_get(nc , 0 , 'release.zone.number_particles')$value 
     
     nc_close(nc)
     # returns a collage of columns, i.e., a table, that looks like the following
-    # releasenb1 recruitnb1 1 year day depth
-    # releasenb2 recruitnb2 2 year day depth
-    # releasenb3 recruitnb3 3 year day depth
+    # releasenb1 recruitnb1 1 year month depth
+    # releasenb2 recruitnb2 2 year month depth
+    # releasenb3 recruitnb3 3 year month depth
     # ...
     return(cbind(
       releasenb
@@ -160,18 +160,18 @@ compute_recruitment_ichthyop <- function(
     ))
   }
   
-  # Gets filenames of all files in the dirpath directory  '.*\\.txt'
+  # Get filenames of all files in the dirpath directory  '.*\\.txt'
   filenames <- list.files(path = dirpath, pattern = '.*\\.nc', full.names = TRUE, recursive = F)
   
-  # Computes recruitment for all files
+  # Compute recruitment for all files
   dataset <- NULL
   for(i in seq_along(filenames)){
     # Shows name of opened file on the console
     print(filenames[i])
     flush.console()
-    # Computes recruitment data for file i
+    # Compute recruitment data for file in loop [i]
     data <- compute_recruitment_file(filenames[i])
-    # Adds recruitment data computed for file i to those computed from all previous files
+    # Add recruitment data computed for file in loop [i] to those computed from all previous files
     dataset <- rbind(dataset,data)
   }
   
@@ -184,7 +184,7 @@ compute_recruitment_ichthyop <- function(
     ,'NumberRecruited'
     ,'ReleaseArea'
     ,'Year'
-    ,'Day'
+    ,'Month'
     ,'Eps'
     ,'Age'
     ,'Coast_Behavior'
@@ -201,7 +201,7 @@ compute_recruitment_ichthyop <- function(
   dataset$NumberRecruited <- as.numeric(dataset$NumberRecruited)
   dataset$ReleaseArea     <- as.numeric(dataset$ReleaseArea)
   dataset$Year            <- as.numeric(dataset$Year)
-  dataset$Day             <- as.numeric(dataset$Day)
+  dataset$Month           <- as.numeric(dataset$Month)
   dataset$Eps             <- as.numeric(dataset$Eps)
   dataset$Age             <- as.numeric(dataset$Age)
   dataset$Temp_min        <- as.numeric(dataset$Temp_min)

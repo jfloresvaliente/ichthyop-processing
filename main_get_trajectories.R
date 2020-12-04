@@ -9,10 +9,12 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath  <- 'C:/Users/jflores/Desktop/ich_deb/peru10km/LatitudeBathy/out/'
-new_path <- 'C:/Users/jflores/Desktop/ich_deb/peru10km/LatitudeBathy/cfg/'
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/'
+new_path <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/cfg/'
 
-#---- Do not change anythig after here ----#
+#=============================================================================#
+#===================== Do not change anything from here ======================#
+#=============================================================================#
 ncfile          <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc              <- nc_open(ncfile)
 cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
@@ -22,6 +24,7 @@ lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles'
 firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
+dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 # variname        <- c('E','length','MESO','temp')
 variname        <- NULL
 nc_close(nc)
@@ -30,12 +33,12 @@ nc_close(nc)
 dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, sep = ';')
 
 for(i in 1:12){
-  month <- subset(dat, dat$Day == i)
+  month <- subset(dat, dat$Month == i)
   month <- levels(factor(month$Name_file))
   
   trajectories <- NULL
   for(j in 1:length(month)){
-    ncfile <- paste0(dirpath, month[j], '.nc')
+    ncfile <- paste0(dirpath, month[j])
     print(ncfile)
     trajs <- get_trajectories(ncfile  = ncfile
                      ,firstdrifter    = firstdrifter
@@ -45,6 +48,7 @@ for(i in 1:12){
                      ,recruitmentzone = recruitmentzone
                      ,old_path        = old_path
                      ,new_path        = new_path
+                     ,dates           = dates   
                      ,variname        = variname)
     trajectories <- rbind(trajectories, trajs)
   }

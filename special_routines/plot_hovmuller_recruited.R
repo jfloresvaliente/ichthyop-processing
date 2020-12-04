@@ -8,16 +8,16 @@
 #=============================================================================#
 library(fields)
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/FISICA/out/'
-latilim  <- c(-20, -2)    # Latitude extension of the area 
-zlim     <- 70            # Retention rate interval to be plotted
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/'
+latilim  <- c(-14, -6)    # Latitude extension of the area 
+zlim     <- 55            # Retention rate interval to be plotted
 nlevels  <- 25            # Number of levels in the color palette
 isolines <- seq(0,zlim,5) # Isolines to be plotted
 
 #------------- Do not change anything after here -------------#
 
 # Read data output from Ichthyop simulation
-dat <- read.table(paste0(dirpath,'results/ichthyop_output.csv'), header = T, sep = ';')
+dat <- read.table(paste0(dirpath,'ichthyop_output.csv'), header = T, sep = ';')
 
 # Plotear el promedio general
 z <- tapply(dat$Recruitprop, list(dat$Day, dat$Zone_name), FUN = mean, na.rm = T)
@@ -27,7 +27,7 @@ y <- seq(from = latilim[1], to = latilim[2], length.out = dim(z)[2])
 
 lev <- seq(from = 0, to = zlim, length.out = nlevels)
 
-png(filename = paste0(dirpath, 'results/hovmullerRecruited.png'), width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, 'hovmuller.png'), width = 850, height = 850, res = 120)
 filled.contour(x = x, y = y, z = z, zlim = c(0,zlim), col = tim.colors(length(lev)-1), levels = lev,
                xlab = 'Months', ylab = 'Latitude',
                plot.axes = {
@@ -37,7 +37,7 @@ filled.contour(x = x, y = y, z = z, zlim = c(0,zlim), col = tim.colors(length(le
                })
 dev.off()
 
-png(filename = paste0(dirpath, 'results/ImagePlotRecruited.png'), width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, 'hovmuller_pixel.png'), width = 850, height = 850, res = 120)
 image.plot(x,y,z, axes = F, xlab = 'Months', ylab = 'Latitude', zlim = c(0, zlim))
 axis(1)
 axis(2)

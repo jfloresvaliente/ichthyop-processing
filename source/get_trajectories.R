@@ -3,7 +3,7 @@
 # Author : C. Lett; modified by Jorge Flores
 # Date   : 
 # Version:
-# Aim    : Compute recruitment ICHTHYOP outputs
+# Aim    : Get trajectories from ICHTHYOP simulations
 # URL    : 
 #=============================================================================#
 get_trajectories <- function(
@@ -13,8 +13,9 @@ get_trajectories <- function(
   ,firsttime       = 1
   ,lasttime        = 31
   ,recruitmentzone = 1
-  ,old_path
-  ,new_path
+  ,old_path        = old_path
+  ,new_path        = new_path
+  ,dates           = dates
   ,variname        = NULL
 ){
   #============ ============ Arguments ============ ============#
@@ -44,7 +45,31 @@ get_trajectories <- function(
   library(stringr)
   library(XML)
   
+  # An inner function that computes year and day from time in seconds
+  compute_yearday <- function(time){
+    nbdays <- 1 + time/86400
+    year   <- 1 + as.integer(nbdays/360)
+    day    <- as.integer(nbdays-360*(year-1))
+    return(c(year,day))
+  }
+  
   nc <- nc_open(ncfile)
+  
+  # Get the value of time of release
+  t0 <- ncvar_get(nc,'time',1,1)
+  
+  # Computes year and day of release
+  yearday <- compute_yearday(t0)
+  
+  # Get real release dates
+  dates <- subset(dates, dates$year == yearday[1] & dates$day == yearday[2])
+  
+  # Scrump time of released particles like t0,t5,t10...
+  t_x <- dates$t_x
+  
+  # Get the year and month of release particles from 'times'
+  year    <- dates$Y
+  month   <- dates$M
   
   drifter <- rep(seq(firstdrifter, lastdrifter), each = lasttime)
   timer   <- rep(seq(firsttime, lasttime), times = lastdrifter)
@@ -59,27 +84,27 @@ get_trajectories <- function(
   releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1
   releasezone <- rep(releasezone, each = lasttime)
   
-  df <- data.frame(drifter, timer, lon, lat, depth, recruited, releasezone)
+  df <- data.frame(drifter, timer, lon, lat, depth, recruited, releasezone, year, month, t_x)
   
-  # Reads the XML release zones file
+  # Read the XML release zones file
   # filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.bottom.zone_file')$value) # if you release particles from BOTTOM
   filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.zone.zone_file')$value)
   filezone <- gsub(pattern = old_path, replacement = new_path, filezone)
   filezone <- xmlTreeParse(filezone, useInternalNode=TRUE)
   
-  # Gets bathymetry limits
+  # Get bathymetry limits
   inshore  <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_inshore'))
   inshore  <- as.numeric(as.character(inshore[,1]))
   offshore <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/bathy_mask/line_offshore'))
   offshore <- as.numeric(as.character(offshore[,1]))
   
-  # Gets spawning depth limits
+  # Get spawning depth limits
   mindepth <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/thickness/upper_depth'))
   mindepth <- as.numeric(as.character(mindepth[,1]))
   maxdepth <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/thickness/lower_depth'))
   maxdepth <- as.numeric(as.character(maxdepth[,1]))
   
-  # Gets spawning zones names
+  # Get spawning zones names
   zone_names <- xmlToDataFrame(nodes = getNodeSet(filezone, '//zone/key'))
   zone_names <- as.character(zone_names[,1])
   
@@ -91,13 +116,13 @@ get_trajectories <- function(
   }
   
   if(is.null(variname)){
-    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy')
+    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Year','Month', 't_x','Zone_name','ReleaseDepth','ReleaseBathy')
   }else{
     for(i in 1:length(variname)){
       vari    <- as.vector(t(ncvar_get(nc, variname[i],c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
       df <- cbind(df, vari)
     }
-    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Zone_name','ReleaseDepth','ReleaseBathy', variname)
+    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Year','Month', 't_x', 'Zone_name','ReleaseDepth','ReleaseBathy', variname)
   }
   nc_close(nc)
   rownames(df) <- NULL

@@ -9,20 +9,22 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/FISICA/out/'
-new_path <- 'E:/ICHTHYOP/10kmparent/FISICA/cfg/'
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/'
+new_path <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/cfg/'
 ymax     <- 60
 lats     <- seq(from = 2, to = 20, by = 2)
 hlines   <- seq(0,ymax,10)
-years    <- seq(1:3) # number of years
+years    <- seq(1:3) # Number of simulation years
 
-#---- Do not change anything after here ----#
+#=============================================================================#
+#===================== Do not change anything from here ======================#
+#=============================================================================#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
 cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
 lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
-computeattime   <- 32#length(ncvar_get(nc, 'time'))
+computeattime   <- length(ncvar_get(nc, 'time'))
 nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
@@ -45,7 +47,7 @@ write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output.csv'), sep
 
 # dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', header = T)
 year  <- recruitment_year(dat)
-day   <- recruitment_day(dat)
+month <- recruitment_month(dat)
 age   <- recruitment_age(dat)
 coast <- recruitment_behavior(dat)
 eps   <- recruitment_eps(dat)
@@ -58,6 +60,7 @@ zone  <- recruitment_zone(dat)
 png(filename = paste0(dirpath, '/results/ichthyop_output.png'), height = 850, width = 1250, res = 120)
 par(mfrow = c(2,3), mar = c(4,3,2,1))
 
+# Plot by year
 yearlab <- NULL
 for(i in 1:length(years)) yearlab <- c(yearlab, paste0('Y', years[i]))
 
@@ -68,35 +71,39 @@ arrows(yearplot, year[,2], yearplot, year[,3], angle = 90, code = 3, length = 0.
 mtext(text = 'Spawning Year', side = 1, line = 2, cex = 0.75)
 mtext(text = 'Larval Retention (%)', side = 3, line = -1.25, cex = 0.75, adj = 0.025)
 
-dayplot <- barplot(day[,1], ylim = c(0, ymax), axes = F)
+# Plot by month
+monthplot <- barplot(month[,1], ylim = c(0, ymax), axes = F)
 axis(2, las = 2)
 abline(h = hlines, lty = 3, lwd = .05)
-arrows(dayplot, day[,2], dayplot, day[,3], angle = 90, code = 3, length = 0.05)
+arrows(monthplot, month[,2], monthplot, month[,3], angle = 90, code = 3, length = 0.05)
 mtext(text = 'Spawning Month', side = 1, line = 2, cex = 0.75)
 
+# Plot by latitudinal zone
 latlab <- NULL
 for(i in 1:(length(lats)-1)) latlab <- c(latlab, paste0(lats[i],'º-', lats[i] + 2, 'º'))
 
 zoneplot <- barplot(zone[,1], ylim = c(0, ymax), names.arg = latlab, axisnames = FALSE, axes = F)
-axis(1, at=dayplot, labels = FALSE, tick = FALSE)
 text(zoneplot, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
 axis(2, las = 2)
 abline(h = hlines, lty = 3, lwd = .05)
 arrows(zoneplot, zone[,2], zoneplot, zone[,3], angle = 90, code = 3, length = 0.05)
 mtext(text = 'Spawning Latitude', side = 1, line = 2, cex = 0.75)
 
+# Plot by release depth
 depthplot <- barplot(depth[,1], ylim = c(0, ymax), axes = F, names.arg = rownames(depth))
 axis(2, las = 2)
 abline(h = hlines, lty = 3, lwd = .05)
 arrows(depthplot, depth[,2], depthplot, depth[,3], angle = 90, code = 3, length = 0.05)
 mtext(text = 'Spawning Depth', side = 1, line = 2, cex = 0.75)
 
+# Plot by release bathymetry
 bathyplot <- barplot(bathy[,1], ylim = c(0, ymax), axes = F)
 axis(2, las = 2)
 abline(h = hlines, lty = 3, lwd = .05)
 arrows(bathyplot, bathy[,2], bathyplot, bathy[,3], angle = 90, code = 3, length = 0.05)
 mtext(text = 'Spawning Bathymetry', side = 1, line = 2, cex = 0.75)
 
+# #Plot by release area
 # areaplot <- barplot(area[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
 # arrows(areaplot, area[,2], areaplot, area[,3], angle = 90, code = 3, length = 0.05)
 
