@@ -1,3 +1,11 @@
+#=============================================================================#
+# Name   : barplot_ichthyop_comparison
+# Author : 
+# Date   : 
+# Version:
+# Aim    : 
+# URL    : 
+#=============================================================================#
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
@@ -17,8 +25,9 @@ legend   <- c( '10 km', '2 km')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
 
 
-
-######---------#
+#=============================================================================#
+#===================== Do not change anything from here ======================#
+#=============================================================================#
 day1 <- recruitment_month(dat1)
 day2 <- recruitment_month(dat2)
 day  <- rbind(day1[,1], day2[,1])
