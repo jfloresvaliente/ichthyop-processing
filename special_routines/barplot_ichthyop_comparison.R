@@ -10,20 +10,21 @@ source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf0.5/out/results/ichthyop_output.csv', header = T, sep = ';')
 
-ylab <- 'Retention (%)'
-# ylab <- 'Recruitment (%)'
+# ylab <- 'Retention (%)'
+ylab <- 'Recruitment (%)'
 
-lats     <- seq(from = 6, to = 14, by = 2)
-ymax     <- 65
+lats     <- seq(from = 2, to = 20, by = 2)
+ymax     <- 70
 col_bars <- c('grey30','grey80')
+
 # legend   <- c( 'Age criteria', 'Size criteria')
-legend   <- c( '10 km', '2 km')
+# legend   <- c( '10 km', '2 km')
 # legend   <- c( '30-days', '60-days')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
-
+legend   <- c( 'f = 1.0', 'f = 0.5')
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

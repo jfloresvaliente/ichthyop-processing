@@ -9,8 +9,8 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/'
-new_path <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/cfg/'
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/'
+new_path <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/cfg/'
 ymax     <- 60
 lats     <- seq(from = 2, to = 20, by = 2)
 hlines   <- seq(0,ymax,10)

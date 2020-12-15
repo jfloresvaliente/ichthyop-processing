@@ -1,12 +1,12 @@
 #=============================================================================#
-# Name   : get_recruited_ini_end_position
+# Name   : get_data_atRecruitmentAge
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
 # Aim    : 
 # URL    : 
 #=============================================================================#
-dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEB/results/'
+dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/results/'
 computeattime <- 61
 N0            <- 1 # Initial value of the particle affected by mortality
 
@@ -19,7 +19,6 @@ for(j in 1:12){
   load(Rdata)
   print(Rdata)
   dat <- trajectories; rm(trajectories)
-  dat$Year <- rep(1:3, each = 15000 * 61)
   dat$length <- dat$length/10 #convert from mm to cm
 
   # Get length-dependent mortality matrix (M_length)
@@ -80,7 +79,7 @@ for(j in 1:12){
   }
 
   # Get and save the FINAL position information of age at recruitment
-  names_col <- c('Lon', 'Lat', 'Year','Zone_name', 'ReleaseDepth', 'ReleaseBathy', 'length', 'AgeRecruited', 'Month', 'N_length', 'N_constant')
+  names_col <- c('Lon', 'Lat', 'Depth','Year','Zone_name', 'ReleaseDepth', 'ReleaseBathy', 'length', 'AgeRecruited', 'Month', 'N_length', 'N_constant')
   names_ind <- NULL
   for(i in seq_along(names_col)) names_ind <- c(names_ind, which(names(dat) == names_col[i]))
   dat <- dat[, names_ind]

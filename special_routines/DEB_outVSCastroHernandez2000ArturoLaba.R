@@ -28,7 +28,7 @@ lab2$temp <- as.factor(lab2$temp)
 lab <- rbind(lab1, lab2)
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEB_out_s/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/PickSpaw1/DEB_out_s/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(0.5, 1, 0.1)

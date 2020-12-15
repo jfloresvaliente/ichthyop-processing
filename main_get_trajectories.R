@@ -9,8 +9,10 @@
 source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
-dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/'
-new_path <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/cfg/'
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/'
+new_path <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/cfg/'
+variname <- c('E','length','MESO','temp')
+# variname <- NULL
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -25,8 +27,7 @@ firsttime       <- 1
 lasttime        <- length(ncvar_get(nc, 'time'))
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
-# variname        <- c('E','length','MESO','temp')
-variname        <- NULL
+
 nc_close(nc)
 
 # The paths of all .nc ichthyop files will be extracted month by month and combined into a single .RData file
