@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : plot_ichthyop_mortality
+# Name   : barplot_ichthyop_mortality
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
@@ -7,9 +7,9 @@
 # URL    : 
 #=============================================================================#
 source('source/ichthyop_functions.R')
-dirpath <- 'C:/Users/jflores/Desktop/ich_deb/DEB/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEB/out/results/'
 lats    <- seq(from = 2, to = 20, by = 2)
-
+computeattime <- 61
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -19,8 +19,8 @@ for(j in 1:12){
   load(Rdata)
   print(Rdata)
   dat <- trajectories; rm(trajectories)
-  dat <- subset(dat, dat$Timer == 61)
-  dat$Month <- j
+  dat <- subset(dat, dat$Timer == computeattime)
+  # dat$Month <- j
   df <- rbind(df, dat)
 }
 df$count <- 1
@@ -30,6 +30,7 @@ for(i in 1:9){
   a <- grep(pattern = zone_name, x = df$Zone_name)
   df$Zone_name[a] <- zone_name
 }
+
 # Calcular el numero de particulas liberadas
 Depth_all <- tapply(df$count, list(df$ReleaseDepth), sum)
 Bathy_all <- tapply(df$count, list(df$ReleaseBathy), sum)
@@ -65,7 +66,7 @@ Month_lengt <- (Month_lengt/Month_all)*100
 
 # Calcular el reclutamiento de ichthyop output
 dat <- read.csv(file = paste0(dirpath, 'ichthyop_output.csv'), header = T, sep = ';')
-day   <- recruitment_day(dat)
+day   <- recruitment_month(dat)
 depth <- recruitment_depth(dat)
 bathy <- recruitment_bathy(dat)
 zone  <- recruitment_zone(dat)
@@ -74,25 +75,29 @@ latlab <- NULL
 for(i in 1:(length(lats)-1)) latlab <- c(latlab, paste0(lats[i],'º-', lats[i] + 2, 'º'))
 
 png(filename = paste0(dirpath, '3_4plots.png'), width = 1250, height = 850, res = 120)
-par(mfrow = c(3,4), mar = c(4,2,1,.5))
+par(mfrow = c(3,4), mar = c(4,3,1,.1))
 
 ylim <- c(0,60)
-barplot(day[,1], ylim = ylim); mtext(text = 'Spawning Month', side = 1, line = 2, cex = 0.75); mtext(side = 3, adj = .1, line = -1, text = 'Ichthyop output', cex = .8)
+barplot(day[,1], ylim = ylim); mtext(text = 'Spawning Month', side = 1, line = 2, cex = 0.75); mtext(side = 3, adj = .1, line = -1, text = 'No mortality', cex = .8)
 barplot(depth[,1], ylim = ylim); mtext(text = 'Spawning Depth', side = 1, line = 2, cex = 0.75)
 barplot(bathy[,1], ylim = ylim); mtext(text = 'Spawning Bathymetry', side = 1, line = 2, cex = 0.75)
-barplot(zone[,1], ylim = ylim, names.arg = latlab); mtext(text = 'Spawning Latitude', side = 1, line = 2, cex = 0.75)
+p1 <- barplot(zone[,1], ylim = ylim, names.arg = F); mtext(text = 'Spawning Latitude', side = 1, line = 2, cex = 0.75)
+text(p1, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
 
 ylim <- c(0,4)
 barplot(Month_const, ylim = ylim); mtext(text = 'Spawning Month', side = 1, line = 2, cex = 0.75); mtext(side = 3, adj = .1, line = -1, text = 'Constant mortality', cex = .8)
 barplot(Depth_const, ylim = ylim); mtext(text = 'Spawning Depth', side = 1, line = 2, cex = 0.75)
 barplot(Bathy_const, ylim = ylim); mtext(text = 'Spawning Bathymetry', side = 1, line = 2, cex = 0.75)
-barplot(Zone_const, ylim = ylim, names.arg = latlab); mtext(text = 'Spawning Latitude', side = 1, line = 2, cex = 0.75)
+barplot(Zone_const, ylim = ylim, names.arg = F); mtext(text = 'Spawning Latitude', side = 1, line = 2, cex = 0.75)
+text(p1, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
 
 ylim = c(0,2)
 barplot(Month_lengt, ylim = ylim); mtext(text = 'Spawning Month', side = 1, line = 2, cex = 0.75); mtext(side = 3, adj = .1, line = -1, text = 'Length-dependent mortality', cex = .8)
 barplot(Depth_lengt, ylim = ylim); mtext(text = 'Spawning Depth', side = 1, line = 2, cex = 0.75)
 barplot(Bathy_lengt, ylim = ylim); mtext(text = 'Spawning Bathymetry', side = 1, line = 2, cex = 0.75)
-barplot(Zone_lengt, ylim = ylim, names.arg = latlab); mtext(text = 'Spawning Latitude', side = 1, line = 2, cex = 0.75)
+barplot(Zone_lengt, ylim = ylim, names.arg = F); mtext(text = 'Spawning Latitude', side = 1, line = 2, cex = 0.75)
+text(p1, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
+
 dev.off()
 #=============================================================================#
 # END OF PROGRAM
