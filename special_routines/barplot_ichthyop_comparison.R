@@ -10,21 +10,21 @@ source('source/ichthyop_libraries.R')
 source('source/ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf0.5/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 
-# ylab <- 'Retention (%)'
-ylab <- 'Recruitment (%)'
+ylab <- 'Retention (%)'
+# ylab <- 'Recruitment (%)'
 
-lats     <- seq(from = 2, to = 20, by = 2)
-ymax     <- 70
+lats     <- seq(from = 6, to = 14, by = 2)
+ymax     <- 55
 col_bars <- c('grey30','grey80')
 
 # legend   <- c( 'Age criteria', 'Size criteria')
-# legend   <- c( '10 km', '2 km')
+legend   <- c( '10 km', '2 km')
 # legend   <- c( '30-days', '60-days')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
-legend   <- c( 'f = 1.0', 'f = 0.5')
+# legend   <- c( 'f = 1.0', 'f = 0.5')
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -63,9 +63,25 @@ arrows(dayplot[1,], day1[,2],
 arrows(dayplot[2,], day2[,2],
        dayplot[2,], day2[,3],
        angle=90,code=3,length=0.025)
-legend('topleft', legend = legend, bty = 'n', fill = col_bars)
+legend('topright', legend = legend, bty = 'n', fill = col_bars)
 mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Month')
 mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
+
+#=====Plot by release latitude=====#
+par(mar=c(4 , 5 , 1.5 , 0.3))
+zoneplot   <- barplot(zone, beside = T, xlab="", ylab= "" ,ylim = c(0,ymax),
+                      axes = T, axisnames = F, col = col_bars, yaxt='n')
+axis(2, las = 2)
+arrows(zoneplot[1,], zone1[,2],
+       zoneplot[1,], zone1[,3],
+       angle=90,code=3,length=0.025)
+arrows(zoneplot[2,], zone2[,2],
+       zoneplot[2,], zone2[,3],
+       angle=90,code=3,length=0.025)
+# legend('topleft', legend = legend, bty = 'n', fill = col_bars)
+mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Latitude')
+mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
+text((zoneplot[1,]+zoneplot[2,])/2, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
 
 #=====Plot by release depth=====#
 par(mar=c(4 , 5 , 1.5 , 0.3))
@@ -78,7 +94,7 @@ arrows(depthplot[1,], depth1[,2],
 arrows(depthplot[2,], depth2[,2],
        depthplot[2,], depth2[,3],
        angle=90,code=3,length=0.025)
-legend('topleft', legend = legend, bty = 'n', fill = col_bars)
+# legend('topleft', legend = legend, bty = 'n', fill = col_bars)
 mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Depth')
 mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
 
@@ -93,24 +109,11 @@ arrows(bathyplot[1,], bathy1[,2],
 arrows(bathyplot[2,], bathy2[,2],
        bathyplot[2,], bathy2[,3],
        angle=90,code=3,length=0.025)
-legend('topleft', legend = legend, bty = 'n', fill = col_bars)
+# legend('topleft', legend = legend, bty = 'n', fill = col_bars)
 mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Bathymetry')
 mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
 
-#=====Plot by release latitude=====#
-par(mar=c(4 , 5 , 1.5 , 0.3))
-zoneplot   <- barplot(zone, beside = T, xlab="", ylab= "" ,ylim = c(0,ymax),
-                       axes = T, axisnames = F, col = col_bars, yaxt='n')
-axis(2, las = 2)
-arrows(zoneplot[1,], zone1[,2],
-       zoneplot[1,], zone1[,3],
-       angle=90,code=3,length=0.025)
-arrows(zoneplot[2,], zone2[,2],
-       zoneplot[2,], zone2[,3],
-       angle=90,code=3,length=0.025)
-legend('topleft', legend = legend, bty = 'n', fill = col_bars)
-mtext(side = 1, line = 2, cex = 0.75, font = 2, text = 'Release Latitude')
-mtext(side = 2, line = 2, cex = 0.75, font = 2, text = ylab)
-text((zoneplot[1,]+zoneplot[2,])/2, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
-
 dev.off()
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#
