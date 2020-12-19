@@ -6,10 +6,10 @@
 # Aim    : Make the initial date for ichthyop simu in XML format
 # URL    : 
 #=============================================================================#
-dirpath <- 'D:/ICHTHYOP/10kmparent/Fisica-DEB/cfg/'
+dirpath <- 'D:/ROMS_SIMULATIONS/peru02kmnew/'
 dat <- read.table(paste0(dirpath,'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 
-dat <- subset(dat, dat$Y %in% c(2012:2014) & dat$t_x %in% c(1,4,7))
+dat <- subset(dat, dat$Y %in% c(2009:2011) & dat$t_x %in% c(1,6,11))
 
 date_sim <- NULL
 for(i in 1:dim(dat)[1]){

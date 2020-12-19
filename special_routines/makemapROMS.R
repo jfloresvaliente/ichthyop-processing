@@ -11,7 +11,7 @@ library(fields)
 library(maps)
 library(mapdata)
 
-dirpath <- 'D:/ROMS_SIMULATIONS/peru10km/'
+dirpath <- 'D:/ROMS_SIMULATIONS/peru02kmnew/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
