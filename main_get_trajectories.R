@@ -6,13 +6,13 @@
 # Aim    : Get trajectories from ICHTHYOP simulations
 # URL    : 
 #=============================================================================#
-source('source/ichthyop_libraries.R')
-source('source/ichthyop_functions.R')
+source('ichthyop_libraries.R')
+source('ichthyop_functions.R')
 
-dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/'
-new_path <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/cfg/'
-variname <- c('E','length','MESO','temp')
-# variname <- NULL
+dirpath  <- 'D:/ICHTHYOP/10kmparent/FISICA/out/'
+new_path <- 'D:/ICHTHYOP/10kmparent/FISICA/cfg/'
+# variname <- c('E','length','MESO','temp')
+variname <- NULL
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

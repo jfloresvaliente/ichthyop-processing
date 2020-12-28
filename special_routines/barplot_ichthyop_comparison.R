@@ -6,25 +6,25 @@
 # Aim    : 
 # URL    : 
 #=============================================================================#
-source('source/ichthyop_libraries.R')
-source('source/ichthyop_functions.R')
+source('ichthyop_libraries.R')
+source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf0.5/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru02km_new/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 
-# ylab <- 'Retention (%)'
-ylab <- 'Recruitment (%)'
+ylab <- 'Retention (%)'
+# ylab <- 'Recruitment (%)'
 
-lats     <- seq(from = 2, to = 20, by = 2)
+lats     <- seq(from = 6, to = 14, by = 2)
 ymax     <- 60
 col_bars <- c('grey30','grey80')
 
 # legend   <- c( 'Age criteria', 'Size criteria')
-# legend   <- c( '10 km', '2 km')
+legend   <- c( '10 km', '2 km')
 # legend   <- c( '30-days', '60-days')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
-legend   <- c( 'f = 1.0', 'f = 0.5')
+# legend   <- c( 'f = 1.0', 'f = 0.5')
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -49,7 +49,7 @@ zone   <- rbind(zone1[,1], zone2[,1]); colnames(zone) <- latlab
 
 ## PLOT ##
 
-png(paste0(dirpath, 'ich-deb_comparison.png'), height = 850, width = 1250, res = 120)
+png(paste0(dirpath, 'barplot_ichthyop_comparison.png'), height = 850, width = 1250, res = 120)
 
 #=====Plot by Month=====#
 par(mfrow = c(2,2))
