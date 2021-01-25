@@ -6,8 +6,8 @@
 # Aim    : Plot 3 filas de paneles con ichthyop output y mortalidades
 # URL    : 
 #=============================================================================#
-source('source/ichthyop_functions.R')
-dirpath <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEB/out/results/'
+source('ichthyop_functions.R')
+dirpath <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEBf1/out/results/'
 lats    <- seq(from = 2, to = 20, by = 2)
 computeattime <- 61
 #=============================================================================#

@@ -6,7 +6,7 @@
 # Aim    : 
 # URL    : 
 #=============================================================================#
-dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/results/'
+dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
 computeattime <- 61
 N0            <- 1 # Initial value of the particle affected by mortality
 

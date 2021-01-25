@@ -11,7 +11,7 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/DEBf1/out/results/'
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
 xlim     <- c(-85, -70) # Londitude
 ylim     <- c(-20, 0)   # Latitude
 bin_lon  <- .1
@@ -207,7 +207,7 @@ p8 <- ggplot(data = df)+
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.3, linetype='solid'))
 
 png(filename = ggname, width = 1250, height = 750, res = 120)
-grid.arrange(p1, p3, p5, p7, p2, p4, p6, p8, nrow = 2)
+grid.arrange(p3, p1, p5, p7, p4, p2, p6, p8, nrow = 2)
 dev.off()
 #=============================================================================#
 # END OF PROGRAM

@@ -9,9 +9,9 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
-ymax     <- 60
-lats     <- seq(from = 6, to = 14, by = 2)
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/FISICA/out/results/'
+ymax     <- 70
+lats     <- seq(from = 2, to = 20, by = 2)
 hlines   <- seq(0,ymax,10)
 years    <- seq(1:3) # Number of simulation years
 

@@ -7,9 +7,9 @@
 # URL    : 
 #=============================================================================#
 library(fields)
-dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/hovmuller/'
-Rdata    <- 'hovmuller0.1' # Name of Rdata file (without extention)
-zlim     <- 72            # Retention rate interval to be plotted
+dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEBf1/out/results/hovmuller/'
+Rdata    <- 'hovmuller2' # Name of Rdata file (without extention)
+zlim     <- 95            # Retention rate interval to be plotted
 nlevels  <- 25            # Number of levels in the color palette
 isolines <- seq(0,zlim,5) # Isolines to plot
 

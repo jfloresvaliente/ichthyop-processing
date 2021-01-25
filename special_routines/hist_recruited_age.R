@@ -1,4 +1,4 @@
-dirpath <- 'E:/ICHTHYOP/10kmparent/DEB/out/E_ringens/results/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
 days <- 60 # Paso de tiempo
 
 # No cambiar nada desde aqui
@@ -38,7 +38,7 @@ for(i in 1:12){
 xlim <- c(10, ceiling(max(reclutas_breaks)/5)  * 5)
 ylim <- c(0 , ceiling(max(reclutas_counts)/50) * 50)
 
-png(paste0(dirpath, 'hist_recruited_age.png'), width = 1450, height = 850, res = 120)
+png(paste0(dirpath, 'recruited_age_hist.png'), width = 1450, height = 850, res = 120)
 par(mfrow = c(3,4), mar = c(3.5,4,.5,.5))
 for(i in 1:12){
   hist_plot <- reclutas_freq[[i]]
@@ -57,7 +57,7 @@ ylim <- c(0, round(max(reclutas_density), 2))
 cols <- rep(c('red', 'orange', 'blue', 'green'), each = 3)
 lins <- rep(1:3, times = 4)
 
-png(paste0(dirpath, 'density_recruited_age.png'), width = 950, height = 850, res = 120)
+png(paste0(dirpath, 'recruited_age_density.png'), width = 950, height = 850, res = 120)
 par(mar = c(5,4,1,1))
 plot(1, type = 'n', ylim = ylim, xlim = xlim, xlab = '', ylab = '', main = '')
 mtext(side = 1, line = 2.5, text = 'Recruited Age')

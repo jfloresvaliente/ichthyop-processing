@@ -6,12 +6,12 @@
 # Aim    : Get Hovmuller matrix of recruitment at higher spatial (spawning latitude) and temporal (spawning frequency) resolution.
 # URL    : 
 #=============================================================================#
-dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/'
-latilim       <- c(-14, -6)   # Latitude extension of the spawning zone
-lat_div       <- 0.1          # Latitudinal resolution
-computeattime <- 32           # Step time to calculate larval retention
+dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/FISICA/out/results/'
+latilim       <- c(-20, -2)   # Latitude extension of the spawning zone
+lat_div       <- .1          # Latitudinal resolution
+computeattime <- 61           # Step time to calculate larval retention
 year          <- 3            # Number of years
-t_x           <- c(1,6,11)
+t_x           <- c(1,4,7)
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
