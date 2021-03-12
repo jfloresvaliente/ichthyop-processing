@@ -10,25 +10,27 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 
 # ylab <- 'Retention (%)'
 # ylab <- 'Recruitment (%)'
 ylab <- 'Pre-recruitment (%)'
+meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Agu','Sep','Oct','Nov','Dec')
 
-lats     <- seq(from = 2, to = 20, by = 2)
+lats     <- seq(from = 6, to = 14, by = 2)
 ymax     <- 70
-col_bars <- c('grey30','grey80')
+col_bars <- c('grey10','grey50')
 
 # legend   <- c( 'Age criteria', 'Size criteria')
-# legend   <- c( '10 km', '2 km')
+legend   <- c( '10 km', '02 km')
 # legend   <- c( '30-days', '60-days')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
 # legend   <- c( 'f = 1.0', 'f = 0.5')
 # legend   <- c( 'k = 0', 'k = 1.6')
 # legend   <- c( '2 km', '2 km new')
-legend   <- c( 'ROMS', 'ROMS-PISCES')
+# legend   <- c( 'ROMS', 'ROMS-PISCES')
+# legend   <- c('Size criteria k_x = 0', 'Size criteria k_x = 1.6')
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -58,7 +60,7 @@ png(paste0(dirpath, 'barplot_ichthyop_comparison.png'), height = 850, width = 12
 #=====Plot by Month=====#
 par(mfrow = c(2,2))
 par(mar=c(4 , 5 , 1.5 , 0.3))
-dayplot   <- barplot(day, beside = T, xlab="", ylab= "" ,ylim = c(0,ymax),
+dayplot   <- barplot(day, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
                      axes = T, axisnames = T, col = col_bars, yaxt='n')
 axis(2, las = 2)
 arrows(dayplot[1,], day1[,2],
@@ -73,7 +75,7 @@ mtext(side = 2, line = 2.5, cex = 0.75, font = 2, text = ylab)
 
 #=====Plot by release latitude=====#
 par(mar=c(4 , 5 , 1.5 , 0.3))
-zoneplot   <- barplot(zone, beside = T, xlab="", ylab= "" ,ylim = c(0,ymax),
+zoneplot   <- barplot(zone, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
                       axes = T, axisnames = F, col = col_bars, yaxt='n')
 axis(2, las = 2)
 arrows(zoneplot[1,], zone1[,2],
@@ -89,7 +91,7 @@ text((zoneplot[1,]+zoneplot[2,])/2, par('usr')[3], labels = latlab, srt = 45, ad
 
 #=====Plot by release depth=====#
 par(mar=c(4 , 5 , 1.5 , 0.3))
-depthplot   <- barplot(depth, beside = T, xlab="", ylab= "" ,ylim = c(0,ymax),
+depthplot   <- barplot(depth, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
                      axes = T, axisnames = T, col = col_bars, yaxt='n')
 axis(2, las = 2)
 arrows(depthplot[1,], depth1[,2],
@@ -99,12 +101,12 @@ arrows(depthplot[2,], depth2[,2],
        depthplot[2,], depth2[,3],
        angle=90,code=3,length=0.025)
 # legend('topleft', legend = legend, bty = 'n', fill = col_bars)
-mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Depth')
+mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Depth [m]')
 mtext(side = 2, line = 2.5, cex = 0.75, font = 2, text = ylab)
 
 #=====Plot by release bathymetry=====#
 par(mar=c(4 , 5 , 1.5 , 0.3))
-bathyplot   <- barplot(bathy, beside = T, xlab="", ylab= "" ,ylim = c(0,ymax),
+bathyplot   <- barplot(bathy, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
                        axes = T, axisnames = T, col = col_bars, yaxt='n')
 axis(2, las = 2)
 arrows(bathyplot[1,], bathy1[,2],
@@ -114,7 +116,7 @@ arrows(bathyplot[2,], bathy2[,2],
        bathyplot[2,], bathy2[,3],
        angle=90,code=3,length=0.025)
 # legend('topleft', legend = legend, bty = 'n', fill = col_bars)
-mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Bathymetry')
+mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Bathymetry [m]')
 mtext(side = 2, line = 2.5, cex = 0.75, font = 2, text = ylab)
 
 dev.off()

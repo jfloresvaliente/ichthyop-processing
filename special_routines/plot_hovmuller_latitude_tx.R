@@ -7,9 +7,9 @@
 # URL    : 
 #=============================================================================#
 library(fields)
-dirpath       <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEBf1/out/results/hovmuller/'
+dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/hovmuller/'
 Rdata    <- 'hovmuller2' # Name of Rdata file (without extention)
-zlim     <- 95            # Retention rate interval to be plotted
+zlim     <- 60            # Retention rate interval to be plotted
 nlevels  <- 25            # Number of levels in the color palette
 isolines <- seq(0,zlim,5) # Isolines to plot
 
@@ -36,12 +36,12 @@ filled.contour(x = x, y = y, z = z, zlim = c(0,zlim), col = tim.colors(length(le
                })
 dev.off()
 
-png(filename = paste0(dirpath, Rdata, 'pixel.png'), width = 850, height = 850, res = 120)
-image.plot(x,y,z, axes = F, xlab = 'Months', ylab = 'Latitude', zlim = c(0, zlim))
-axis(1)
-axis(2)
-box()
-dev.off()
+# png(filename = paste0(dirpath, Rdata, 'pixel.png'), width = 850, height = 850, res = 120)
+# image.plot(x,y,z, axes = F, xlab = 'Months', ylab = 'Latitude', zlim = c(0, zlim))
+# axis(1)x
+# axis(2)
+# box()
+# dev.off()
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

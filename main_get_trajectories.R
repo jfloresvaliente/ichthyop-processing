@@ -9,10 +9,10 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'D:/ICHTHYOP/10kmparent/FISICA/out/'
-new_path <- 'D:/ICHTHYOP/10kmparent/FISICA/cfg/'
-# variname <- c('E','length','MESO','temp')
-variname <- NULL
+dirpath  <- 'D:/ICHTHYOP/10kmparent/DEBf1/k_x0_90days/out/'
+new_path <- 'D:/ICHTHYOP/10kmparent/DEBf1/cfg/'
+variname <- c('E','length','MESO','temp')
+# variname <- NULL
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

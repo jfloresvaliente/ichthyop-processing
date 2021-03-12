@@ -71,7 +71,7 @@ compute_recruitment_ichthyop <- function(
     # Get real release dates
     dates <- subset(dates, dates$year == yearday[1] & dates$day == yearday[2])
     
-    # Scrump time of released particles like t0,t5,t10...
+    # Scrum time of released particles like t0,t5,t10...
     t_x <- dates$t_x
     
     # Get the year and month of release particles from 'times'
@@ -154,7 +154,8 @@ compute_recruitment_ichthyop <- function(
       ,rep(age,nbreleasezones)
       ,rep(coast_behavior,nbreleasezones)
       ,rep(temp_min,nbreleasezones)
-      ,rep(name_file, nbreleasezones)
+      ,rep(name_file,nbreleasezones)
+      ,rep(t_x,nbreleasezones)
       ,zone_char
       ,particles
     ))
@@ -190,6 +191,7 @@ compute_recruitment_ichthyop <- function(
     ,'Coast_Behavior'
     ,'Temp_min'
     ,'Name_file'
+    ,'t_x'
     ,'Zone_name'
     ,'Depth'
     ,'Bathy'

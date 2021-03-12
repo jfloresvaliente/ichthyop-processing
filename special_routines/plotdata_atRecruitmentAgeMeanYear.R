@@ -11,38 +11,24 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-dirpath  <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6_90days/out/results/'
 xlim     <- c(-85, -70) # Londitude
 ylim     <- c(-20, 0)   # Latitude
 bin_lon  <- .1
 bin_lat  <- .1
 ggname   <- paste0(dirpath, 'grid_arrange', bin_lat, '.png')
 
-# #========== Simu f = 0.5 ==========#
-# # zlim 0.1º
-# zlim1 <- c(0,100)
-# zlim2 <- c(30,60)
-# zlim3 <- c(0,1)
-# zlim4 <- c(0,0.5)
-# 
-# # zlim 0.25º
-# zlim1 <- c(0,500)
-# zlim2 <- c(15,50)
-# zlim3 <- c(0,20)
-# zlim4 <- c(0,10)
-
-#========== Simu f = 1 & variable ==========#
-# zlim 0.1º
+#========== Simu k_x = 1.6 ==========#
 zlim1 <- c(0,150)
-zlim2 <- c(15,45)
-zlim3 <- c(0,7.5)
-zlim4 <- c(0,4)
+zlim2 <- c(15,70)
+zlim3 <- c(0,2)
+zlim4 <- c(0,1)
 
-# # zlim 0.25º
-# zlim1 <- c(0,500)
-# zlim2 <- c(15,50)
-# zlim3 <- c(0,20)
-# zlim4 <- c(0,10)
+# #========== Simu k_x = 0 ==========#
+# zlim1 <- c(0,150)
+# zlim2 <- c(15,45)
+# zlim3 <- c(0,8)
+# zlim4 <- c(0,5)
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -67,7 +53,7 @@ for(i in 1:(length(lat_ini)-1)){
 df <- df2
 rownames(df) <- NULL
 #=============================================================================#
-# stat_bin_hex: count number of particles by pixel (0.25º)
+# stat_bin_hex: count number of particles by pixel
 #=============================================================================#
 p1 <- ggplot(data = df)+
   stat_bin_hex(data = df, mapping = aes(x = Lon_ini, y = Lat_ini), binwidth = c(bin_lon, bin_lat))+
@@ -76,6 +62,7 @@ p1 <- ggplot(data = df)+
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   annotate(geom='text', x = -74.5, y = -0.3, color = 'black', size = 3, hjust = 0.5, label = 'No mortality')+
+  annotate(geom='text', x = -84.5, y = -0.3, color = 'black', size = 4, hjust = 0.5, label = 'c)')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -92,6 +79,7 @@ p2 <- ggplot(data = df)+
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   annotate(geom='text', x = -74.5, y = -0.3, color = 'black', size = 3, hjust = 0.5, label = 'No mortality')+
+  annotate(geom='text', x = -84.5, y = -0.3, color = 'black', size = 4, hjust = 0.5, label = 'd)')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -102,7 +90,7 @@ p2 <- ggplot(data = df)+
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.3, linetype='solid'))
 
 #=============================================================================#
-# stat_summary_hex: mean age recruited by pixel (0.25º)
+# stat_summary_hex: mean age recruited by pixel
 #=============================================================================#
 p3 <- ggplot(data = df)+
   stat_summary_hex(data = df, mapping = aes(x = Lon_ini, y = Lat_ini, z = AgeRecruited), fun = mean, binwidth = c(bin_lon, bin_lat))+
@@ -111,6 +99,7 @@ p3 <- ggplot(data = df)+
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   annotate(geom='text', x = -74.5, y = -0.3, color = 'black', size = 3, hjust = 0.5, label = 'Age at recruitment\n(days)')+
+  annotate(geom='text', x = -84.5, y = -0.3, color = 'black', size = 4, hjust = 0.5, label = 'a)')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -127,6 +116,7 @@ p4 <- ggplot(data = df)+
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   annotate(geom='text', x = -74.5, y = -0.3, color = 'black', size = 3, hjust = 0.5, label = 'Age at recruitment\n(days)')+
+  annotate(geom='text', x = -84.5, y = -0.3, color = 'black', size = 4, hjust = 0.5, label = 'b)')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -137,7 +127,7 @@ p4 <- ggplot(data = df)+
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.3, linetype='solid'))
 
 #=============================================================================#
-# stat_summary_hex: mean N_constant by pixel (0.25º)
+# stat_summary_hex: mean N_constant by pixel
 #=============================================================================#
 p5 <- ggplot(data = df)+
   stat_summary_hex(data = df, mapping = aes(x = Lon_ini, y = Lat_ini, z = N_constant), fun = sum, binwidth = c(bin_lon, bin_lat))+
@@ -146,6 +136,7 @@ p5 <- ggplot(data = df)+
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   annotate(geom='text', x = -74.5, y = -0.3, color = 'black', size = 3, hjust = 0.5, label = 'Constant\nMortality')+
+  annotate(geom='text', x = -84.5, y = -0.3, color = 'black', size = 4, hjust = 0.5, label = 'e)')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -162,6 +153,7 @@ p6 <- ggplot(data = df)+
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   annotate(geom='text', x = -74.5, y = -0.3, color = 'black', size = 3, hjust = 0.5, label = 'Constant\nMortality')+
+  annotate(geom='text', x = -84.5, y = -0.3, color = 'black', size = 4, hjust = 0.5, label = 'f)')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -172,7 +164,7 @@ p6 <- ggplot(data = df)+
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.3, linetype='solid'))
 
 #=============================================================================#
-# stat_summary_hex: mean N_length by pixel (0.25º)
+# stat_summary_hex: mean N_length by pixel
 #=============================================================================#
 p7 <- ggplot(data = df)+
   stat_summary_hex(data = df, mapping = aes(x = Lon_ini, y = Lat_ini, z = N_length), fun = sum, binwidth = c(bin_lon, bin_lat))+
@@ -206,8 +198,9 @@ p8 <- ggplot(data = df)+
         legend.position   = c(0.8, 0.65),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.3, linetype='solid'))
 
-png(filename = ggname, width = 1250, height = 750, res = 120)
-grid.arrange(p3, p1, p5, p7, p4, p2, p6, p8, nrow = 2)
+png(filename = ggname, width = 950, height = 750, res = 120)
+# grid.arrange(p3, p1, p5, p7, p4, p2, p6, p8, nrow = 2)
+grid.arrange(p3, p1, p5, p4, p2, p6, nrow = 2)
 dev.off()
 #=============================================================================#
 # END OF PROGRAM

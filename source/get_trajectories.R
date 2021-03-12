@@ -64,7 +64,7 @@ get_trajectories <- function(
   # Get real release dates
   dates <- subset(dates, dates$year == yearday[1] & dates$day == yearday[2])
   
-  # Scrump time of released particles like t0,t5,t10...
+  # Scrum time of released particles like t0,t5,t10...
   t_x <- dates$t_x
   
   # Get the year and month of release particles from 'times'

@@ -79,7 +79,7 @@ for(j in 1:12){
   }
 
   # Get and save the FINAL position information of age at recruitment
-  names_col <- c('Lon', 'Lat', 'Depth','Year','Zone_name', 'ReleaseDepth', 'ReleaseBathy', 'length', 'AgeRecruited', 'Month', 'N_length', 'N_constant')
+  names_col <- c('Lon','Lat','Depth','Year','Zone_name','ReleaseDepth','ReleaseBathy','t_x','length','AgeRecruited','Month','N_length','N_constant')
   names_ind <- NULL
   for(i in seq_along(names_col)) names_ind <- c(names_ind, which(names(dat) == names_col[i]))
   dat <- dat[, names_ind]
@@ -88,6 +88,7 @@ for(j in 1:12){
   colnames(dat) <- c('Lon_ini', 'Lat_ini', 'Lon_end', 'Lat_end', names_col[3:length(names_col)])
   df <- rbind(df, dat)
 }
+rownames(df) <- 1:dim(df)[1]
 
 RData  <- paste0(dirpath, 'data_atRecruitmentAge.Rdata')
 print(paste0('saving .....', RData))
