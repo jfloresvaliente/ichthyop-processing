@@ -1,6 +1,6 @@
 #=============================================================================#
 # Name   : ichthyop_libraries
-# Author : Jorge Flores
+# Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
 # Aim    : load libraries
@@ -23,7 +23,6 @@ library(raster)
 library(akima)
 library(mgcv)
 library(Hmisc)
-
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

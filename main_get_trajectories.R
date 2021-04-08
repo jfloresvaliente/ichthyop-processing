@@ -1,16 +1,16 @@
 #=============================================================================#
 # Name   : main_get_trajectories
-# Author : C. Lett; modified by Jorge Flores
+# Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : Get trajectories from ICHTHYOP simulations
+# Aim    : Get trajectories from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'D:/ICHTHYOP/10kmparent/DEBf1/k_x0_90days/out/'
-new_path <- 'D:/ICHTHYOP/10kmparent/DEBf1/cfg/'
+dirpath  <- 'C:/Users/jflores/Desktop/DEBf0/out/'
+new_path <- 'C:/Users/jflores/Desktop/DEBf0/cfg/'
 variname <- c('E','length','MESO','temp')
 # variname <- NULL
 

@@ -1,5 +1,5 @@
-dirpath <- 'C:/Users/jflores/Documents/JORGE/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
-days <- 60 # Paso de tiempo
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
+days <- 90 # Paso de tiempo
 
 # No cambiar nada desde aqui
 f_mean_list <- list()
@@ -27,19 +27,22 @@ for(i in 1:12){
 }
 
 cols <- rep(c('red', 'orange', 'blue', 'green'), each = 3)
-lins <- rep(1:3, times = 4)
+line_type <- rep(1:3, times = 4)
+meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Agu','Sep','Oct','Nov','Dec')
 
+ylim = c(.2,.6)
 png(paste0(dirpath, 'f_mean_age.png'), width = 950, height = 850, res = 120)
 par(mar = c(5,4,1,1))
-plot(1, xlim = c(0,days-1), ylim = c(0.43,.63), type = 'n', xlab = '', ylab = '')
-abline(h = 0.5, lwd = 2, col = 'grey')
+# plot(1, xlim = c(0,days), ylim = c(0.43,.63), type = 'n', xlab = '', ylab = '')
+plot(1, xlim = c(0,days), ylim = ylim, type = 'n', xlab = '', ylab = '', axes = F)
+axis(1)
+axis(2, las = 2)
+box()
+abline(h = 0.5, lwd = 2, col = 'grey', lty = 2)
 mtext(side = 1, line = 2.5, text = 'Age [days]')
 mtext(side = 2, line = 2.5, text = 'Functional response (f)')
 for(i in 1:12){
-  lines(x = 0:(days), f_mean_list[[i]], col = cols[i], lwd = 2, lty = lins[i])
+  lines(x = 0:(days), f_mean_list[[i]], col = cols[i], lwd = 2, lty = line_type[i])
 }
-legend('topright', legend = 1:12, lty = lins, bty = 'n', col = cols, ncol = 2)
+legend('topright', legend = meses, lty = line_type, bty = 'n', col = cols, ncol = 2)
 dev.off()
-
-
-

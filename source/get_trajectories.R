@@ -1,13 +1,13 @@
 #=============================================================================#
 # Name   : get_trajectories
-# Author : C. Lett; modified by Jorge Flores
+# Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : Get trajectories from ICHTHYOP simulations
+# Aim    : Get trajectories from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
 get_trajectories <- function(
-  ncfile           = NULL
+   ncfile          = NULL
   ,firstdrifter    = 1
   ,lastdrifter     = 5000
   ,firsttime       = 1
@@ -20,7 +20,7 @@ get_trajectories <- function(
 ){
   #============ ============ Arguments ============ ============#
   
-  # ncfile = ncdf file which contains ICHTHYOP outputs
+  # ncfile = ICHTHYOP output file (.nc)
   
   # In case one wishes to consider only a subset of all drifters
   # firstdrifter = Index of first drifter to be computed
@@ -30,14 +30,20 @@ get_trajectories <- function(
   
   # recruitmentzone = The index of the recruitment zone for which recruitment is computed
   
-  # To read 'xml' files from a directory different to original directory where files were stored
+  # To read configuration files (.xml) from a different directory to original directory where files were stored
   # old_path = path written in each ncdf input file as attribute
   # new_path = path where '.xml' files are stored
   
+  # dates = (.csv) file with YEAR/MONTH index to match with t0 (beginning of simulation)
+  
   # variname = name of environmental variable tracking
   
+  # The '.Rdata' output file will have the form.....
+  # ['Drifter','Timer','Lon','Lat','Depth','IfRecruited','Mortality','ReleaseArea',
+  # 'Year','Month','t_x','Zone_name','ReleaseDepth','ReleaseBathy]'
+  
   # Then you can calculate new features.
-  # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
+  # Do not forget to add them in the 'return'
   
   #============ ============ Arguments ============ ============#
   
@@ -68,14 +74,15 @@ get_trajectories <- function(
   t_x <- dates$t_x
   
   # Get the year and month of release particles from 'times'
-  year    <- dates$Y
-  month   <- dates$M
+  year      <- dates$Y
+  month     <- dates$M
   
-  drifter <- rep(seq(firstdrifter, lastdrifter), each = lasttime)
-  timer   <- rep(seq(firsttime, lasttime), times = lastdrifter)
-  lon     <- as.vector(t(ncvar_get(nc, 'lon',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
-  lat     <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
-  depth   <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+  drifter   <- rep(seq(firstdrifter, lastdrifter), each = lasttime)
+  timer     <- rep(seq(firsttime, lasttime), times = lastdrifter)
+  lon       <- as.vector(t(ncvar_get(nc, 'lon',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+  lat       <- as.vector(t(ncvar_get(nc, 'lat',   c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+  depth     <- as.vector(t(ncvar_get(nc, 'depth', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
+  mortality <- as.vector(t(ncvar_get(nc, 'mortality', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   
   # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
   recruited <- as.vector(t(ncvar_get(nc, 'recruited_zone', c(recruitmentzone, firstdrifter, firsttime), c(recruitmentzone, lastdrifter, lasttime))))
@@ -84,7 +91,7 @@ get_trajectories <- function(
   releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1
   releasezone <- rep(releasezone, each = lasttime)
   
-  df <- data.frame(drifter, timer, lon, lat, depth, recruited, releasezone, year, month, t_x)
+  df <- data.frame(drifter, timer, lon, lat, depth, recruited, mortality, releasezone, year, month, t_x)
   
   # Read the XML release zones file
   # filezone <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'release.bottom.zone_file')$value) # if you release particles from BOTTOM
@@ -116,13 +123,13 @@ get_trajectories <- function(
   }
   
   if(is.null(variname)){
-    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Year','Month', 't_x','Zone_name','ReleaseDepth','ReleaseBathy')
+    colnames(df) <- c('Drifter','Timer','Lon','Lat','Depth','IfRecruited','Mortality','ReleaseArea','Year','Month','t_x','Zone_name','ReleaseDepth','ReleaseBathy')
   }else{
     for(i in 1:length(variname)){
       vari    <- as.vector(t(ncvar_get(nc, variname[i],c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
       df <- cbind(df, vari)
     }
-    colnames(df) <- c('Drifter', 'Timer','Lon','Lat', 'Depth', 'IfRecruited', 'ReleaseArea', 'Year','Month', 't_x', 'Zone_name','ReleaseDepth','ReleaseBathy', variname)
+    colnames(df) <- c('Drifter','Timer','Lon','Lat','Depth','IfRecruited','Mortality','ReleaseArea','Year','Month','t_x','Zone_name','ReleaseDepth','ReleaseBathy',variname)
   }
   nc_close(nc)
   rownames(df) <- NULL

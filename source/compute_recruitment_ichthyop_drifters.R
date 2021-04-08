@@ -1,9 +1,9 @@
 #=============================================================================#
 # Name   : compute_recruitment_ichthyop_drifters
-# Author : C. Lett; modified by Jorge Flores
+# Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : Compute recruitment ICHTHYOP outputs
+# Aim    : Compute recruitment from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
 compute_recruitment_ichthyop_drifters <- function(
@@ -18,11 +18,12 @@ compute_recruitment_ichthyop_drifters <- function(
 ){
   #============ ============ Arguments ============ ============#
   
-  # dirpath = Directory path which contains series of ICHTHYOP netcdf outputs
+  # dirpath = Directory path which contains series of ICHTHYOP outputs (.nc)
   
-  # In case one wishes to consider only a subset of all drifters
+  # In case one wishes to consider only a subset from all drifters
   # firstdrifter = Index of first drifter to be computed
   # lastdrifter  = Index of last drifter to be computed
+  
   # firsttime    = Index of first time to be computed
   # lasttime     = Index of last  time to be computed
 
@@ -82,11 +83,9 @@ compute_recruitment_ichthyop_drifters <- function(
     recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,lasttime),c(1,lastdrifter,1))
     recruited <- rep(recruited, each = lasttime)
     
-    #Gets the name (not full name) of the '.nc' file
-    m <- str_locate(string = nc$filename, pattern = '/out_ichthyop') # Begin position of name
-    n <- str_locate(string = nc$filename, pattern = '.nc') # End position of name
-    name_file <- substr(nc$filename , start = m[1]+1 , stop = n[1]-1)
-    
+    # Get the name (not full name) of the '.nc' file
+    name_file <- str_remove(string = nc$filename, pattern = dirpath)
+
     df <- data.frame(drifter, year, month, lon, lat, depth, recruited, timer, name_file)
     df <- subset(df, df$timer == firsttime)
     

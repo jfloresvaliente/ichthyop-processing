@@ -1,16 +1,16 @@
 #=============================================================================#
 # Name   : main_compute_recruitment_ichthyop
-# Author : C. Lett; modified by Jorge Flores
+# Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : Compute recruitment ICHTHYOP outputs
+# Aim    : Compute recruitment from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'D:/ICHTHYOP/10kmparent/FISICA/out/'
-new_path <- 'D:/ICHTHYOP/10kmparent/FISICA/cfg/'
+dirpath  <- 'C:/Users/jflores/Desktop/DEBf0/out/'
+new_path <- 'C:/Users/jflores/Desktop/DEBf0/cfg/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

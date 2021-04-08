@@ -1,6 +1,6 @@
 #=============================================================================#
 # Name   : ichthyop_functions
-# Author : Jorge Flores
+# Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
 # Aim    : load ICHTHYOP functions
@@ -22,7 +22,6 @@ source('source/recruitment_month.R')
 source('source/recruitment_temp.R')
 source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
-
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

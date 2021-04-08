@@ -1,13 +1,13 @@
 #=============================================================================#
 # Name   : compute_recruitment_ichthyop
-# Author : C. Lett; modified by Jorge Flores
+# Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : Compute recruitment from ICHTHYOP simulations
+# Aim    : Compute recruitment from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
 compute_recruitment_ichthyop <- function(
-  dirpath          = dirpath
+   dirpath         = dirpath
   ,firstdrifter    = 1
   ,lastdrifter     = 5000
   ,computeattime   = 31
@@ -20,27 +20,27 @@ compute_recruitment_ichthyop <- function(
 
   #============ ============ Arguments ============ ============#
   
-  # dirpath = Directory path which contains series of ICHTHYOP netcdf outputs
-  
+  # dirpath = Directory path which contains series of ICHTHYOP outputs (.nc)
+
   # In case one wishes to consider only a subset from all drifters
   # firstdrifter = Index of first drifter to be computed
   # lastdrifter  = Index of last drifter to be computed
-  
+
   # computeattime   = The time record at which to compute recruitment
   # nbreleasezones  = The number of release zones
   # recruitmentzone = The index of the recruitment zone for which recruitment is computed
-  
-  # To read configuration files (.xml) from a directory different to original directory where files were stored
+
+  # To read configuration files (.xml) from a different directory to original directory where files were stored
   # old_path = path written in each ncdf input file as attribute
   # new_path = path where '.xml' files are stored
-  
-  # dates = .csv file with YEAR/MONTH index to match with t0
-  
+
+  # dates = (.csv) file with YEAR/MONTH index to match with t0 (beginning of simulation)
+
   # The '.csv' output file will have the form.....
-  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Month','Eps','Age','Coast_Behavior', ...
-  # 'Temp_min','Name_file','Zone_name','Depth','Bathy','TotalParticles','Recruitprop']
-  
-  # Then you can calculate new features.
+  # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Month','Eps','Age','Coast_Behavior',...
+  # 'Temp_min','Name_file','t_x','Zone_name','Depth','Bathy','TotalParticles','Recruitprop]'
+
+  # Then one can calculate new features.
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
   
   #============ ============ Arguments ============ ============#
@@ -181,7 +181,7 @@ compute_recruitment_ichthyop <- function(
 
   rownames(dataset) <- NULL
   colnames(dataset) <- c(
-    'NumberReleased'
+     'NumberReleased'
     ,'NumberRecruited'
     ,'ReleaseArea'
     ,'Year'
