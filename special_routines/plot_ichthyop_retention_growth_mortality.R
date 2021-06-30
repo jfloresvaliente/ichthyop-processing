@@ -7,13 +7,14 @@
 # URL    : 
 #=============================================================================#
 source('ichthyop_functions.R')
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6_90days/out/results/'
-retention <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0/out/results/'
+# retention <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv'
+retention <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0/out/results/ichthyop_output_retention.csv'
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Pre-recruitment (%)'
 N0        <- 1 # Initial value of the particle affected by mortality
 ymax1     <- c(0,60)
-ymax2     <- c(0,1.5)
+ymax2     <- c(0,4)
 vertical  <- F # if T --> (4 rows x 1 column) if F --> (2 rows x 2 column)
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -72,10 +73,10 @@ zone3  <- list_all[[3]][[4]]
 
 # PLOTS
 if(vertical == T){
-  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortalityVERTICAL.png'), height = 1450, width = 750, res = 120)
+  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortality_retentionVERTICAL.png'), height = 1450, width = 750, res = 120)
   par(mfrow = c(4,1))
 }else{
-  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortality.png'), height = 850, width = 1450, res = 120)
+  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortality_retention.png'), height = 850, width = 1450, res = 120)
   par(mfrow = c(2,2))
 }
 

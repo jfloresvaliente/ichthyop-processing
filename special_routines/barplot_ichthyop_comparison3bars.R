@@ -10,21 +10,23 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/ichthyop_output_retention.csv', header = T, sep = ';')
+dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0/out/results/ichthyop_output_retention.csv', header = T, sep = ';')
 
 # ylab <- 'Retention (%)'
 # ylab <- 'Recruitment (%)'
 ylab <- 'Pre-recruitment (%)'
 
-lats     <- seq(from = 6, to = 14, by = 2)
+lats     <- seq(from = 2, to = 20, by = 2)
 ymax     <- 70
 col_bars <- c('grey10','grey50','grey90')
 
-legend   <- c( '10 km', '02 km', '02 km (interpolated)')
-# legend   <- c( 'Age criteria', 'Size criteria k_x = 0', 'Size criteria k_x = 1.6')
+# legend   <- c('10 km', '02 km', '02 km (interpolated)')
+# legend   <- c('Age criteria', 'Size criteria k_x = 0', 'Size criteria k_x = 1.6')
+legend   <- c('simu 30 days', 'simu 90 days: I', 'simu 90 days: II')
 
+png_name <- paste0(dirpath, 'barplot_ichthyop_comparison3bars.png')
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -52,7 +54,7 @@ zone   <- rbind(zone1[,1], zone2[,1], zone3[,1]); colnames(zone) <- latlab
 
 ## PLOT ##
 
-png(paste0(dirpath, 'barplot_ichthyop_comparison3bars.png'), height = 850, width = 1250, res = 120)
+png(png_name, height = 850, width = 1250, res = 120)
 
 #=====Plot by Month=====#
 par(mfrow = c(2,2))
