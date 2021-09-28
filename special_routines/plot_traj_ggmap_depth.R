@@ -45,7 +45,7 @@ plot_traj_ggmap_depth <- function(
           legend.text  = element_text(face='bold', color='black', size=15),
           legend.title = element_text(face='bold', color='black', size=20),
           legend.position   = c(0.92, 0.9),
-          legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'))
+          legend.background = element_rect(fill=adjustcolor('red', alpha.f = 0), size=0.5, linetype='solid'))
 
   print(pngfile); flush.console()
   if(!is.null(pngfile)) ggsave(filename = pngfile, width = 9, height = 9) else map
