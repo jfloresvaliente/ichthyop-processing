@@ -1,19 +1,18 @@
 #=============================================================================#
-# Name   : main_compute_retention_ichthyop
+# Name   : main_compute_recruitment_ichthyop_noshelf
 # Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
 # Aim    : Compute recruitment from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
-source('ichthyop_libraries.R')
-source('ichthyop_functions.R')
-# source('source/compute_retention_ichthyop.R')
+# source('ichthyop_libraries.R')
 # source('ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/FISICA/out/'
-new_path <- 'E:/ICHTHYOP/10kmparent/FISICA/cfg/'
-recruit_zone    <- as.matrix(read.table('C:/Users/jflores/Documents/ICHTHYOP/ichthyop_recruitment_polygon.txt', header = T, sep = ''))
+# dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC1/out25C/'
+new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC1/cfg/'
+length_min <- 20 # Talla minima para calcular el reclutamiento
+
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -22,32 +21,35 @@ cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = 
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
 lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
-# computeattime   <- 31 # length(ncvar_get(nc, 'time'))
+computeattime   <- length(ncvar_get(nc, 'time'))
 nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
+
 nc_close(nc)
 
-dat <- compute_retention_ichthyop(dirpath          = dirpath,
-                                    firstdrifter     = firstdrifter
-                                    ,lastdrifter     = lastdrifter
-                                    ,computeattime   = computeattime
-                                    ,nbreleasezones  = nbreleasezones
-                                    ,recruitmentzone = recruitmentzone
-                                    ,old_path        = old_path
-                                    ,new_path        = new_path
-                                    ,dates           = dates
-                                    ,recruit_zone    = recruit_zone
+dat <- compute_recruitment_ichthyop_noshelf(dirpath    = dirpath,
+                                    firstdrifter       = firstdrifter
+                                    ,lastdrifter       = lastdrifter
+                                    ,computeattime     = computeattime
+                                    ,nbreleasezones    = nbreleasezones
+                                    ,recruitmentzone   = recruitmentzone
+                                    ,old_path          = old_path
+                                    ,new_path          = new_path
+                                    ,dates             = dates
+                                    ,length_min        = length_min
 )
 
 for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
-dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
-write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output_retention.csv'), sep = ';', row.names = F)
 
-# days   <- seq(from = 11, to = 91, by = 10) # length(ncvar_get(nc, 'time'))
+dir.create(path = paste0(dirpath, '/results_no_shelf'), showWarnings = F)
+write.table(x = dat, file = paste0(dirpath, '/results_no_shelf/ichthyop_output.csv'), sep = ';', row.names = F)
+
+#===== Para calcular el reclutamiento dia por dia =====#
+# days   <- seq(from = 1, to = 91, by = 1) # length(ncvar_get(nc, 'time'))
 # for(j in 1:length(days)){
 #   computeattime <- days[j]
-#   dat <- compute_retention_ichthyop(dirpath          = dirpath,
+# dat <- compute_recruitment_ichthyop(dirpath          = dirpath,
 #                                     firstdrifter     = firstdrifter
 #                                     ,lastdrifter     = lastdrifter
 #                                     ,computeattime   = computeattime
@@ -56,12 +58,11 @@ write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output_retention.
 #                                     ,old_path        = old_path
 #                                     ,new_path        = new_path
 #                                     ,dates           = dates
-#                                     ,recruit_zone    = recruit_zone
-#   )
-#   
-#   for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
-#   dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
-#   write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output_retention_',days[j],'days.csv'), sep = ';', row.names = F)
+# )
+# 
+# for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
+# dir.create(path = paste0(dirpath, 'results'), showWarnings = F)
+# write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output',days[j],'days.csv'), sep = ';', row.names = F)
 # }
 #=============================================================================#
 # END OF PROGRAM

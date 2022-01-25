@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : getzone_rowcol_index
+# Name   : get_zone_rowcol_index
 # Author : Jorge Flores
 # Date   : 
 # Version:

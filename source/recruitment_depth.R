@@ -46,7 +46,7 @@ recruitment_depth = function(dataset, a = 0.05){
   }
   
   # Get the name of the factors (for string factors)
-  fact     <- levels(factor(dataset$Depth))
+  fact     <- levels(factor(dataset$ReleaseDepth))
   fact_ini <- NULL
   for(i in 1:length(fact)){
     fact_ini <- c(fact_ini, strsplit(x = fact[i], split = '-')[[1]][1])
@@ -56,7 +56,7 @@ recruitment_depth = function(dataset, a = 0.05){
   # Get mean and error bars
   errors <- NULL
   for(i in fact){
-    facsub <- subset(dataset, dataset$Depth == i)
+    facsub <- subset(dataset, dataset$ReleaseDepth == i)
     facsub <- facsub$Recruitprop
     err    <- error_bar(x = facsub)
     errors <- rbind(errors, err)

@@ -1,22 +1,22 @@
 #=============================================================================#
-# Name   : compute_retention_ichthyop
+# Name   : compute_recruitment_ichthyop_noshelf
 # Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
 # Aim    : Compute recruitment from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
-compute_retention_ichthyop <- function(
-  dirpath         = dirpath
-  ,firstdrifter    = 1
-  ,lastdrifter     = 5000
-  ,computeattime   = 31
-  ,nbreleasezones  = 1
-  ,recruitmentzone = 1
-  ,old_path        = old_path
-  ,new_path        = new_path
-  ,dates           = dates
-  ,recruit_zone    = recruit_zone
+compute_recruitment_ichthyop_noshelf <- function(
+   dirpath           = dirpath
+  ,firstdrifter      = 1
+  ,lastdrifter       = 5000
+  ,computeattime     = 31
+  ,nbreleasezones    = 1
+  ,recruitmentzone   = 1
+  ,old_path          = old_path
+  ,new_path          = new_path
+  ,dates             = dates
+  ,length_min        = 20
 ){
   
   #============ ============ Arguments ============ ============#
@@ -36,6 +36,7 @@ compute_retention_ichthyop <- function(
   # new_path = path where '.xml' files are stored
   
   # dates = (.csv) file with YEAR/MONTH index to match with t0 (beginning of simulation)
+  # length_min = 20; minimum size to calculate recruitment (mm)
   
   # The '.csv' output file will have the form.....
   # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Month','Eps','Age','Coast_Behavior',...
@@ -62,12 +63,6 @@ compute_retention_ichthyop <- function(
     }
     
     nc <- nc_open(filename)
-    
-    lon <- ncvar_get(nc,'lon')
-    lat <- ncvar_get(nc,'lat')
-    
-    lon_lat <- cbind(lon[,computeattime], lat[,computeattime])
-    lon_lat <- in.out(bnd = recruit_zone, x = lon_lat)
     
     # Get the value of time of release
     t0 <- ncvar_get(nc,'time',1,1)
@@ -128,8 +123,13 @@ compute_retention_ichthyop <- function(
     
     # Get the value of recruited for the recruitment zone considered for all drifters at time of computation
     nbdrifter <- lastdrifter - firstdrifter + 1
-    # recruited <- ncvar_get(nc,'recruited_zone',c(recruitmentzone,firstdrifter,computeattime),c(1,nbdrifter,1))
-    recruited <- lon_lat
+    
+    # Calcular el reclutamiento a partir de la talla
+    recruited <- ncvar_get(nc, 'length')
+    recruited[recruited <  length_min] <- 0
+    recruited[recruited >= length_min] <- 1
+    recruited <- recruited[,computeattime]
+
     # Get the value of release zone for all drifters
     releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,nbdrifter,1)) + 1
     
@@ -188,7 +188,7 @@ compute_retention_ichthyop <- function(
   
   rownames(dataset) <- NULL
   colnames(dataset) <- c(
-    'NumberReleased'
+     'NumberReleased'
     ,'NumberRecruited'
     ,'ReleaseArea'
     ,'Year'

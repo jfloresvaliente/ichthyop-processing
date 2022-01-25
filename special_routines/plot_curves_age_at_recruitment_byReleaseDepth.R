@@ -6,7 +6,7 @@
 # Aim    : Plot curves of percentage of particles at recruited age
 # URL    : 
 #=============================================================================#
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0_90days/out/results/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0/out/results/'
 days    <- 91 # Step time
 ymax    <- 9 # Percetage of particles recruited
 xmax    <- 90  # Days at recruitment
@@ -17,7 +17,7 @@ depth   <- c('0-15', '15-30', '30-45')
 #=============================================================================#
 cols <- rep(c('red', 'orange', 'blue', 'green'), each = 3)
 line_type <- rep(1:3, times = 4)
-meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Agu','Sep','Oct','Nov','Dec')
+meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 
 png(paste0(dirpath, 'recruited_age_percentageByReleaseDepth', '.png'), width = 750, height = 1250, res = 120)
 par(mfrow = c(3,1))
@@ -28,7 +28,7 @@ for(j in 1:length(depth)){
   axis(side = 1, font = 2)
   axis(side = 2, font = 2, las = 2)
   mtext(side = 1, line = 2.5, font = 2, text = 'Age at recruitment [d]')
-  mtext(side = 2, line = 2.5, font = 2, text = 'Recruited particles [%]')
+  mtext(side = 2, line = 2.5, font = 2, text = 'Recruitment [%]')
   legend('topright', legend = meses, lty = line_type, bty = 'n', col = cols, ncol = 4)
   legend('topleft' , legend = paste('Release Depth', depth[j], 'm'), bty = 'n', text.font = 2, cex = 1.25)
   for(i in 1:12){

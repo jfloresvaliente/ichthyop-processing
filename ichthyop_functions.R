@@ -7,9 +7,11 @@
 # URL    : 
 #=============================================================================#
 source('source/compute_recruitment_ichthyop.R')
+source('source/compute_recruitment_ichthyop_noshelf.R')
 source('source/compute_recruitment_ichthyop_drifters.R')
 
 source('source/get_trajectories.R')
+source('source/get_trajectories_noshelf.R')
 source('source/get_trajectories_drifters.R')
 
 source('source/recruitment_age.R')

@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : getline_rowcol_index
+# Name   : get_line_rowcol_index
 # Author : Jorge Flores
 # Date   : 
 # Version:

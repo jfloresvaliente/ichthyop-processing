@@ -1,20 +1,20 @@
 #=============================================================================#
-# Name   : plot_ichthyop_retention_growth_mortality
+# Name   : plot_ichthyop_retention_growth_mortality_noshelf
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : Plot 2x2: Larval Retention, Growth, Growth + Mortality
+# Aim    : Plot 2x2: Larval Retention, Growth + Mortality, Growth + Mortality (no shelf)
 # URL    : 
 #=============================================================================#
 source('ichthyop_functions.R')
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu5/results/'
-retention <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu6/'
+retention <- paste0(dirpath, '/results/ichthyop_output.csv')
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Recruitment (%)'
 ymax1     <- c(0,60)
-ymax2     <- c(0,.5)
+ymax2     <- c(0,1)
 vertical  <- F # if T --> (4 rows x 1 column) if F --> (2 rows x 2 column)
-legend_text <- c('Age criterion','Size criterion','Size criterion + Constant mortality')
+legend_text <- c('Size criterion','Size criterion + Constant mortality','Size criterion + Constant mortality (non shelf)')
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -27,10 +27,11 @@ for(i in 1:(length(lats)-1)) latlab <- c(latlab, paste0(lats[i],'º - ', lats[i]
 dat1 <- read.table(retention, header = T, sep = ';')
 
 # Larval recruitment data
-dat2 <- read.table(paste0(dirpath, 'ichthyop_output2.csv'), header = T, sep = ';')
+dat2 <- read.table(paste0(dirpath, '/results/ichthyop_output2.csv'), header = T, sep = ';')
+dat2$Recruitprop <- dat2$N_constantprop
 
 # Larval recruitment data + constant mortality data
-dat3 <- read.table(paste0(dirpath, 'ichthyop_output2.csv'), header = T, sep = ';')
+dat3 <- read.table(paste0(dirpath, '/results_no_shelf/ichthyop_output2.csv'), header = T, sep = ';')
 dat3$Recruitprop <- dat3$N_constantprop
 
 # Get mean values and confidence intervals for each factor.
@@ -52,10 +53,10 @@ zone3  <- recruitment_zone(dat3)
 
 # Configuration of the chart output panel
 if(vertical == T){
-  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortalityVERTICAL.png'), height = 1450, width = 750, res = 120)
+  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortality_noshelfVERTICAL.png'), height = 1450, width = 750, res = 120)
   par(mfrow = c(4,1))
 }else{
-  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortality.png'), height = 850, width = 1450, res = 120)
+  png(paste0(dirpath, 'plot_ichthyop_retention_growth_mortality_noshelf.png'), height = 850, width = 1450, res = 120)
   par(mfrow = c(2,2))
 }
 
@@ -78,21 +79,21 @@ points(1:12-.13, month1[,1], pch = 16, cex = 1.5)
 arrows(1:12-.13, month1[,2], 1:12-.13, month1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
-lines(1:12,  month2[,1], lwd = 3, lty = 2)
-points(1:12, month2[,1], pch = 8, cex = 1.5)
-arrows(1:12, month2[,2], 1:12, month2[,3], angle = 90, code = 3, length = 0.02, lty = 5)
+par(new = T)
+plot(1:12, month2[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '',xlim = c(.5,12.5))
+
+lines(1:12,  month2[,1], lwd = 3, lty = 2, col = 'red')
+points(1:12, month2[,1], pch = 8, cex = 1.5, col = 'red')
+arrows(1:12, month2[,2], 1:12, month2[,3], angle = 90, code = 3, length = 0.02, lty = 5, col = 'red')
 
 # dat3 curve
-par(new = T)
-plot(1:12, month3[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '',xlim = c(.5,12.5))
-
 lines(1:12+.13,  month3[,1], lwd = 3, col = 'red')
 points(1:12+.13, month3[,1], pch = 8, cex = 1.5, col = 'red')
 arrows(1:12+.13, month3[,2], 1:12+.13, month3[,3], angle = 90, code = 3, length = 0.02, lty = 1, col = 'red')
 
 axis(side = 4, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks2, labels = yticks2, las = 2, col.axis = 'red', col = 'red', line = 0)
-legend('bottomleft', lty = c(1,2,1), lwd = 2, col = c(1,1,2), bty = 'n', pch = c(16,8,8), seg.len = 5, pt.cex = 1.5,
-       legend = legend_text, text.font = 2)
+legend('topright', lty = c(1,2,1), lwd = 2, col = c(1,2,2), bty = 'n', pch = c(16,8,8), seg.len = 5, pt.cex = 1.5,
+       legend = legend_text, text.font = 2, cex = 0.85)
 
 #========================= Plot by spawning latitude =========================#
 par(mar = c(3.5,4,.5,4))
@@ -112,14 +113,14 @@ points(1:9-.15, zone1[,1], pch = 16, cex = 1.5)
 arrows(1:9-.15, zone1[,2], 1:9-.15, zone1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
-lines(1:9,  zone2[,1], lwd = 3, lty = 2)
-points(1:9, zone2[,1], pch = 8, cex = 1.5)
-arrows(1:9, zone2[,2], 1:9, zone2[,3], angle = 90, code = 3, length = 0.02, lty = 5)
+par(new = T)
+plot(1:9, zone2[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '', xlim = c(.5,9.5))
+
+lines(1:9,  zone2[,1], lwd = 3, lty = 2, col = 'red')
+points(1:9, zone2[,1], pch = 8, cex = 1.5, col = 'red')
+arrows(1:9, zone2[,2], 1:9, zone2[,3], angle = 90, code = 3, length = 0.02, lty = 5, col = 'red')
 
 # dat3 curve
-par(new = T)
-plot(1:9, zone3[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '', xlim = c(.5,9.5))
-
 lines(1:9+.15,  zone3[,1], lwd = 3, col = 'red')
 points(1:9+.15, zone3[,1], pch = 8, cex = 1.5, col = 'red')
 arrows(1:9+.15, zone3[,2], 1:9+.15, zone3[,3], angle = 90, code = 3, length = 0.02, col = 'red')
@@ -143,14 +144,14 @@ points(1:3-.09, depth1[,1], pch = 16, cex = 1.5)
 arrows(1:3-.09, depth1[,2], 1:3-.09, depth1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
-lines(1:3,  depth2[,1], lwd = 3, lty = 2)
-points(1:3, depth2[,1], pch = 8, cex = 1.5)
-arrows(1:3, depth2[,2], 1:3, depth2[,3], angle = 90, code = 3, length = 0.02, lty = 5)
+par(new = T)
+plot(1:3, depth2[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '', xlim = c(.5,3.5))
+
+lines(1:3,  depth2[,1], lwd = 3, lty = 2, col = 'red')
+points(1:3, depth2[,1], pch = 8, cex = 1.5, col = 'red')
+arrows(1:3, depth2[,2], 1:3, depth2[,3], angle = 90, code = 3, length = 0.02, lty = 5, col = 'red')
 
 # dat3 curve
-par(new = T)
-plot(1:3, depth3[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '', xlim = c(.5,3.5))
-
 lines(1:3+.09,  depth3[,1], lwd = 3, col = 'red')
 points(1:3+.09, depth3[,1], pch = 8, cex = 1.5, col = 'red')
 arrows(1:3+.09, depth3[,2], 1:3+.09, depth3[,3], angle = 90, code = 3, length = 0.02, col = 'red')
@@ -174,14 +175,14 @@ points(1:3-.09, bathy1[,1], pch = 16, cex = 1.5)
 arrows(1:3-.09, bathy1[,2], 1:3-.09, bathy1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
-lines(1:3,  bathy2[,1], lwd = 3, lty = 2)
-points(1:3, bathy2[,1], pch = 8, cex = 1.5)
-arrows(1:3, bathy2[,2], 1:3, bathy2[,3], angle = 90, code = 3, length = 0.02, lty = 5)
+par(new = T)
+plot(1:3, bathy2[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '', xlim = c(.5,3.5))
+
+lines(1:3,  bathy2[,1], lwd = 3, lty = 2, col = 'red')
+points(1:3, bathy2[,1], pch = 8, cex = 1.5, col = 'red')
+arrows(1:3, bathy2[,2], 1:3, bathy2[,3], angle = 90, code = 3, length = 0.02, lty = 5, col = 'red')
 
 # dat3 curve
-par(new = T)
-plot(1:3, bathy3[,1], type = 'n', ylim = ymax2, axes = F, xlab = '', ylab = '', xlim = c(.5,3.5))
-
 lines(1:3+.09,  bathy3[,1], lwd = 3, col = 'red')
 points(1:3+.09, bathy3[,1], pch = 8, cex = 1.5, col = 'red')
 arrows(1:3+.09, bathy3[,2], 1:3+.09, bathy3[,3], angle = 90, code = 3, length = 0.02, col = 'red')

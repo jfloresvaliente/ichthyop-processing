@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : getpolygon_rowcol_index
+# Name   : get_polygon_rowcol_index
 # Author : Jorge Flores
 # Date   : 
 # Version:
@@ -43,12 +43,18 @@ getpolygon_rowcol_index <- function(
   xy <- cbind(as.vector(x), as.vector(y))
 
   nc_close(nc)
-  
+
   if(is.null(lon1) | is.null(lat1) | is.null(lon2) | is.null(lat2) |
      is.null(lon3) | is.null(lat3) | is.null(lon4) | is.null(lat4)){
     print('You need 4 latitudes and 4 longitudes, choose four points on the map:')
+    
     x11()
-    image.plot(x,y,z, xlab = 'Longitude', ylab = 'Latitude')
+    image.plot(x,y,z, xlab = '', ylab = '', axes = F)
+    axis(side = 1, font = 2, lwd.ticks = 2, lwd = 2)
+    axis(side = 2, font = 2, lwd.ticks = 2, lwd = 2, las = 2)
+    box(lwd = 2)
+    mtext(side = 1, line = 2.5, font = 2, cex = 1.2, text = 'Longitude')
+    mtext(side = 2, line = 2.5, font = 2, cex = 1.2, text = 'Latitude')
     
     pts <- locator(n = 4, type = 'p')
     pts <- cbind(pts$x, pts$y)
@@ -65,8 +71,15 @@ getpolygon_rowcol_index <- function(
     
     rowcol <- which(z == 1, arr.ind = T)
   }else{
+    
     x11()
-    image.plot(x,y,z, xlab = 'Longitude', ylab = 'Latitude')
+    image.plot(x,y,z, xlab = '', ylab = '', axes = F)
+    axis(side = 1, font = 2, lwd.ticks = 2, lwd = 2)
+    axis(side = 2, font = 2, lwd.ticks = 2, lwd = 2, las = 2)
+    box(lwd = 2)
+    mtext(side = 1, line = 2.5, font = 2, cex = 1.2, text = 'Longitude')
+    mtext(side = 2, line = 2.5, font = 2, cex = 1.2, text = 'Latitude')
+    
     pts <- matrix(data = c(lon1, lat1, lon2, lat2, lon3, lat3, lon4, lat4), nrow = 4, ncol = 2, byrow = T)
     colnames(pts) <- c('lon', 'lat')
     assign(x = 'pts', value = pts, envir = .GlobalEnv)
@@ -84,14 +97,22 @@ getpolygon_rowcol_index <- function(
 
   colnames(rowcol) <- c('row_index', 'col_index')
   assign(x = 'PolygIndex', value = rowcol, envir = .GlobalEnv)
+  
   x11()
-  image.plot(x,y,z, xlab = 'Longitude', ylab = 'Latitude')
+  image.plot(x,y,z, xlab = '', ylab = '', axes = F)
+  axis(side = 1, font = 2, lwd.ticks = 2, lwd = 2)
+  axis(side = 2, font = 2, lwd.ticks = 2, lwd = 2, las = 2)
+  box(lwd = 2)
+  mtext(side = 1, line = 2.5, font = 2, cex = 1.2, text = 'Longitude')
+  mtext(side = 2, line = 2.5, font = 2, cex = 1.2, text = 'Latitude')
 }
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
 dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
+
+# Polygon defined off the Peruvian coast
 lon1 <- -80
 lon2 <- -75
 lon3 <- -76
@@ -101,11 +122,22 @@ lat2 <- -15.5
 lat3 <- -15.5
 lat4 <- -6
 
+# # Polygon defined in the Guayaquil Gulf
+# lon1 <- -82.3
+# lon2 <- -79.8
+# lon3 <- -79.8
+# lon4 <- -82.3
+# lat1 <- -2
+# lat2 <- -2
+# lat3 <- -4.5
+# lat4 <- -4.5
+
 getpolygon_rowcol_index(nc_file = nc_file,
                         lon1 = lon1, lat1 = lat1,
                         lon2 = lon2, lat2 = lat2,
                         lon3 = lon3, lat3 = lat3,
                         lon4 = lon4, lat4 = lat4
                      )
+
 csv_name <- paste0(dirpath, 'getpolygon_rowcol_index.txt')
 write.table(x = PolygIndex, file = csv_name, col.names = F, row.names = F)

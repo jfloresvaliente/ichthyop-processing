@@ -16,8 +16,8 @@ t_x           <- c(1,4,7)
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-dir.create(path = paste0(dirpath, 'hovmuller'), showWarnings = F)
-hovmullerRdata <- paste0(dirpath, 'hovmuller/hovmuller', lat_div, '.Rdata')
+dir.create(path = paste0(dirpath, '/hovmuller/'), showWarnings = F)
+hovmullerRdata <- paste0(dirpath, '/hovmuller/hovmuller', lat_div, '.Rdata')
 
 lat_ini <- seq(latilim[1], latilim[2], lat_div)
 lat_out <- lat_ini + lat_div

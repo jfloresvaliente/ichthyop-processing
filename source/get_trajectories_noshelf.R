@@ -1,13 +1,13 @@
 #=============================================================================#
-# Name   : get_trajectories
+# Name   : get_trajectories_noshelf
 # Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
 # Aim    : Get trajectories from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
-get_trajectories <- function(
-   ncfile            = NULL
+get_trajectories_noshelf <- function(
+  ncfile            = NULL
   ,firstdrifter      = 1
   ,lastdrifter       = 5000
   ,firsttime         = 1
@@ -16,6 +16,8 @@ get_trajectories <- function(
   ,old_path          = old_path
   ,new_path          = new_path
   ,dates             = dates
+  ,continental_shelf = 1
+  ,length_min        = 20
   ,variname          = NULL
 ){
   #============ ============ Arguments ============ ============#
@@ -35,6 +37,8 @@ get_trajectories <- function(
   # new_path = path where '.xml' files are stored
   
   # dates = (.csv) file with YEAR/MONTH index to match with t0 (beginning of simulation)
+  # length_min = 20; minimum size to calculate recruitment (mm)
+  
   # variname = name of environmental variable tracking
   
   # The '.Rdata' output file will have the form.....
@@ -84,7 +88,10 @@ get_trajectories <- function(
   mortality <- as.vector(t(ncvar_get(nc, 'mortality', c(firstdrifter, firsttime), c(lastdrifter, lasttime))))
   
   # Gets the value of recruited for the recruitment zone considered for all drifters at time of computation
-  recruited <- as.vector(t(ncvar_get(nc, 'recruited_zone', c(recruitmentzone, firstdrifter, firsttime), c(recruitmentzone, lastdrifter, lasttime))))
+  recruited <- ncvar_get(nc, 'length')
+  recruited[recruited <  length_min] <- 0
+  recruited[recruited >= length_min] <- 1
+  recruited <- as.vector(t(recruited))
 
   # Gets the value of release zone for all drifters
   releasezone <- ncvar_get(nc,'zone',c(1,firstdrifter,1),c(1,lastdrifter,1)) + 1

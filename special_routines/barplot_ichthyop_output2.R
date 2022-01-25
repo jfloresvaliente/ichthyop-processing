@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : barplot_ichthyop_output
+# Name   : barplot_ichthyop_output2
 # Author : Jorge Flores
 # Date   : 
 # Version:
@@ -8,31 +8,35 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC1/out25C/results/'
-ymax    <- c(0,100)
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC1/out19C/results/'
+ymax    <- c(0,0.2)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
-hlines  <- seq(from = ymax[1], to = ymax[2], by = 10)
+hlines  <- seq(from = ymax[1], to = ymax[2], by = .1)
 years   <- seq(1:3) # Number of simulation years
+Recruit <- 'N_constantprop'
+# Recruit <- 'N_lengthprop'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-dat <- read.table(paste0(dirpath, 'ichthyop_output.csv'), sep = ';', header = T)
+dat <- read.table(paste0(dirpath, 'ichthyop_output2.csv'), sep = ';', header = T)
+dat$Recruitprop <- dat[,which(names(dat) == Recruit)]
+
 year  <- recruitment_year(dat)
 month <- recruitment_month(dat)
-age   <- recruitment_age(dat)
-coast <- recruitment_behavior(dat)
-eps   <- recruitment_eps(dat)
-temp  <- recruitment_temp(dat)
-area  <- recruitment_area(dat)
+# age   <- recruitment_age(dat)
+# coast <- recruitment_behavior(dat)
+# eps   <- recruitment_eps(dat)
+# temp  <- recruitment_temp(dat)
+# area  <- recruitment_area(dat)
 depth <- recruitment_depth(dat)
 bathy <- recruitment_bathy(dat)
 zone  <- recruitment_zone(dat)
 
 yticks1 <- hlines
-
-png(filename = paste0(dirpath, '/ichthyop_output.png'), height = 850, width = 1250, res = 120)
+# x11()
+png(filename = paste0(dirpath, '/ichthyop_output',Recruit,'.png'), height = 850, width = 1250, res = 120)
 par(mfrow = c(2,3), mar = c(4,4,2,1))
 
 # Plot by year

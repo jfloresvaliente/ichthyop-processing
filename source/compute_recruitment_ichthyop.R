@@ -7,15 +7,15 @@
 # URL    : 
 #=============================================================================#
 compute_recruitment_ichthyop <- function(
-   dirpath         = dirpath
-  ,firstdrifter    = 1
-  ,lastdrifter     = 5000
-  ,computeattime   = 31
-  ,nbreleasezones  = 1
-  ,recruitmentzone = 1
-  ,old_path        = old_path
-  ,new_path        = new_path
-  ,dates           = dates
+   dirpath           = dirpath
+  ,firstdrifter      = 1
+  ,lastdrifter       = 5000
+  ,computeattime     = 31
+  ,nbreleasezones    = 1
+  ,recruitmentzone   = 1
+  ,old_path          = old_path
+  ,new_path          = new_path
+  ,dates             = dates
 ){
 
   #============ ============ Arguments ============ ============#
@@ -193,8 +193,8 @@ compute_recruitment_ichthyop <- function(
     ,'Name_file'
     ,'t_x'
     ,'Zone_name'
-    ,'Depth'
-    ,'Bathy'
+    ,'ReleaseDepth'
+    ,'ReleaseBathy'
     ,'TotalParticles'
     ,'Recruitprop'
   )

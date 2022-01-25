@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : plotdata_atRecruitmentAge
+# Name   : plot_data_atRecruitmentAge
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
@@ -10,7 +10,7 @@ library(ggplot2)
 library(fields)
 library(hexbin)
 
-dirpath  <- 'C:/Users/jflores/Desktop/ich_deb/DEB/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC1/out25C/results/'
 xlim     <- c(-85, -70) # Londitude
 ylim     <- c(-20, 0)   # Latitude
 
