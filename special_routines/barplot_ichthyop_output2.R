@@ -8,11 +8,11 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC1/out19C/results/'
-ymax    <- c(0,0.2)
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu1/results_no_shelf/'
+ymax    <- c(0,5)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
-hlines  <- seq(from = ymax[1], to = ymax[2], by = .1)
+hlines  <- seq(from = ymax[1], to = ymax[2], by = .5)
 years   <- seq(1:3) # Number of simulation years
 Recruit <- 'N_constantprop'
 # Recruit <- 'N_lengthprop'
@@ -36,7 +36,7 @@ zone  <- recruitment_zone(dat)
 
 yticks1 <- hlines
 # x11()
-png(filename = paste0(dirpath, '/ichthyop_output',Recruit,'.png'), height = 850, width = 1250, res = 120)
+png(filename = paste0(dirpath, '/ichthyop_output',Recruit,'.png'), height = 850, width = 1350, res = 120)
 par(mfrow = c(2,3), mar = c(4,4,2,1))
 
 # Plot by year
@@ -57,7 +57,7 @@ abline(h = hlines, lty = 3, lwd = .05)
 arrows(monthplot, month[,2], monthplot, month[,3], angle = 90, code = 3, length = 0.05)
 mtext(side = 1, line = 2.3, cex = 1, font = 2, text = 'Spawning Month')
 # mtext(side = 2, line = 2.5, cex = 1, font = 2, text = ylab)
-axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = monthplot, labels = rownames(month), lty = 0)
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.1, font = 2, at = monthplot, labels = rownames(month), lty = 0)
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
 
 # Plot by latitudinal zone

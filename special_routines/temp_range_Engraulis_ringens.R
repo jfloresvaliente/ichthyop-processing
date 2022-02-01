@@ -11,32 +11,35 @@
 #
 # 21/12/2021 Jorge Flores ; Laure Pecquerie
 #=============================================================================#
+dirpath  <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/TCorr/'
+out_name <- 'simu8'
 
 T_K    <- 273.15;     # Kelvin
 T_ref  <- 16 + T_K;   # Kelvin
-T_hot  <- 25 # Tempertura letal
-T_cold <- 3 # Temepratura letal
+# T_hot  <- 25 # Tempertura letal
+# T_cold <- 3 # Temepratura letal
+
 # Temperature range
 Temp   <- seq(from = 0, to = 35, by = 0.01) + T_K; # Kelvin
 
 # Parameters
 T_L  <- 6 + T_K     # K Lower temp boundary
-T_H  <- 22 + T_K    # K Upper temp boundary
+T_H  <- 21 + T_K    # K Upper temp boundary
 T_A  <- 9800        # K Arrhenius temperature
 T_AL <- 20000       # K Arrh. temp for lower boundary
-T_AH <- 190000/4    # K Arrh. temp for upper boundary
+T_AH <- 190000/2    # K Arrh. temp for upper boundary
 
 s_A = exp(T_A/T_ref - T_A/Temp)  # Arrhenius factor
 
 # 1-parameter correction factor
 TC_1 = s_A
 
-# para agregar temperaturas letales
-TC_1[Temp <= T_cold + T_K] <- NA
-TC_1[Temp >= T_hot + T_K] <- NA
+# # para agregar temperaturas letales
+# TC_1[Temp <= T_cold + T_K] <- NA
+# TC_1[Temp >= T_hot + T_K] <- NA
 
-cold_ind <- which(Temp == T_cold + T_K)
-hot_ind  <- which(Temp == T_hot + T_K)
+# cold_ind <- which(Temp == T_cold + T_K)
+# hot_ind  <- which(Temp == T_hot + T_K)
 
 # 5-parameter correction factor
 if(T_L > T_ref || T_H < T_ref){
@@ -53,35 +56,39 @@ par2 <- paste0('T_H = ', (T_H - T_K))
 par3 <- paste0('T_A = ', T_A)
 par4 <- paste0('T_A_L = ', round(T_AL))
 par5 <- paste0('T_A_H = ', round(T_AH))
+par6 <- paste('TC[max]', Temp[which.max(TC_5)]-T_K)
 
 # figures
-png(filename = 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/TCorr/cfg.png', width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, out_name, '.png'), width = 850, height = 850, res = 120)
 par(mar = c(3.5,3.5,1.5,1))
 plot(Temp - T_K, TC_1, type = 'n', axes = F, xlab = '', ylab = '', xaxs = 'i', yaxs = 'i', xlim = c(0,35), ylim = c(0,8.5))
 axis(1, font = 2, lwd.ticks = 2)
 axis(2, font = 2, lwd.ticks = 2, las = 2)
 box(lwd = 2)
 
-lines(Temp - T_K, TC_1, lwd = 2)
-# lines(Temp - T_K, TC_5, lwd = 2, col = 'red')
+lines(Temp - T_K, TC_1, lwd = 4)
+lines(Temp - T_K, TC_5, lwd = 3, col = 'red')
+# segments(x0 = Temp[cold_ind]-T_K, y0 = 0, x1 = Temp[cold_ind]-T_K, y1 = TC_1[cold_ind+1], lwd = 2)
+# segments(x0 = Temp[hot_ind]-T_K,  y0 = 0, x1 = Temp[hot_ind]-T_K,  y1 = TC_1[hot_ind-1],  lwd = 2)
 
-segments(x0 = Temp[cold_ind]-T_K, y0 = 0, x1 = Temp[cold_ind]-T_K, y1 = TC_1[cold_ind+1], lwd = 2)
-segments(x0 = Temp[hot_ind]-T_K,  y0 = 0, x1 = Temp[hot_ind]-T_K,  y1 = TC_1[hot_ind-1],  lwd = 2)
-
-mtext(side = 3, line = 0, font = 2, cex = 1.2, text = 'Temperature correction factor', adj = 0)
 mtext(side = 1, line = 2, font = 2, cex = 1.2, text = 'Temprature (ºC)')
 mtext(side = 2, line = 2, font = 2, cex = 1.2, text = 'Correction factor TC (#)')
-
 # hot_temp <- TC_1[which(Temp == T_hot + T_K)]
 # segments(x0 = T_hot, y0 = 0, x1 = T_hot, y1 = hot_temp, col = 'red', lty = 1, lwd = 2)
 
 # cold_temp <- TC_1[which(Temp == T_cold + T_K)]
 # segments(x0 = T_cold, y0 = 0, x1 = T_cold, y1 = cold_temp, col = 'red', lty = 1, lwd = 2)
 
-# text(2.5, 7.5, par1, adj = 0, font = 2)
-# text(2.5, 6.5, par2, adj = 0, font = 2)
-text(2.5, 5.5, par3, adj = 0, font = 2)
-# text(2.5, 4.5, par4, adj = 0, font = 2)
-# text(2.5, 3.5, par5, adj = 0, font = 2)
-
+text(2.5, 7.5, par1, adj = 0, font = 2)
+text(2.5, 6.8, par2, adj = 0, font = 2)
+text(2.5, 6.1, par3, adj = 0, font = 2)
+text(2.5, 5.4, par4, adj = 0, font = 2)
+text(2.5, 4.7, par5, adj = 0, font = 2)
+text(2.5, 4.0, par6, adj = 0, font = 2)
 dev.off()
+
+curva <- list(par1, par2, par3, par4, par5, par6, Temp, TC_5)
+save(x = curva, file = paste0(dirpath, out_name, '.Rdata'))
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#

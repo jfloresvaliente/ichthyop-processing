@@ -7,7 +7,7 @@
 # URL    : 
 #=============================================================================#
 source('ichthyop_functions.R')
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu5/results/'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu2/results/'
 retention <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv'
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Recruitment (%)'
@@ -60,7 +60,7 @@ if(vertical == T){
 }
 
 yticks1 <- seq(ymax1[1],ymax1[2],10)
-yticks2 <- seq(ymax2[1],ymax2[2],.5)
+yticks2 <- seq(ymax2[1],ymax2[2],.1)
 #========================= Plot by spawning month =========================#
 par(mar = c(3.5,4,.5,4))
 

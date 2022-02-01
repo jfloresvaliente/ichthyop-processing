@@ -6,7 +6,7 @@
 # Aim    : Barplot associated to spawning depth & Lines associated to spawning bathymetry.
 # URL    : 
 #=============================================================================#
-# dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
 ymax    <- 100
 
 #=============================================================================#

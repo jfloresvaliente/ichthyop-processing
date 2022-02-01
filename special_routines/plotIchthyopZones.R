@@ -79,16 +79,16 @@ y_name <- c(-3.096295, -5.235192, -7.179643, -9.075484, -11.068547, -12.867165, 
 
 png(filename = 'C:/Users/jflores/Desktop/ich_zones_map.png', width = 850, height = 850, res = 120)
 par(mar = c(4,4,.5,.5))
-image.plot(lon, lat, new_mask, xlab = '', ylab = '', xlim = c(-90,-70), ylim = c(-20,0),axes = F, col = tim.colors(n = 9, alpha = .4))
+image.plot(lon, lat, new_mask, xlab = '', ylab = '', xlim = c(-90,-70), ylim = c(-20,0),axes = F, col = tim.colors(n = 9, alpha = 1))
 polygon(x = x, y = y, lty = 2, border = 'grey25', angle = 45, lwd = 2)
 map('worldHires', add=T, fill=T, col='grey')
-contour(lon[,1], lat[1,], h, levels = c(100, 500,2000), add = T, lty = 2)
+contour(lon[,1], lat[1,], h, levels = c(100, 500,2000), add = T, lty = 2, labcex = .65)
 axis(side = 1, font = 2, lwd = 2)
 axis(side = 2, font = 2, lwd = 2, las = 2)
 box(lwd = 2)
 mtext(side = 1, font = 2, line = 2.5, text = 'Longitude')
 mtext(side = 2, font = 2, line = 2.5, text = 'Latitude')
-text(x = x_name, y = y_name, labels = 1:9)
+text(x = x_name, y = y_name, labels = 1:9, font = 2, cex = 1.1)
 dev.off()
 #=============================================================================#
 # END OF PROGRAM

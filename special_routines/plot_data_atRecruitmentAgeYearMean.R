@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : plot_data_atRecruitmentAgeMeanYear
+# Name   : plot_data_atRecruitmentAgeYearMean
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
@@ -11,7 +11,7 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu5/results/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
 xlim     <- c(-95, -70) # Londitude
 ylim     <- c(-25, 0)   # Latitude
 bin_lon  <- .1
@@ -20,11 +20,11 @@ ggname   <- paste0(dirpath, 'grid_arrange', bin_lat, '.png')
 
 #========== Zlim ==========#
 zlimA <- c(20,90) # Age at recruitment
-zlimB <- c(0,120) # No mortality
-zlimC <- c(0,1) # Constant mortality
+zlimB <- c(0,300) # No mortality
+zlimC <- c(0,3) # Constant mortality
 
 zlimD <- zlimA    # Age at recruitment
-zlimE <- c(0,120) # No mortality
+zlimE <- c(0,100) # No mortality
 zlimF <- c(0,1) # Constant mortality
 
 #=============================================================================#
@@ -61,7 +61,7 @@ p1 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b) No mortality"))', parse = TRUE)+
+  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b) Recruitment\'s Density"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -80,7 +80,7 @@ p2 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("e) No mortality"))', parse = TRUE)+
+  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("e) Recruitment\'s Density"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -143,7 +143,7 @@ p5 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("c) Constant Mortality"))', parse = TRUE)+
+  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("c) Super-Individual\'s Worth"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -162,7 +162,7 @@ p6 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("f) Constant Mortality"))', parse = TRUE)+
+  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("f) Super-Individual\'s Worth"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),

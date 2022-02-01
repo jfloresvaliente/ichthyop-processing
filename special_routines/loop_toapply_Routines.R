@@ -1,6 +1,6 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
-
+lat_div       <- 2        # Latitudinal resolution
 dirs <- c(
    'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu1/results/'
   ,'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu2/results/'
@@ -28,13 +28,13 @@ for(m in 1:length(dirs)){
   a <- Sys.time()
   print(dirs[m])
   dirpath <- dirs[m]
-  source('special_routines/get_hovmullerAgeLatitude.R')
+  source('special_routines/plot_hovmullerAgeLatitude.R')
   b <- Sys.time()
   ba <- b-a
-  print(ba)
+  # print(ba)
   
-  times[m] <- ba
+  # times[m] <- ba
 }
 
-unlist(times)
-print(sum(unlist(times)))
+# unlist(times)
+# print(sum(unlist(times)))

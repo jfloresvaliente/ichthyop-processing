@@ -6,7 +6,7 @@
 # Aim    : Gets the percentage of particles at age at recruitment by Release Depth.
 # URL    : 
 #=============================================================================#
-# dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu1/results/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
 ages    <- 90 # Age
 
 #=============================================================================#

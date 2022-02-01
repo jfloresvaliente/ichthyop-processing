@@ -6,7 +6,7 @@
 # Aim    : 
 # URL    : 
 #=============================================================================#
-# dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC1/out19C/results/'
+dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
 computeattime <- 91
 N0            <- 1 # Initial value of the particle affected by mortality
 
@@ -45,3 +45,6 @@ for(i in 1:12){
   print(paste0('re-saving .....', RData))
   save(trajectories, file = RData)
 }
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#

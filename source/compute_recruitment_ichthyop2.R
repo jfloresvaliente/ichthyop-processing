@@ -6,7 +6,7 @@
 # Aim    :
 # URL    : 
 #=============================================================================#
-# dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC1/out25C/results/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
 
 csv <- read.table(paste0(dirpath, 'ichthyop_output.csv'), header = T, sep = ';')
 Rdata <- paste0(dirpath,'data_atRecruitmentAge.Rdata')

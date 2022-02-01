@@ -6,11 +6,11 @@
 # Aim    : Get trajectories from ICHTHYOP outputs (.nc)
 # URL    : 
 #=============================================================================#
-# source('ichthyop_libraries.R')
-# source('ichthyop_functions.R')
+source('ichthyop_libraries.R')
+source('ichthyop_functions.R')
 
-# dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC1/out25C/'
-new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC1/cfg/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/'
+new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5/cfg/'
 variname <- c('length','MESO','temp')
 length_min <- 20
 

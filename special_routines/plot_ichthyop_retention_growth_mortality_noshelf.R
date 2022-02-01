@@ -7,12 +7,12 @@
 # URL    : 
 #=============================================================================#
 source('ichthyop_functions.R')
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu6/'
-retention <- paste0(dirpath, '/results/ichthyop_output.csv')
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/'
+# retention <- paste0(dirpath, '/results/ichthyop_output.csv')
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Recruitment (%)'
 ymax1     <- c(0,60)
-ymax2     <- c(0,1)
+ymax2     <- c(0,5)
 vertical  <- F # if T --> (4 rows x 1 column) if F --> (2 rows x 2 column)
 legend_text <- c('Size criterion','Size criterion + Constant mortality','Size criterion + Constant mortality (non shelf)')
 #=============================================================================#
@@ -24,7 +24,7 @@ latlab <- NULL
 for(i in 1:(length(lats)-1)) latlab <- c(latlab, paste0(lats[i],'º - ', lats[i] + 2, 'º'))
 
 # Larval retention data
-dat1 <- read.table(retention, header = T, sep = ';')
+dat1 <- read.table(paste0(dirpath, '/results/ichthyop_output2.csv'), header = T, sep = ';')
 
 # Larval recruitment data
 dat2 <- read.table(paste0(dirpath, '/results/ichthyop_output2.csv'), header = T, sep = ';')
@@ -74,8 +74,8 @@ axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = 1:12, labe
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
 
 # dat1 curve
-lines(1:12-.13,  month1[,1], lwd = 3)
-points(1:12-.13, month1[,1], pch = 16, cex = 1.5)
+lines(1:12-.13,  month1[,1], lwd = 3, lty = 2)
+points(1:12-.13, month1[,1], pch = 8, cex = 1.5)
 arrows(1:12-.13, month1[,2], 1:12-.13, month1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
@@ -92,7 +92,7 @@ points(1:12+.13, month3[,1], pch = 8, cex = 1.5, col = 'red')
 arrows(1:12+.13, month3[,2], 1:12+.13, month3[,3], angle = 90, code = 3, length = 0.02, lty = 1, col = 'red')
 
 axis(side = 4, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks2, labels = yticks2, las = 2, col.axis = 'red', col = 'red', line = 0)
-legend('topright', lty = c(1,2,1), lwd = 2, col = c(1,2,2), bty = 'n', pch = c(16,8,8), seg.len = 5, pt.cex = 1.5,
+legend('topright', lty = c(2,2,1), lwd = 2, col = c(1,2,2), bty = 'n', pch = c(8,8,8), seg.len = 5, pt.cex = 1.5,
        legend = legend_text, text.font = 2, cex = 0.85)
 
 #========================= Plot by spawning latitude =========================#
@@ -109,7 +109,7 @@ text(1:9, -7, labels = latlab, srt = 20, xpd = TRUE, cex = 1, font = 2)
 
 # dat1 curve
 lines(1:9-.15,  zone1[,1], lwd = 3)
-points(1:9-.15, zone1[,1], pch = 16, cex = 1.5)
+points(1:9-.15, zone1[,1], pch = 8, cex = 1.5)
 arrows(1:9-.15, zone1[,2], 1:9-.15, zone1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
@@ -140,7 +140,7 @@ axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, l
 
 # dat1 curve
 lines(1:3-.09,  depth1[,1], lwd = 3)
-points(1:3-.09, depth1[,1], pch = 16, cex = 1.5)
+points(1:3-.09, depth1[,1], pch = 8, cex = 1.5)
 arrows(1:3-.09, depth1[,2], 1:3-.09, depth1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
@@ -171,7 +171,7 @@ axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, l
 
 # dat1 curve
 lines(1:3-.09,  bathy1[,1], lwd = 3)
-points(1:3-.09, bathy1[,1], pch = 16, cex = 1.5)
+points(1:3-.09, bathy1[,1], pch = 8, cex = 1.5)
 arrows(1:3-.09, bathy1[,2], 1:3-.09, bathy1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
