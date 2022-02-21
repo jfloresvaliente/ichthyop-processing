@@ -6,7 +6,7 @@
 # Aim    : Gets the percentage of particles at age at recruitment by Release Depth.
 # URL    : 
 #=============================================================================#
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/results/'
 ages    <- 90 # Age
 
 #=============================================================================#
@@ -28,6 +28,10 @@ for(i in 1:length(depth_lev)){
 rownames(age_percent) <- depth_lev
 colnames(age_percent) <- 1:ages
 save(age_percent, file = paste0(dirpath, 'recruited_age_percentageReleaseDepthYearMean.Rdata'))
+
+# recruite$sum <- 1
+# a <- tapply(recruite$N_constant, recruite$Age, sum)
+# b <- tapply(recruite$sum, recruite$Age, sum)
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

@@ -11,15 +11,15 @@ source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
 dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/ichthyop_output_retention.csv', header = T, sep = ';')
-dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0/out/results/ichthyop_output_retention.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results_no_shelf/ichthyop_output.csv', header = T, sep = ';')
 
 # ylab <- 'Retention (%)'
-# ylab <- 'Recruitment (%)'
-ylab <- 'Pre-recruitment (%)'
+ylab <- 'Recruitment (%)'
+# ylab <- 'Pre-recruitment (%)'
 
 lats     <- seq(from = 2, to = 20, by = 2)
-ymax     <- 70
+ymax     <- c(0,120)
 col_bars <- c('grey10','grey50','grey90')
 
 # legend   <- c('10 km', '02 km', '02 km (interpolated)')
@@ -30,6 +30,8 @@ png_name <- paste0(dirpath, 'barplot_ichthyop_comparison3bars.png')
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
+yticks <- seq(ymax[1],ymax[2],10)
+
 day1 <- recruitment_month(dat1)
 day2 <- recruitment_month(dat2)
 day3 <- recruitment_month(dat3); #day3[day3 != 0] = 0
@@ -52,16 +54,20 @@ zone2  <- recruitment_zone(dat2)
 zone3  <- recruitment_zone(dat3); # zone3[zone3 != 0] = 0
 zone   <- rbind(zone1[,1], zone2[,1], zone3[,1]); colnames(zone) <- latlab
 
-## PLOT ##
-
+#========================= PLOT =========================#
 png(png_name, height = 850, width = 1250, res = 120)
-
-#=====Plot by Month=====#
 par(mfrow = c(2,2))
-par(mar=c(4 , 5 , 1.5 , 0.3))
-dayplot   <- barplot(day, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
-                     axes = T, axisnames = T, col = col_bars, yaxt='n')
-axis(2, las = 2)
+
+#========================= Plot by spawning month =========================#
+par(mar = c(3.5,4,.5,4))
+dayplot   <- barplot(day, beside = T, xlab='', ylab= '' ,ylim = ymax,
+                     axes = T, axisnames = F, col = col_bars, yaxt='n')
+mtext(side = 1, line = 2  , cex = 1.3, font = 2, text = 'Spawning Month')
+mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
+mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'a)', adj = 0.025)
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(dayplot,2,mean), labels = 1:12)
+axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, labels = yticks, las = 2)
+
 arrows(dayplot[1,], day1[,2],
        dayplot[1,], day1[,3],
        angle=90,code=3,length=0.025)
@@ -71,15 +77,29 @@ arrows(dayplot[2,], day2[,2],
 arrows(dayplot[3,], day3[,2],
        dayplot[3,], day3[,3],
        angle=90,code=3,length=0.025)
-legend('topright', legend = legend, bty = 'n', fill = col_bars)
-mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Month')
-mtext(side = 2, line = 2.5, cex = 0.75, font = 2, text = ylab)
 
-#=====Plot by release latitude=====#
-par(mar=c(4 , 5 , 1.5 , 0.3))
-zoneplot   <- barplot(zone, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
+legend('topright',
+       bty = 'n',
+       fill = col_bars,
+       border = col_bars,
+       seg.len = 5,
+       pt.cex  = 1.5,
+       legend  = legend,
+       text.font = 2,
+       cex = 0.9
+)
+
+#========================= Plot by spawning latitude =========================#
+par(mar = c(3.5,4,.5,4))
+zoneplot   <- barplot(zone, beside = T, xlab='', ylab= '' ,ylim = ymax,
                       axes = T, axisnames = F, col = col_bars, yaxt='n')
-axis(2, las = 2)
+mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Latitude')
+mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
+mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'b)', adj = 0.025)
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(zoneplot,2,mean), labels = rep('',9))
+axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, labels = yticks, las = 2)
+text(apply(zoneplot,2,mean), -ymax[2]/20, labels = latlab, srt = 20, xpd = TRUE, cex = 1, font = 2)
+
 arrows(zoneplot[1,], zone1[,2],
        zoneplot[1,], zone1[,3],
        angle=90,code=3,length=0.025)
@@ -89,16 +109,17 @@ arrows(zoneplot[2,], zone2[,2],
 arrows(zoneplot[3,], zone3[,2],
        zoneplot[3,], zone3[,3],
        angle=90,code=3,length=0.025)
-# legend('topleft', legend = legend, bty = 'n', fill = col_bars)
-mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Latitude')
-mtext(side = 2, line = 2.5, cex = 0.75, font = 2, text = ylab)
-text((zoneplot[1,]+zoneplot[2,]+zoneplot[3,])/3, par('usr')[3], labels = latlab, srt = 45, adj = c(1.1,1.1), xpd = TRUE, cex = .85)
 
-#=====Plot by release depth=====#
-par(mar=c(4 , 5 , 1.5 , 0.3))
-depthplot   <- barplot(depth, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
-                       axes = T, axisnames = T, col = col_bars, yaxt='n')
-axis(2, las = 2)
+#========================= Plot by spawning depth =========================#
+par(mar = c(3.5,4,.5,4))
+depthplot   <- barplot(depth, beside = T, xlab='', ylab= '' ,ylim = ymax,
+                       axes = T, axisnames = F, col = col_bars, yaxt='n')
+mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Depth [m]')
+mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
+mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'c)', adj = 0.025)
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(depthplot,2,mean), labels = colnames(depth))
+axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, labels = yticks, las = 2)
+
 arrows(depthplot[1,], depth1[,2],
        depthplot[1,], depth1[,3],
        angle=90,code=3,length=0.025)
@@ -108,15 +129,17 @@ arrows(depthplot[2,], depth2[,2],
 arrows(depthplot[3,], depth3[,2],
        depthplot[3,], depth3[,3],
        angle=90,code=3,length=0.025)
-# legend('topleft', legend = legend, bty = 'n', fill = col_bars)
-mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Depth [m]')
-mtext(side = 2, line = 2.5, cex = 0.75, font = 2, text = ylab)
 
-#=====Plot by release bathymetry=====#
-par(mar=c(4 , 5 , 1.5 , 0.3))
-bathyplot   <- barplot(bathy, beside = T, xlab='', ylab= '' ,ylim = c(0,ymax),
-                       axes = T, axisnames = T, col = col_bars, yaxt='n')
-axis(2, las = 2)
+#========================= Plot by spawning bathymetry =========================#
+par(mar = c(3.5,4,.5,4))
+bathyplot   <- barplot(bathy, beside = T, xlab='', ylab= '' ,ylim = ymax,
+                       axes = T, axisnames = F, col = col_bars, yaxt='n')
+mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Bathymetry [m]')
+mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
+mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'd)', adj = 0.025)
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(depthplot,2,mean), labels = colnames(bathy))
+axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, labels = yticks, las = 2)
+
 arrows(bathyplot[1,], bathy1[,2],
        bathyplot[1,], bathy1[,3],
        angle=90,code=3,length=0.025)
@@ -126,9 +149,6 @@ arrows(bathyplot[2,], bathy2[,2],
 arrows(bathyplot[3,], bathy3[,2],
        bathyplot[3,], bathy3[,3],
        angle=90,code=3,length=0.025)
-# legend('topleft', legend = legend, bty = 'n', fill = col_bars)
-mtext(side = 1, line = 2.5, cex = 0.75, font = 2, text = 'Spawning Bathymetry [m]')
-mtext(side = 2, line = 2.5, cex = 0.75, font = 2, text = ylab)
 
 dev.off()
 #=============================================================================#

@@ -24,7 +24,7 @@ longi <- c(-82.5, -70) # Longitudes de menor a mayor
 bathy <- 2000 # Máxima batimería
 
 #=================================#
-# Get bathimetry between 0-200 m
+# Get bathimetry between 0-2000 m
 h2 <- h
 h2[h2 > 0 & h2 <= bathy] <- NA
 h2[!is.na(h2)] <- 0

@@ -21,12 +21,14 @@ ggname   <- paste0(dirpath, 'grid_arrange', bin_lat, '.png')
 #========== Zlim ==========#
 zlimA <- c(20,90) # Age at recruitment
 zlimB <- c(0,300) # No mortality
-zlimC <- c(0,3) # Constant mortality
+zlimC <- c(0,2) # Constant mortality
 
 zlimD <- zlimA    # Age at recruitment
 zlimE <- c(0,100) # No mortality
 zlimF <- c(0,1) # Constant mortality
 
+xposlab <- -85
+yposlab <- -23.7
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -61,7 +63,7 @@ p1 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b) Recruitment\'s Density"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b) Recruitment\'s Density"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -80,7 +82,7 @@ p2 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("e) Recruitment\'s Density"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("e) Recruitment\'s Density"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -102,7 +104,7 @@ p3 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("a) Age at recruitment (days)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("a) Age at recruitment (days)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -121,7 +123,7 @@ p4 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("d) Age at recruitment (days)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("d) Age at recruitment (days)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -143,7 +145,7 @@ p5 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("c) Super-Individual\'s Worth"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("c) Super-Individual\'s Worth"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -162,7 +164,7 @@ p6 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = -95, y = -23.7, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("f) Super-Individual\'s Worth"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("f) Super-Individual\'s Worth"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),

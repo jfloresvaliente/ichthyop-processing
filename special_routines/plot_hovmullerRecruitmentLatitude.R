@@ -8,11 +8,11 @@
 #=============================================================================#
 library(fields)
 
-dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results/'
 lat_div  <- 2  # Latitudinal resolution
 nlevels  <- 64 # Number of levels in the color palette
-zlim     <- c(0,100)
-isolines <- round(seq(zlim[1], zlim[2], 5), 2) # Isolines to be plotted
+zlim     <- c(0,65)
+isolines <- round(seq(zlim[1], zlim[2], 10), 2) # Isolines to be plotted
 Rdata    <- paste0(dirpath, '/hovmuller/hovmullerRecruitment', lat_div, 'degrees.Rdata')
 load(Rdata)
 
@@ -31,14 +31,15 @@ filled.contour(x = x, y = y, z = z, zlim = zlim,
                levels = lev,
                xlab = '', ylab = '',
                plot.axes = {
-                 contour(x = x, y = y, z = z, levels = isolines, labels = isolines, add = T)
-                 axis(side = 1, font = 2, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
-                 axis(side = 2, font = 2, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 2))
+                 contour(x = x, y = y, z = z, levels = isolines, labels = isolines, add = T, lwd = 2, labcex = .75)
+                 axis(side = 1, font = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, at = (1:range(x)[2]))
+                 axis(side = 2, font = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, at = seq(from = range(y)[1], to = range(y)[2], by = 2))
                  box(lwd = 2)
-               }
+               },
+               key.axes = axis(4, isolines, font = 2, lwd.ticks = 2, cex.axis = 1.3)
 )
-mtext(side = 1, line = 3.0, font = 2, cex = 1.3, adj = 0.3, text = 'Spawning Month')
-mtext(side = 2, line = 3.0, font = 2, cex = 1.3, adj = 0.5, text = 'Latitude')
+mtext(side = 1, line = 3.0, font = 2, cex = 1.9, adj = 0.35, text = 'Month')
+mtext(side = 2, line = 3.0, font = 2, cex = 1.9, adj = 0.50, text = 'Latitude')
 # mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.0, text = 'Recruitment [%]')
 
 dev.off()

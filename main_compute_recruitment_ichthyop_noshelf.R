@@ -9,7 +9,7 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/'
 new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5/cfg/'
 length_min <- 20 # Talla minima para calcular el reclutamiento
 

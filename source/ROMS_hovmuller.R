@@ -38,7 +38,7 @@ ROMS_hovmuller <- function(
   
   for(i in 1:dim(xy)[1]) mask4D[ xy[i,1] , xy[i,2] ] <- 1
   
-  mask4D <- rep(as.vector(mask4D), time = length(ver_lev)* time_step)
+  mask4D <- rep(as.vector(mask4D), time = length(ver_lev) * time_step)
   mask4D <- array(data = mask4D, dim = c(dim(mask)[1], dim(mask)[2], length(ver_lev), time_step))
   
   # Calculate the time series vs depth

@@ -8,11 +8,11 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu1/results_no_shelf/'
-ymax    <- c(0,5)
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/results_no_shelf/'
+ymax    <- c(0,6)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
-hlines  <- seq(from = ymax[1], to = ymax[2], by = .5)
+hlines  <- seq(from = ymax[1], to = ymax[2], by = 2)
 years   <- seq(1:3) # Number of simulation years
 Recruit <- 'N_constantprop'
 # Recruit <- 'N_lengthprop'
