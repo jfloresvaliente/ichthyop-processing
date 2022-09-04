@@ -1,4 +1,4 @@
-dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0/out/results/'
+dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu1/results/'
 computeattime <- 91
 
 day_released  <- NULL

@@ -10,21 +10,23 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results_no_shelf/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/case1/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/results/ichthyop_output.csv', header = T, sep = ';')
+dat3 <- read.table('D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil1/case1/results/ichthyop_output.csv', header = T, sep = ';')
 
 # ylab <- 'Retention (%)'
 ylab <- 'Recruitment (%)'
 # ylab <- 'Pre-recruitment (%)'
 
 lats     <- seq(from = 2, to = 20, by = 2)
-ymax     <- c(0,120)
+ymax     <- c(0,70)
 col_bars <- c('grey10','grey50','grey90')
 
 # legend   <- c('10 km', '02 km', '02 km (interpolated)')
 # legend   <- c('Age criteria', 'Size criteria k_x = 0', 'Size criteria k_x = 1.6')
-legend   <- c('simu 30 days', 'simu 90 days: I', 'simu 90 days: II')
+# legend   <- c('simu 30 days', 'simu 90 days: I', 'simu 90 days: II')
+legend   <- c('sans seiul', 'seiul = 0.052', 'seiul = 1')
+# legend   <- c('D01', 'D02s', 'D02r')
 
 png_name <- paste0(dirpath, 'barplot_ichthyop_comparison3bars.png')
 #=============================================================================#
@@ -96,7 +98,7 @@ zoneplot   <- barplot(zone, beside = T, xlab='', ylab= '' ,ylim = ymax,
 mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Latitude')
 mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'b)', adj = 0.025)
-axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(zoneplot,2,mean), labels = rep('',9))
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(zoneplot,2,mean), labels = rep('',length(latlab)))
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, labels = yticks, las = 2)
 text(apply(zoneplot,2,mean), -ymax[2]/20, labels = latlab, srt = 20, xpd = TRUE, cex = 1, font = 2)
 

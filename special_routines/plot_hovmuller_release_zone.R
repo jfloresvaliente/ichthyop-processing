@@ -5,11 +5,11 @@ sufijo  <- 'ReleaseZone'
 nlevels <- 64 # Number of levels in the color palette
 by_lat  <- 2
 
-# #===== Config for temp var =====#
-# namevar  <- 'TEMP'
-# zlim     <- c(14, 22)
-# isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
-# caption  <- 'Temperature [ºC]'
+#===== Config for temp var =====#
+namevar  <- 'TEMP'
+zlim     <- c(14, 22)
+isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
+caption  <- 'Temperature [ºC]'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
@@ -35,11 +35,11 @@ by_lat  <- 2
 # isolines <- seq(zlim[1], zlim[2], 20) # Isolines to be plotted
 # caption  <- 'Oxygen [umol L-1]'
 
-#===== Config for V var =====#
-namevar  <- 'V'
-zlim     <- c(-0.025, 0.050)
-isolines <- round(seq(zlim[1], zlim[2], 0.01), 3) # Isolines to be plotted
-caption  <- 'Velocity V [m/s]'
+# #===== Config for V var =====#
+# namevar  <- 'V'
+# zlim     <- c(-0.025, 0.050)
+# isolines <- round(seq(zlim[1], zlim[2], 0.01), 3) # Isolines to be plotted
+# caption  <- 'Velocity V [m/s]'
 
 # #===== Config for U var =====#
 # namevar  <- 'U'
@@ -71,14 +71,13 @@ for(i in 1:(length(lat_in)-1)){
   lat_hov <- rbind(lat_hov, sub_hov)
 }
 
+# Plot 1 YEAR, each 3 days
 hovmuller <- t(lat_hov)
-
 hov <- array(data = NA, dim = c(120,dim(hovmuller)[2],3))
 hov[,,1] <- hovmuller[1:120,]
 hov[,,2] <- hovmuller[121:240,]
 hov[,,3] <- hovmuller[241:360,]
 hovmuller <- apply(X = hov, MARGIN = c(1,2), FUN = mean, na.rm = T)
-
 
 x <- round(seq(from = 1, to = 12, length.out = dim(hovmuller)[1]), 3)
 y <- seq(from = range(lat_in)[1], to = range(lat_in)[2], length.out = dim(hovmuller)[2])

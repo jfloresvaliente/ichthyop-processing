@@ -6,8 +6,8 @@
 # Aim    : Barplot associated to spawning depth & Lines associated to spawning bathymetry.
 # URL    : 
 #=============================================================================#
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results_no_shelf/'
-ymax    <- 100
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1f1/results/'
+ymax    <- 35
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -36,11 +36,14 @@ points(plot1[2,], bathy[,2], pch = 8, cex = 1.3)
 lines(plot1[2,], bathy[,3])
 points(plot1[2,], bathy[,3], pch = 16, cex = 1.3)
 
+mtext(side = 1, lwd = 2, font = 2, line = 2.9, cex = 1.2, adj = 0.03, text = 'Spawning Depth [m] (Histograms)')
+mtext(side = 1, lwd = 2, font = 2, line = 2.9, cex = 1.2, adj = 0.90, text = 'Spawning Bathymetry [m] (Curves)')
+
 legend('bottomleft', inset=c(0.05,-0.23), legend = colnames(depth), bty = 'n', horiz = T, title.adj = 0, text.font = 2,
-       fill = cols, title = 'Spawning Depth [m] (Histograms)', cex = 1)
+       fill = cols, title = '', cex = 1.1)
 
 legend('bottomleft', inset=c(0.50,-0.23), legend = colnames(bathy), bty = 'n', horiz = T, title.adj = 0, text.font = 2,
-       lty = 1, pch = c(17,8,16), title = 'Spawning Bathymetry [m] (Curves)', cex = 1)
+       lty = 1, pch = c(17,8,16), title = '', cex = 1.1)
 
 dev.off()
 #=============================================================================#

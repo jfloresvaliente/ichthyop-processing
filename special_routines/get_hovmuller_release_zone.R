@@ -1,17 +1,17 @@
 library(R.matlab)
-dirpath   <- 'E:/ROMS_SILUMATIONS/10kmparent/interpolatedYearMonth/'
+dirpath   <- 'D:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
 
-namevar   <- 'v'
+namevar   <- 'MESO'
 k_x       <- NULL # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
 xy        <- read.table(paste0(dirpath, 'release_zone_rowcol_index.txt'))
 mask      <- as.matrix(read.table(paste0(dirpath, 'mask.txt')))
 ver_lev   <- as.vector(read.table(paste0(dirpath, 'depth.txt'), header = T))[,1]
 depth_lim <- range(ver_lev)   # Latitude extension of the area 
 nlevels   <- 50               # Number of levels in the color palette
-years     <- c(2012, 2014)    # Years comprising the simulation
+years     <- c(1980, 2000)    # Years comprising the simulation
 months    <- c(1,12)          # Months comprising the simulation
-time_step <- 10               # Time steps in ROMS
-zplot     <- -45
+time_step <- 6                # Time steps in ROMS
+zplot     <- -50              # Z vertical level to calculate
 lat       <- as.matrix(read.table(paste0(dirpath, 'lat.txt')))
 
 zplot <- which(ver_lev == zplot)
@@ -32,6 +32,10 @@ for(year in years[1]:years[2]){
     matfile <- paste0(dirpath, namevar, 'Y', year, 'M', month,'.mat')
     print(matfile)
     vari <- readMat(matfile)$newvar
+    
+    if (month == 12){
+      vari <- vari[1:time_step,1:zplot,,]
+    }
     vari <- vari[,1:zplot,,]
     
     # Convert to the classical dimension as R reads the ncdf [lon, lat, depth, time].
@@ -64,6 +68,6 @@ for(year in years[1]:years[2]){
     hovmuller <- cbind(hovmuller, var_mat)
   }
 }
-csv_name <- paste0(dirpath,namevar, '_hovmullerReleaseZone.csv')
+csv_name <- paste0(dirpath, namevar, '_hovmullerReleaseZone.csv')
 write.table(x = hovmuller, file = csv_name, col.names = F, row.names = F, sep = ';')
 

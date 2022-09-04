@@ -8,20 +8,20 @@
 #=============================================================================#
 source('source/ROMS_hovmuller.R')
 
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/interpolatedYearMonth/'
-sufijo    <- 'Guayaquil'
+dirpath   <- 'D:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
+sufijo    <- 'release_zone'
 # sufijo    <- 'PeruCoast'
 
-namevar   <- 'O2'
+namevar   <- 'temp'
 k_x       <- NULL # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
 xy        <- read.table(paste0(dirpath, sufijo,'getpolygon_rowcol_index.txt'))
 mask      <- as.matrix(read.table(paste0(dirpath, 'mask.txt')))
 ver_lev   <- as.vector(read.table(paste0(dirpath, 'depth.txt'), header = T))[,1]
 depth_lim <- range(ver_lev)   # Latitude extension of the area 
 nlevels   <- 50               # Number of levels in the color palette
-years     <- c(2012, 2014)    # Years comprising the simulation
+years     <- c(1980, 2000)    # Years comprising the simulation
 months    <- c(1,12)          # Months comprising the simulation
-time_step <- 10               # Time steps in ROMS
+time_step <- 6               # Time steps in ROMS
 
 #======= Do not change anything from here=======#
 new_dir <- paste0(dirpath, sufijo,'/')

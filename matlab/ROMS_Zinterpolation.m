@@ -3,10 +3,10 @@ clear variables
 clc
 
 %% Directory where the files (ROMS files) are stored
-dirpath  = 'E:/ROMS_SILUMATIONS/10kmparent/';
+dirpath  = 'D:/ROMS_SILUMATIONS/rsodi1/';
 ver_lev  = [-1 -5 -10 -15 -20 -25 -30 -35 -40 -45 -50 -60 -70 -80 -90 -100]; % Niveles verticales (Z) para interpolar
-N        = 64; % Numero de niveles RHO
-var_name = 'O2'; % Nombre de la variable a interpolar en Z
+N        = 32; % Numero de niveles RHO
+var_name = 'u'; % Nombre de la variable a interpolar en Z
 
 %% Create a new directory to store interpolated variables
 mkdir([dirpath , 'interpolatedYearMonth']);
@@ -14,12 +14,13 @@ outpath  = [dirpath, 'interpolatedYearMonth/'];
 out_name = var_name;
 
 %% Get Interpolated variables each year & month
-for year = 2012:2014
+for year = 1978:2008
     for month = 1:12
 
     % Read ROMS-PISCES file
-    nc = [dirpath, 'roms_avg_Y', num2str(year), 'M', num2str(month), '.Jaard10kmClim.nc'];
-    disp (['Reading ... ' nc]); % Display current nc file name
+    %nc = [dirpath, 'roms_avg_Y', num2str(year), 'M', num2str(month), '.Jaard10kmClim.nc'];
+    nc = [dirpath, 'roms6b_avg.Y', num2str(year), '.M', num2str(month), '.rsodi1.nc'];
+    disp (['Reading... ' nc '  variable:  ' var_name]); % Display current nc file name
     ncload(nc, 'time_step', 'h', var_name);
 
     var_name    = eval(var_name);

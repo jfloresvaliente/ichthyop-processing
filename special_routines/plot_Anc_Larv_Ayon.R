@@ -45,7 +45,7 @@ p1 <- ggplot(data = df1)+
   labs(x = 'Longitude', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("g)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("e)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=9, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=9, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=11, angle=0),

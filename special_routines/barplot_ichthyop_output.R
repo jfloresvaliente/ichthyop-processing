@@ -8,17 +8,18 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/results_no_shelf/'
-ymax    <- c(0,100)
+dirpath <- 'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case2f0.75/results/'
+ymax    <- c(0,30)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
-hlines  <- seq(from = ymax[1], to = ymax[2], by = 10)
+hlines  <- seq(from = ymax[1], to = ymax[2], by = 5)
 years   <- seq(1:3) # Number of simulation years
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 dat <- read.table(paste0(dirpath, 'ichthyop_output.csv'), sep = ';', header = T)
+dat$Recruitprop[is.na(dat$Recruitprop)] <- 0
 year  <- recruitment_year(dat)
 month <- recruitment_month(dat)
 age   <- recruitment_age(dat)
@@ -36,8 +37,9 @@ png(filename = paste0(dirpath, '/ichthyop_output.png'), height = 850, width = 13
 par(mfrow = c(2,3), mar = c(4,4,2,1))
 
 # Plot by year
-yearlab <- NULL
-for(i in 1:length(years)) yearlab <- c(yearlab, paste0('Y', years[i]))
+yearlab <- levels(factor(dat$Year))
+# yearlab <- NULL
+# for(i in 1:length(years)) yearlab <- c(yearlab, paste0('Y', years[i]))
 
 yearplot <- barplot(year[,1], ylim = ymax, axes = F, names.arg = F)
 abline(h = hlines, lty = 3, lwd = .05)

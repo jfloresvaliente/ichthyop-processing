@@ -8,16 +8,16 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/interpolatedYearMonth/'
-sufijo    <- 'Guayaquil'
+dirpath   <- 'D:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
+sufijo    <- 'release_zone'
 # sufijo    <- 'PeruCoast'
 nlevels   <- 64 # Number of levels in the color palette
 
-# #===== Config for temp var =====#
-# namevar  <- 'TEMP'
-# zlim     <- c(12, 24)
-# isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
-# caption  <- expression('Temperature [ºC]')
+#===== Config for temp var =====#
+namevar  <- 'TEMP'
+zlim     <- c(12, 26)
+isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
+caption  <- expression('Temperature [ºC]')
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
@@ -49,23 +49,24 @@ nlevels   <- 64 # Number of levels in the color palette
 # isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
 # caption  <- expression('Velocity V [m/s]')
 
-#===== Config for U var =====#
-namevar  <- 'U'
-zlim     <- c(-0.18, 0.08)
-isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
-caption  <- expression('Velocity U [m/s]')
+# #===== Config for U var =====#
+# namevar  <- 'U'
+# zlim     <- c(-0.18, 0.08)
+# isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+# caption  <- expression('Velocity U [m/s]')
 
 #======= Do not change anything from here=======#
 Rdata    <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller.Rdata')
 png_name <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller.png')
 load(Rdata)
 
-x <- as.numeric(rownames(hovmuller))
+x <- seq(from = 1980, to = 2000, length.out = length(row.names(hovmuller)))
+# x <- as.numeric(rownames(hovmuller))
 y <- as.numeric(colnames(hovmuller))
 
 lev <- seq(from = zlim[1], to = zlim[2], length.out = nlevels)
 
-png(filename = png_name, width = 1250, height = 750, res = 120)
+png(filename = png_name, width = 1850, height = 750, res = 120)
 par(mar = c(4.5, 4.5, 3.5, 3.5))
 filled.contour(x = x, y = y, z = hovmuller, zlim = zlim,
                # col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),

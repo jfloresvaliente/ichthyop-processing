@@ -11,8 +11,8 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-df1 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu1/results/data_atRecruitmentAge.Rdata'
-df2 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results/data_atRecruitmentAge.Rdata'
+df1 <- 'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/results/data_atRecruitmentAge.Rdata'
+df2 <- 'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/data_atRecruitmentAge.Rdata'
 
 xlim     <- c(-85, -70) # Londitude
 ylim     <- c(-20, 0)   # Latitude
@@ -48,7 +48,7 @@ p1 <- ggplot(data = df1)+
   labs(x = '', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("a)"))', parse = TRUE)+
+  # annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("a)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=9, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=9, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=11, angle=0),
@@ -67,7 +67,7 @@ p4 <- ggplot(data = df2)+
   labs(x = 'Longitude', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("d)"))', parse = TRUE)+
+  # annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("d)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=9, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=9, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=11, angle=0),
@@ -86,10 +86,10 @@ p4 <- ggplot(data = df2)+
 p2 <- ggplot(data = df1)+
   stat_bin_hex(data = df1, mapping = aes(x = Lon_ini, y = Lat_ini), binwidth = c(bin_lon, bin_lat))+
   scale_fill_gradientn(colours = tim.colors(64), limits = zlimB, na.value = '#800000')+
-  labs(x = '', y = '', fill = '') +
+  labs(x = '', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("b)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("a)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=9, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=9, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=11, angle=0),
@@ -105,10 +105,10 @@ p2 <- ggplot(data = df1)+
 p5 <- ggplot(data = df2)+
   stat_bin_hex(data = df2, mapping = aes(x = Lon_ini, y = Lat_ini), binwidth = c(bin_lon, bin_lat))+
   scale_fill_gradientn(colours = tim.colors(64), limits = zlimE, na.value = '#800000')+
-  labs(x = 'Longitude', y = '', fill = '') +
+  labs(x = 'Longitude', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("e)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("c)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=9, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=9, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=11, angle=0),
@@ -130,7 +130,7 @@ p3 <- ggplot(data = df1)+
   labs(x = '', y = '', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("c)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("b)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=9, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=9, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=11, angle=0),
@@ -149,7 +149,7 @@ p6 <- ggplot(data = df2)+
   labs(x = 'Longitude', y = '', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("f)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 4.5, hjust = 0, vjust = 1, label = 'atop(bold("d)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=9, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=9, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=11, angle=0),
@@ -166,19 +166,37 @@ p6 <- ggplot(data = df2)+
 # PLOTS
 #=============================================================================#
 
+# # PLOT aGE AT RECRUITMENT
+# # PNG plot
+# png(filename = paste0(figname,'.png'), width = 350, height = 800, res = 120)
+# grid.arrange(p1, p4, nrow = 2) # Age at recruitment
+# dev.off()
+# 
+# # TIFF plot
+# png(filename = paste0(figname,'.tiff'), width = 350, height = 800, res = 120)
+# grid.arrange(p1, p4, nrow = 2) # Age at recruitment
+# dev.off()
+# 
+# #SVG plot
+# svg(filename = paste0(figname,'.svg'), width = 3.5, height = 8.00)
+# grid.arrange(p1, p4, nrow = 2) # Age at recruitment
+# dev.off()
+
+
+# PLOT ALL PLOTS
 # PNG plot
-png(filename = paste0(figname,'.png'), width = 950, height = 750, res = 120)
-grid.arrange(p1, p2, p3, p4, p5, p6, nrow = 2)
+png(filename = paste0(figname,'.png'), width = 700, height = 800, res = 120)
+grid.arrange(p2, p3, p5, p6, nrow = 2)
 dev.off()
 
 # TIFF plot
-png(filename = paste0(figname,'.tiff'), width = 950, height = 750, res = 120)
-grid.arrange(p1, p2, p3, p4, p5, p6, nrow = 2)
+png(filename = paste0(figname,'.tiff'), width = 700, height = 800, res = 120)
+grid.arrange(p2, p3, p5, p6, nrow = 2)
 dev.off()
 
 #SVG plot
-svg(filename = paste0(figname,'.svg'), width = 9.50, height = 7.50)
-grid.arrange(p1, p2, p3, p4, p5, p6, nrow = 2)
+svg(filename = paste0(figname,'.svg'), width = 7.00, height = 8.00)
+grid.arrange(p2, p3, p5, p6, nrow = 2)
 dev.off()
 #=============================================================================#
 # END OF PROGRAM

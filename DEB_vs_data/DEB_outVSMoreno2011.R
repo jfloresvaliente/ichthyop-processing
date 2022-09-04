@@ -91,13 +91,13 @@ ggplot(data = dat)+
   geom_point(data = lab, mapping = aes(x = t, y = L), size = 1.5)+
   scale_color_manual(values = cols)+
   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=10, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=10, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=10, angle=0),
-        axis.title.y = element_text(face='bold', color='black', size=10, angle=90),
-        plot.title   = element_text(face='bold', color='black', size=10, angle=0),
-        legend.text  = element_text(face='bold', color='black', size=10),
-        legend.title = element_text(face='bold', color='black', size=10),
+  theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
+        axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
+        axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
+        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+        legend.text  = element_text(face='bold', color='black', size=25),
+        legend.title = element_text(face='bold', color='black', size=25),
         legend.position   = c(0.07, 0.9),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
         strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap

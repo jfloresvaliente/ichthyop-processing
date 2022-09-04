@@ -49,6 +49,9 @@ ROMS_hovmuller <- function(
       matfile <- paste0(dirpath, namevar, 'Y', year, 'M', month,'.mat')
       print(matfile)
       vari <- readMat(matfile)$newvar
+      
+      # if SIMU INTERANUAL EL MES 12 TIENE UN PASO MAS DE TIEMPO
+      if(month == 12) vari <- vari[1:time_step,,,]
 
       # Convert to the classical dimension as R reads the ncdf [lon, lat, depth, time].
       vari2 <- array(data = NA, dim = rev(dim(vari)))
