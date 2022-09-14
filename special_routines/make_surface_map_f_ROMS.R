@@ -24,10 +24,10 @@ lat     <- ncvar_get(nc, 'lat_rho')
 vari    <- ncvar_get(nc, 'MESO'); vari <- vari[,,dim(vari)[3],1]
 mask    <- ncvar_get(nc, 'mask_rho'); mask[mask == 0] <- NA
 
-k_x <- 1.6
+k_x <- 6
 vari <- vari/(vari + k_x)
 
-png(filename = paste0(dirpath, 'surface_map_f_ROMS.png'), width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, 'surface_map_f_ROMS_', k_x, '.png'), width = 850, height = 850, res = 120)
 par(mar = c(4.5,4.5,.5,.5))
 image.plot(lon, lat, vari*mask, xlab = '', ylab = '', zlim = c(0,1), axes = F,
            legend.width = 2.5, axis.args = list(cex.axis = 1.5, font.axis = 2))

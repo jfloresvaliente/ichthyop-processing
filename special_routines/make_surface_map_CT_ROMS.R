@@ -30,12 +30,29 @@ T_ref  <- 16 + T_K;   # Kelvin
 T_A    <- 9800
 Temp <- vari + T_K
 
-# Parameters
+# # Parameters case 1
+# case <- 'case1'
+# T_L  <- 6 + T_K    # K Lower temp boundary
+# T_H  <- 24 + T_K   # K Upper temp boundary
+# T_A  <- T_A        # K Arrhenius temperature
+# T_AL <- 20000      # K Arrh. temp for lower boundary
+# T_AH <- 190000 * 3 # K Arrh. temp for upper boundary
+
+# # Parameters case 2
+# case <- 'case2'
+# T_L  <- 6 + T_K    # K Lower temp boundary
+# T_H  <- 21 + T_K   # K Upper temp boundary
+# T_A  <- T_A        # K Arrhenius temperature
+# T_AL <- 20000      # K Arrh. temp for lower boundary
+# T_AH <- 190000 / 2 # K Arrh. temp for upper boundary
+
+# Parameters case 3
+case <- 'case3'
 T_L  <- 6 + T_K    # K Lower temp boundary
-T_H  <- 21 + T_K   # K Upper temp boundary
+T_H  <- 17 + T_K   # K Upper temp boundary
 T_A  <- T_A        # K Arrhenius temperature
 T_AL <- 20000      # K Arrh. temp for lower boundary
-T_AH <- 190000 / 2 # K Arrh. temp for upper boundary
+T_AH <- 190000 / 4 # K Arrh. temp for upper boundary
 
 s_A = exp(T_A/T_ref - T_A/Temp)  # Arrhenius factor
 
@@ -53,9 +70,9 @@ TC_5      <- s_A * ((Temp <= T_ref) * s_L_ratio + (Temp > T_ref) * s_H_ratio)
 
 vari <- TC_5
 
-png(filename = paste0(dirpath, 'surface_map_CT_ROMS.png'), width = 850, height = 850, res = 120)
+png(filename = paste0(dirpath, 'surface_map_CT_ROMS_', case,'.png'), width = 850, height = 850, res = 120)
 par(mar = c(4.5,4.5,.5,.5))
-image.plot(lon, lat, vari*mask, xlab = '', ylab = '', zlim = c(0,1.5), axes = F,
+image.plot(lon, lat, vari*mask, xlab = '', ylab = '', zlim = c(0,2.3), axes = F,
            legend.width = 2.5, axis.args = list(cex.axis = 1.5, font.axis = 2))
 map('worldHires', add = T, fill = T, col = 'black')
 axis(side = 1, font = 2, lwd = 2, cex.axis = 1.5)
@@ -69,7 +86,7 @@ mtext(side = 2, font = 2, line = 2.8, cex = 1.5, text = 'Latitude')
 # segments(x0 = lon1, y0 = lat1, x1 = lon2, y1 = lat2, lwd = 4)
 dev.off()
 
-rm(list = ls())
+# rm(list = ls())
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

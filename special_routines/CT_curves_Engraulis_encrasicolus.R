@@ -1,13 +1,13 @@
 #=============================================================================#
-# Name   : temp_range_Engraulis_ringens2curves
+# Name   : CT_curves_Engraulis_encrasicolus
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
-# Aim    : calculate and plot the temperature correction curve of the DEB model
+# Aim    : Calculate and plot CT curve for DEB model
 # URL    : 
 #=============================================================================#
 dirpath  <- 'C:/Users/jflores/Desktop/'
-out_name <- 'curves2'
+out_name <- 'E_encrasicolus_CTcurves'
 
 T_K    <- 273.15;     # Kelvin
 T_ref  <- 16 + T_K;   # Kelvin
@@ -84,6 +84,36 @@ TC_5      <- s_A * ((Temp <= T_ref) * s_L_ratio + (Temp > T_ref) * s_H_ratio)
 TC_ring2 <- TC_5
 lines(Temp - T_K, TC_5, lwd = 3.0, col = 'blue')
 
+# text(27, 2.8, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[L]*' = ',  .(T_L-T_K))))
+# text(27, 2.5, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[H]*' = ',  .(T_H-T_K))))
+# text(27, 2.2, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[A]*' = ',  .(T_A))))
+# text(27, 1.9, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[AL]*' = ', .(T_AL))))
+# text(27, 1.6, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[AH]*' = ', .(T_AH))))
+# text(27, 1.3, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('TC'[max]*' = ', .(Temp[which.max(TC_5)]-T_K))))
+
+# #===== CURVE 3 =====#
+# # Parameters
+# T_L  <- 6 + T_K    # K Lower temp boundary
+# T_H  <- 17 + T_K   # K Upper temp boundary
+# T_A  <- T_A        # K Arrhenius temperature
+# T_AL <- 20000      # K Arrh. temp for lower boundary
+# T_AH <- 190000 / 4 # K Arrh. temp for upper boundary
+# 
+# s_A = exp(T_A/T_ref - T_A/Temp)  # Arrhenius factor
+# 
+# # 1-parameter correction factor
+# TC_1 = s_A
+# 
+# # 5-parameter correction factor
+# if(T_L > T_ref || T_H < T_ref){
+#   warning('Warning : invalid parameter combination, T_L > T_ref and/or T_H < T_ref\n')
+# }
+# 
+# s_L_ratio <- (1 + exp(T_AL/T_ref - T_AL/T_L)) / (1 + exp(T_AL/Temp - T_AL/T_L))
+# s_H_ratio <- (1 + exp(T_AH/T_H - T_AH/T_ref)) / (1 + exp(T_AH/T_H - T_AH/Temp))
+# TC_5      <- s_A * ((Temp <= T_ref) * s_L_ratio + (Temp > T_ref) * s_H_ratio)
+# lines(Temp - T_K, TC_5, lwd = 2.0, col = 'green')
+# 
 # text(27, 2.8, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[L]*' = ',  .(T_L-T_K))))
 # text(27, 2.5, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[H]*' = ',  .(T_H-T_K))))
 # text(27, 2.2, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[A]*' = ',  .(T_A))))

@@ -25,3 +25,4 @@ print(paste('Temperatura de Referencia Inicial =', T_ref1-T_K, 'ºC'))
 print(paste('Temperatura de Referencia Final =', T_ref2-T_K, 'ºC'))
 print(paste('Valor de la Variable DEB =', a, 'a temperatura de referencia', T_ref1-T_K, 'ºC')) 
 print(paste('Valor de la Variable DEB =', b, 'a temperatura de referencia', T_ref2-T_K, 'ºC')) 
+

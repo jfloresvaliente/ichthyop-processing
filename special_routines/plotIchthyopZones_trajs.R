@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : plotIchthyopZones
+# Name   : plotIchthyopZones_trajs
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
@@ -23,6 +23,7 @@ latis <- c(-20,-2) # Latitudes de menor a mayor
 longi <- c(-82.5, -70) # Longitudes de menor a mayor
 bathy <- 2000 # Máxima batimería
 
+dir_ich <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/results/'
 #=================================#
 # Get bathimetry between 0-2000 m
 h2 <- h
@@ -63,7 +64,7 @@ for(i in seq_along(lat_in)){
   lat2[!is.na(lat2)] <- 0
   lat2[is.na(lat2)]  <- i
   lat2 <- lat2 * m2
-
+  
   new_mask <- new_mask + lat2
 }
 
@@ -79,12 +80,21 @@ y_name <- c(-3.096295, -5.235192, -7.179643, -9.075484, -11.068547, -12.867165, 
 
 colores <- tim.colors(n = length(lat_in)+2, alpha = 1)[c(2:(length(lat_in)+1))]
 
-png(filename = 'C:/Users/jflores/Desktop/ich_zones_map.png', width = 850, height = 850, res = 120)
+#-------- Ichthyop trajs --------#
+load(file = paste0(dir_ich, 'trajectoriesM1.Rdata'))
+dat <- trajectories
+rec_ins <- sample(x = subset(dat, dat$IfRecruited == 1 & dat$Timer == 91)$Drifter, size = 10)
+rec_ins <- subset(dat, dat$Drifter %in% rec_ins)
+rec_out <- sample(x = subset(dat, dat$IfRecruited == 0 & dat$Timer == 91)$Drifter, size = 10)
+rec_out <- subset(dat, dat$Drifter %in% rec_out)
+mat_rec <- rbind(rec_ins, rec_out)
+
+png(filename = 'C:/Users/jflores/Desktop/ich_zones_map3.png', width = 850, height = 850, res = 120)
 par(mar = c(4.5,4.5,.5,.5))
 image.plot(lon, lat, new_mask, xlab = '', ylab = '', xlim = c(-90,-70), ylim = c(-20,0),
            axes = F, col = colores,
            legend.width = 0.00000001, axis.args = list(cex.axis = 0.00000001, font.axis = 2))
-polygon(x = x, y = y, lty = 2, border = 'grey25', angle = 45, lwd = 2)
+# polygon(x = x, y = y, lty = 2, border = 'grey25', angle = 45, lwd = 2)
 map('worldHires', add=T, fill=T, col='grey')
 contour(lon[,1], lat[1,], h, levels = c(100, 500,2000), add = T, lty = 2, labcex = .65)
 axis(side = 1, font = 2, lwd = 2, cex.axis = 1.5)
@@ -93,6 +103,12 @@ box(lwd = 2)
 mtext(side = 1, font = 2, line = 2.8, cex = 1.5, text = 'Longitude')
 mtext(side = 2, font = 2, line = 2.8, cex = 1.5, text = 'Latitude')
 text(x = x_name, y = y_name, labels = 1:9, font = 2, cex = 1.1, col = 'black')
+
+drifters <- levels(factor(mat_rec$Drifter))
+for(i in 1:length(drifters)){
+  sub_points <- subset(dat, dat$Drifter == drifters[i])
+  lines(sub_points$Lon, sub_points$Lat)
+}
 dev.off()
 #=============================================================================#
 # END OF PROGRAM
