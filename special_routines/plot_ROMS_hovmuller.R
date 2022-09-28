@@ -8,22 +8,22 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'D:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
+dirpath   <- 'E:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
 sufijo    <- 'release_zone'
 # sufijo    <- 'PeruCoast'
 nlevels   <- 64 # Number of levels in the color palette
 
-#===== Config for temp var =====#
-namevar  <- 'TEMP'
-zlim     <- c(12, 26)
-isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
-caption  <- expression('Temperature [ºC]')
+# #===== Config for temp var =====#
+# namevar  <- 'TEMP'
+# zlim     <- c(12, 27)
+# isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
+# caption  <- expression('Temperature [ºC]')
 
-# #===== Config for MESO var =====#
-# namevar  <- 'MESO'
-# zlim     <- c(0, 5.5)
-# isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
-# caption  <- expression('Mesozooplankton [umol C L-1]')
+#===== Config for MESO var =====#
+namevar  <- 'MESO'
+zlim     <- c(0, 2.5)
+isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
+caption  <- expression('Mesozooplankton [umol C L-1]')
 
 # #===== Config for functional response (f) var =====#
 # namevar  <- 'MESOf'
@@ -55,26 +55,28 @@ caption  <- expression('Temperature [ºC]')
 # isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
 # caption  <- expression('Velocity U [m/s]')
 
-#======= Do not change anything from here=======#
+#=============================================================================#
+#===================== Do not change anything from here ======================#
+#=============================================================================#
 Rdata    <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller.Rdata')
 png_name <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller.png')
 load(Rdata)
 
-x <- seq(from = 1980, to = 2000, length.out = length(row.names(hovmuller)))
-# x <- as.numeric(rownames(hovmuller))
-y <- as.numeric(colnames(hovmuller))
+x <- hovmuller$x
+y <- hovmuller$y
+z <- hovmuller$z
 
 lev <- seq(from = zlim[1], to = zlim[2], length.out = nlevels)
 
 png(filename = png_name, width = 1850, height = 750, res = 120)
 par(mar = c(4.5, 4.5, 3.5, 3.5))
-filled.contour(x = x, y = y, z = hovmuller, zlim = zlim,
+filled.contour(x = x, y = y, z = z, zlim = zlim,
                # col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),
                col = tim.colors(length(lev)-1),
                levels = lev,
                xlab = '', ylab = '',
                plot.axes = {
-                 contour(x = x, y = y, z = hovmuller, levels = isolines, labels = isolines, add = T)
+                 contour(x = x, y = y, z = z, levels = isolines, labels = isolines, add = T)
                  axis(side = 1, font = 2, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
                  axis(side = 2, font = 2, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 10))
                  box(lwd = 2)
@@ -86,7 +88,7 @@ mtext(side = 3, line = 0.2, font = 2, cex = 1.5, text = caption, adj = 0)
 
 dev.off()
 
-print(range(hovmuller))
+print(range(z))
 # hcl.pals() # Funcion para listar la paleta de color disponible
 #=============================================================================#
 # END OF PROGRAM

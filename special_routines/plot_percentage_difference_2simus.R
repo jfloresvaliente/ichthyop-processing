@@ -8,15 +8,15 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath1  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/case1/results/' # f variable
-dirpath2  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TC0.053/case1/results/' # f = 1
+dirpath1  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/results/' # f variable
+dirpath2  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1f1/results/' # f = 1
 
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Percentage of variation (%)'
-ymax1     <- c(0,5)
-ymax2     <- c(0,20)
-yticks1 <- seq(ymax1[1],ymax1[2],1)
-yticks2 <- seq(ymax2[1],ymax2[2],5)
+ymax1     <- c(0,140)
+ymax2     <- c(0,2400)
+yticks1 <- seq(ymax1[1],ymax1[2],20)
+yticks2 <- seq(ymax2[1],ymax2[2],500)
 legend_text <- c('Size criterion','Size criterion + Constant mortality')
 
 #=============================================================================#

@@ -1,21 +1,23 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-new_path <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/cfg/'
+new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/cfg/'
 
 dirs <- c(
 
-  'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case2f0.5/',
-  'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case2f0.75/'
+  # 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1/',
+  # 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1f1/',
+  # 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2/',
+  'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2f1/'
 
-        )
+)
 
 times <- list(length(dirs))
 for(m in 1:length(dirs)){
   a <- Sys.time()
   print(dirs[m])
   dirpath <- dirs[m]
-  source('main_get_trajectories.R')
+  source('main_get_data_atRecruitmentAgeDirecto.R')
   b <- Sys.time()
   ba <- b-a
   print(ba)

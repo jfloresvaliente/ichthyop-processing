@@ -8,11 +8,11 @@
 #=============================================================================#
 source('source/ROMS_hovmuller.R')
 
-dirpath   <- 'D:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
+dirpath   <- 'E:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
 sufijo    <- 'release_zone'
 # sufijo    <- 'PeruCoast'
 
-namevar   <- 'temp'
+namevar   <- 'MESO'
 k_x       <- NULL # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
 xy        <- read.table(paste0(dirpath, sufijo,'getpolygon_rowcol_index.txt'))
 mask      <- as.matrix(read.table(paste0(dirpath, 'mask.txt')))
@@ -37,14 +37,11 @@ ROMS_hovmuller(dirpath   = dirpath,
                months    = months,
                k_x       = k_x)
 
-year_ini <- 1
-year_out <- years[2] - years[1] + 1
-
-x <- round(seq(from = year_ini, to = (year_out+1), length.out = ((year_out) * time_step *months[2])), digits = 3)
+z <- hovmuller
+x <- seq(from = years[1], to = years[2]+0.999, length.out = dim(z)[1])
 y <- rev(ver_lev)
-
-rownames(hovmuller) <- x
-colnames(hovmuller) <- y
+rownames(z) <- x
+colnames(z) <- y
 
 if(!is.null(k_x)){
   Rdata <- paste0(new_dir, sufijo, '_', toupper(namevar), 'f', '_hovmuller.Rdata')
@@ -52,8 +49,9 @@ if(!is.null(k_x)){
   Rdata <- paste0(new_dir, sufijo, '_', toupper(namevar), '_hovmuller.Rdata')
 }
 
+hovmuller <- list(x = x, y = y, z = z)
 save(hovmuller, file = Rdata)
-X11(); fields::image.plot(x,y,hovmuller)
+X11(); fields::image.plot(x,y,z)
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

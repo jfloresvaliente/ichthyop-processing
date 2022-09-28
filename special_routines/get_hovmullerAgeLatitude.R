@@ -6,16 +6,17 @@
 # Aim    : Get Hovmuller of anual mean Recruitment.
 # URL    : 
 #=============================================================================#
-# dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6/out/results/'
+dirpath       <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2/results/'
 latilim       <- c(-20, -2) # Latitude extension of the spawning zone
 lat_div       <- 2        # Latitudinal resolution
-t_x           <- c(1,4,7)
+# t_x           <- c(1,4,7) # 10kmparent
+t_x           <- c(1,3,5) # rsodi
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 dir.create(path = paste0(dirpath, '/hovmuller/'), showWarnings = F)
-hovmullerRdata <- paste0(dirpath, '/hovmuller/hovmullerAge', lat_div, 'degrees.Rdata')
+hovmullerRdata <- paste0(dirpath, '/hovmuller/hovmullerAgeLatitude', lat_div, 'degrees.Rdata')
 
 lat_ini <- seq(latilim[1], latilim[2], lat_div)
 lat_out <- lat_ini + lat_div
@@ -24,7 +25,7 @@ load(file = paste0(dirpath, 'data_atRecruitmentAge.Rdata'))
 
 # hov_release <- NULL
 hov_recruit <- NULL
-for(i in 1:12){
+for(i in 1:12){print(paste('Month : ', i))
   for(j in t_x){
     sub_df <- subset(df, df$Month == i & df$t_x == j)
     
@@ -35,6 +36,8 @@ for(i in 1:12){
       lat_sub  <- subset(sub_df, sub_df$Lat_ini >= lat_ini[k] & sub_df$Lat_ini < lat_out[k])
       # released <- dim(lat_sub)[1]
       recruite <- mean(subset(lat_sub, lat_sub$IfRecruited == 1)$Age, na.rm = T)
+      
+      # if(is.na(released) | is.na(recruite)) recruite <- 0
       
       # lat_release <- c(lat_release, released)
       lat_recruit <- c(lat_recruit, recruite)
@@ -47,7 +50,7 @@ hovmuller <- hov_recruit
 
 # Rotate matrix and named rows & cols
 z <- t(hovmuller)
-x <- seq(from = 1, to = 12, length.out = 12*length(t_x))
+x <- seq(from = 1, to = 12.999, length.out = 12*length(t_x))
 y <- seq(from = latilim[1], to = latilim[2], length.out = dim(z)[2])
 rownames(z) <- x
 colnames(z) <- y

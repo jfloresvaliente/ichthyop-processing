@@ -9,6 +9,7 @@
 source('source/compute_recruitment_ichthyop.R')
 source('source/compute_recruitment_ichthyop_noshelf.R')
 source('source/compute_recruitment_ichthyop_drifters.R')
+source('source/get_data_atRecruitmentAgeDirecto.R')
 
 source('source/get_trajectories.R')
 source('source/get_trajectories_noshelf.R')

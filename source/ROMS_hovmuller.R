@@ -43,7 +43,7 @@ ROMS_hovmuller <- function(
   
   # Calculate the time series vs depth
   hovmuller <- NULL
-  for(year in years[1]:years[2]){
+  for(year in years[1]:years[2]){print(paste('Year : ', year))
     for(month in months[1]:months[2]){
       
       matfile <- paste0(dirpath, namevar, 'Y', year, 'M', month,'.mat')

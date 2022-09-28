@@ -10,15 +10,15 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA6-14/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 
 # ylab <- 'Retention (%)'
 ylab <- 'Recruitment (%)'
 # ylab <- 'Pre-recruitment (%)'
 meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 
-lats     <- seq(from = 2, to = 20, by = 2)
+lats     <- seq(from = 6, to = 14, by = 2)
 ymax     <- c(0,70)
 col_bars <- c('grey10','grey50')
 
@@ -26,11 +26,12 @@ col_bars <- c('grey10','grey50')
 # legend   <- c( '10 km', '02 km')
 # legend   <- c( '30-days', '60-days')
 # legend   <- c( 'E. encrasicolus', 'E. ringens')
-legend   <- c( 'f = ~', 'f = 1')
+# legend   <- c( 'f = ~', 'f = 1')
 # legend   <- c( 'k = 0', 'k = 1.6')
 # legend   <- c( '2 km', '2 km new')
 # legend   <- c( 'ROMS', 'ROMS-PISCES')
 # legend   <- c('Size criteria k_x = 0', 'Size criteria k_x = 1.6')
+legend   <- c('10kmparent', 'peru10km')
 
 png_name <- paste0(dirpath, 'barplot_ichthyop_comparison.png')
 #=============================================================================#
@@ -95,7 +96,7 @@ zoneplot   <- barplot(zone, beside = T, xlab='', ylab= '' ,ylim = ymax,
 mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Latitude')
 mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'b)', adj = 0.025)
-axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(zoneplot,2,mean), labels = rep('',9))
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(zoneplot,2,mean), labels = rep('',length(latlab)))
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, labels = yticks, las = 2)
 text(apply(zoneplot,2,mean), -ymax[2]/20, labels = latlab, srt = 20, xpd = TRUE, cex = 1, font = 2)
 

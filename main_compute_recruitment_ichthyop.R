@@ -9,8 +9,8 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-# dirpath  <- 'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case3f1/'
-# new_path <- 'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/cfg/'
+# dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1/'
+# new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/cfg/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

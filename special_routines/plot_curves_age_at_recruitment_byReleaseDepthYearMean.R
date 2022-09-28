@@ -6,7 +6,7 @@
 # Aim    : Plot curves of percentage of particles at recruited age
 # URL    : 
 #=============================================================================#
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/'
+dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/'
 days    <- 91 # Step time
 ymax    <- 1.4 # Percetage of particles recruited
 ymax2   <- 40
@@ -29,8 +29,8 @@ par(mar = c(5,5,1,1))
 plot(1, type = 'n', ylim = c(0,ymax), xlim = c(0,days-1), xlab = '', ylab = '', main = '', yaxs = 'i', xaxs = 'i', axes = F)
 axis(side = 1, font = 2, lwd = 2, cex.axis = 1.5, lwd.ticks = 2)
 axis(side = 2, font = 2, lwd = 2, cex.axis = 1.5, lwd.ticks = 2, las = 2)
-mtext(side = 1, line = 2.8, cex = 1.7, font = 2, text = 'Age at recruitment [d]')
-mtext(side = 2, line = 2.8, cex = 1.7, font = 2, text = 'Recruitment [%]')
+mtext(side = 1, line = 3.2, cex = 1.7, font = 2, text = 'Age at recruitment [d]')
+mtext(side = 2, line = 3.2, cex = 1.7, font = 2, text = 'Recruitment [%]')
 box(lwd = 2)
 
 legend('topright', legend = depth, lty = 1, lwd = 4, bty = 'n', col = cols, ncol = 1,
@@ -46,10 +46,10 @@ dev.off()
 png(paste0(dirpath, 'recruited_age_percentageReleaseDepthYearMeanCumSum.png'), width = 850, height = 850, res = 120)
 par(mar = c(5,5,1,1))
 plot(1, type = 'n', ylim = c(0,ymax2), xlim = c(0,days-1), xlab = '', ylab = '', main = '', yaxs = 'i', xaxs = 'i', axes = F)
-axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2)
-axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, las = 2)
-mtext(side = 1, line = 2.8, cex = 1.7, font = 2, text = 'Age at recruitment [d]')
-mtext(side = 2, line = 2.8, cex = 1.7, font = 2, text = 'Cumulative Recruitment [%]')
+axis(side = 1, font = 2, lwd = 2, cex.axis = 1.5, lwd.ticks = 2)
+axis(side = 2, font = 2, lwd = 2, cex.axis = 1.5, lwd.ticks = 2, las = 2)
+mtext(side = 1, line = 3.2, cex = 1.7, font = 2, text = 'Age at recruitment [d]')
+mtext(side = 2, line = 3.2, cex = 1.7, font = 2, text = 'Cumulative Recruitment [%]')
 box(lwd = 2)
 
 legend('topleft', legend = depth, lty = 1, lwd = 4, bty = 'n', col = cols, ncol = 1,
