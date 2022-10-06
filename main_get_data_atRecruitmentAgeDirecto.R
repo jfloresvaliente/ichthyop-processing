@@ -9,9 +9,10 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2f1/'
-new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/cfg/'
-variname <- c('length','MESO','temp')
+# dirpath  <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/out/'
+# new_path <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/cfg/'
+# variname <- c('length','MESO','temp')
+variname <- NULL
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

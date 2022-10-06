@@ -1,14 +1,13 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/cfg/'
+new_path <- 'D:/ICHTHYOP/sen02km/cfg/'
 
 dirs <- c(
-
-  # 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1/',
-  # 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1f1/',
-  # 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2/',
-  'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2f1/'
+  'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1/results/',
+  'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2/results/',
+  'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1f1/results/',
+  'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2f1/results/'
 
 )
 
@@ -17,7 +16,7 @@ for(m in 1:length(dirs)){
   a <- Sys.time()
   print(dirs[m])
   dirpath <- dirs[m]
-  source('main_get_data_atRecruitmentAgeDirecto.R')
+  source('special_routines/barplot_ichthyop_output.R')
   b <- Sys.time()
   ba <- b-a
   print(ba)

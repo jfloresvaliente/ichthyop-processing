@@ -8,12 +8,12 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case2f0.75/results/'
+# dirpath <- 'C:/Users/jflores/Desktop/'
 ymax    <- c(0,30)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
-hlines  <- seq(from = ymax[1], to = ymax[2], by = 5)
-years   <- seq(1:3) # Number of simulation years
+hlines  <- seq(from = ymax[1], to = ymax[2], by = 10)
+years   <- 1980:2000 # Number of simulation years
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -89,11 +89,21 @@ mtext(side = 1, line = 2.3, cex = 1, font = 2, text = 'Spawning Bathymetry [m]')
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = bathyplot, labels = rownames(bathy), lty = 0)
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
 
+# Plot by coastline behaviours
+coastplot <- barplot(coast[,1], ylim = ymax, axes = F, names.arg = F)
+abline(h = hlines, lty = 3, lwd = .05)
+arrows(coastplot, coast[,2], coastplot, coast[,3], angle = 90, code = 3, length = 0.05)
+mtext(side = 1, line = 2.3, cex = 1, font = 2, text = 'Coastline Behavior')
+# mtext(side = 2, line = 2.5, cex = 1, font = 2, text = ylab)
+axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = coastplot, labels = rownames(coast), lty = 0)
+axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
+
 # #Plot by release area
 # areaplot <- barplot(area[,1], ylim = c(0, ymax)); abline(h = seq(0,ymax,10), lty = 3, lwd = .05)
 # arrows(areaplot, area[,2], areaplot, area[,3], angle = 90, code = 3, length = 0.05)
 
 dev.off()
+rm(latlab)
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

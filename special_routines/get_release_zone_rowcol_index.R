@@ -11,7 +11,7 @@ library(fields)
 library(maps)
 library(mapdata)
 
-dirpath <- 'D:/ROMS_SILUMATIONS/rsodi1/'
+dirpath <- 'E:/ROMS_SILUMATIONS/rsodi1/'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc      <- nc_open(nc_file)
 lon     <- ncvar_get(nc, 'lon_rho')
@@ -50,6 +50,8 @@ lat2[lat2 == 0] <- NA
 m <- lon2 + lat2 + h2; rm(lon2, lat2, h2)
 m[!is.na(m)] <- 1
 m <- mask * m
+
+x11(); image.plot(lon, lat, m, xlab = 'Longitude', ylab = 'Latitude')
 
 m <- which(m == 1, arr.ind = T)
 csv_name <- paste0(dirpath, 'release_zone_rowcol_index.txt')

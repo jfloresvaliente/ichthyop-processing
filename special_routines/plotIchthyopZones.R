@@ -11,7 +11,7 @@ library(fields)
 library(maps)
 library(mapdata)
 
-dirpath <- 'D:/ROMS_SILUMATIONS/10kmparent/'
+dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc      <- nc_open(nc_file)
 lon     <- ncvar_get(nc, 'lon_rho')
@@ -19,7 +19,8 @@ lat     <- ncvar_get(nc, 'lat_rho')
 h       <- ncvar_get(nc, 'h')
 nc_close(nc)
 
-latis <- c(-20,-2) # Latitudes de menor a mayor
+latis <- c(-20,-2) # Latitudes de menor a mayor (10 km config)
+# latis <- c(-14,-6) # Latitudes de menor a mayor (02 km config)
 longi <- c(-82.5, -70) # Longitudes de menor a mayor
 bathy <- 2000 # Máxima batimería
 
@@ -76,8 +77,11 @@ y <- c(-7.570634, -4.086924, -15.852085, -19.427472)
 
 x_name <- c(-80.87991, -81.25923, -80.42472, -79.43849, -78.22467, -77.23843, -75.87288, -72.45900, -70.71412)
 y_name <- c(-3.096295, -5.235192, -7.179643, -9.075484, -11.068547, -12.867165, -15.054674, -17.242182, -18.603298)
+xy_names <- c(1:9) # (10 km config)
+# xy_names <- c('','',1:4,'','','') # (02 km config)
 
 colores <- tim.colors(n = length(lat_in)+2, alpha = 1)[c(2:(length(lat_in)+1))]
+# colores <- rep(x = 'grey50', times = 9)
 
 png(filename = 'C:/Users/jflores/Desktop/ich_zones_map.png', width = 850, height = 850, res = 120)
 par(mar = c(4.5,4.5,.5,.5))
@@ -92,7 +96,7 @@ axis(side = 2, font = 2, lwd = 2, cex.axis = 1.5, las = 2)
 box(lwd = 2)
 mtext(side = 1, font = 2, line = 2.8, cex = 1.5, text = 'Longitude')
 mtext(side = 2, font = 2, line = 2.8, cex = 1.5, text = 'Latitude')
-text(x = x_name, y = y_name, labels = 1:9, font = 2, cex = 1.1, col = 'black')
+text(x = x_name, y = y_name, labels = xy_names, font = 2, cex = 1.1, col = 'black')
 dev.off()
 #=============================================================================#
 # END OF PROGRAM

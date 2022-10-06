@@ -25,6 +25,9 @@ source('source/recruitment_month.R')
 source('source/recruitment_temp.R')
 source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
+
+source('source/ROMS_hovmuller.R')
+source('source/ROMS_hovmuller_latitude.R')
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

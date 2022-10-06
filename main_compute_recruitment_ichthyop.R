@@ -9,14 +9,14 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-# dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1/'
-# new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/cfg/'
+# dirpath  <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/out/'
+# new_path <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/cfg/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 nc              <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
-cfgnc           <- gsub(pattern = '\\\\', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
+cfgnc           <- gsub(pattern = '////', replacement = '/', x = ncatt_get(nc = nc, 0 , 'xml_file')$value)
 old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfgnc, pattern = 'cfg')[2])
 firstdrifter    <- 1
 lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)

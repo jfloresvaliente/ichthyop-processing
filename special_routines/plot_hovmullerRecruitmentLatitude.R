@@ -8,10 +8,10 @@
 #=============================================================================#
 library(fields)
 
-dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2/results/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/'
 lat_div  <- 2  # Latitudinal resolution
 nlevels  <- 64 # Number of levels in the color palette
-zlim     <- c(0,45)
+zlim     <- c(0,70)
 isolines1 <- round(seq(zlim[1], zlim[2], 5), 2) # Isolines to be plotted
 isolines2 <- round(seq(zlim[1], zlim[2], 20), 2) # Isolines to be plotted
 
@@ -38,11 +38,12 @@ filled.contour(x = x, y = y, z = z, zlim = zlim,
                levels = lev,
                xlab = '', ylab = '',
                plot.axes = {
-                 contour(x = x, y = y, z = z, levels = isolines1, labels = isolines1, add = T)
+                 contour(x = x, y = y, z = z, levels = isolines1, labels = isolines1, add = T, lwd = 2, labcex = .75)
                  axis(side = 1, font = 2, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
                  axis(side = 2, font = 2, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 2))
                  box(lwd = 2)
-               }
+               },
+               key.axes = axis(4, isolines1, font = 2, lwd.ticks = 2, cex.axis = 1.3)
 )
 mtext(side = 1, line = 3.0, font = 2, cex = 1.3, adj = 0.3, text = 'Spawning Month')
 mtext(side = 2, line = 3.0, font = 2, cex = 1.3, adj = 0.5, text = 'Latitude')
@@ -70,11 +71,12 @@ filled.contour(x = x, y = y, z = z, zlim = zlim,
                levels = lev,
                xlab = '', ylab = '',
                plot.axes = {
-                 contour(x = x, y = y, z = z, levels = isolines2, labels = isolines2, add = T)
+                 contour(x = x, y = y, z = z, levels = isolines2, labels = isolines2, add = T, lwd = 2, labcex = .75)
                  axis(side = 1, font = 2, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
                  axis(side = 2, font = 2, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 2))
                  box(lwd = 2)
-               }
+               },
+               key.axes = axis(4, isolines2, font = 2, lwd.ticks = 2, cex.axis = 1.3)
 )
 mtext(side = 1, line = 3.0, font = 2, cex = 1.3, adj = 0.5, text = 'Spawning Year')
 mtext(side = 2, line = 3.0, font = 2, cex = 1.3, adj = 0.5, text = 'Latitude')
