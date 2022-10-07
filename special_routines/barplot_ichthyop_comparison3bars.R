@@ -10,12 +10,12 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA6-14/out/results/ichthyop_output.csv', header = T, sep = ';')
 dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 
-ylab <- 'Retention (%)'
-# ylab <- 'Recruitment (%)'
+# ylab <- 'Retention (%)'
+ylab <- 'Recruitment (%)'
 # ylab <- 'Pre-recruitment (%)'
 
 lats     <- seq(from = 6, to = 14, by = 2)
@@ -26,7 +26,8 @@ col_bars <- c('grey10','grey50','grey90')
 # legend   <- c('Age criteria', 'Size criteria k_x = 0', 'Size criteria k_x = 1.6')
 # legend   <- c('simu 30 days', 'simu 90 days: I', 'simu 90 days: II')
 # legend   <- c('sans seiul', 'seiul = 0.052', 'seiul = 1')
-legend   <- c('D01', 'D02s', 'D02r')
+# legend   <- c('D01', 'D02s', 'D02r')
+legend   <- c('Sim 1', 'Sim 2', 'Sim 3')
 
 png_name <- paste0(dirpath, 'barplot_ichthyop_comparison3bars.png')
 #=============================================================================#
@@ -65,8 +66,8 @@ par(mfrow = c(2,2))
 par(mar = c(3.5,4,.5,4))
 dayplot   <- barplot(day, beside = T, xlab='', ylab= '' ,ylim = ymax,
                      axes = T, axisnames = F, col = col_bars, yaxt='n')
-# mtext(side = 1, line = 2  , cex = 1.3, font = 2, text = 'Spawning Month')
-mtext(side = 1, line = 2  , cex = 1.3, font = 2, text = 'Release Month')
+mtext(side = 1, line = 2  , cex = 1.3, font = 2, text = 'Spawning Month')
+# mtext(side = 1, line = 2  , cex = 1.3, font = 2, text = 'Release Month')
 mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'a)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(dayplot,2,mean), labels = 1:12)
@@ -97,8 +98,8 @@ legend('topright',
 par(mar = c(3.5,4,.5,4))
 zoneplot   <- barplot(zone, beside = T, xlab='', ylab= '' ,ylim = ymax,
                       axes = T, axisnames = F, col = col_bars, yaxt='n')
-# mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Latitude')
-mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Release Latitude')
+mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Latitude')
+# mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Release Latitude')
 mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'b)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(zoneplot,2,mean), labels = rep('',length(latlab)))
@@ -119,8 +120,8 @@ arrows(zoneplot[3,], zone3[,2],
 par(mar = c(3.5,4,.5,4))
 depthplot   <- barplot(depth, beside = T, xlab='', ylab= '' ,ylim = ymax,
                        axes = T, axisnames = F, col = col_bars, yaxt='n')
-# mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Depth [m]')
-mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Release Depth [m]')
+mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Depth [m]')
+# mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Release Depth [m]')
 mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'c)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(depthplot,2,mean), labels = colnames(depth))
@@ -140,8 +141,8 @@ arrows(depthplot[3,], depth3[,2],
 par(mar = c(3.5,4,.5,4))
 bathyplot   <- barplot(bathy, beside = T, xlab='', ylab= '' ,ylim = ymax,
                        axes = T, axisnames = F, col = col_bars, yaxt='n')
-# mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Bathymetry [m]')
-mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Release Bathymetry [m]')
+mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Spawning Bathymetry [m]')
+# mtext(side = 1, line = 2.1, cex = 1.3, font = 2, text = 'Release Bathymetry [m]')
 mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'd)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = apply(depthplot,2,mean), labels = colnames(bathy))

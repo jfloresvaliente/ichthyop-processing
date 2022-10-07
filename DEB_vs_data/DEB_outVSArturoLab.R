@@ -35,24 +35,24 @@ dat$Ww   <- dat$W_E + dat$W_V + dat$W_ER
 dat <- subset(dat, dat$t <= 35)
 
 # PLOTS
-ggname <- paste0(dirpath, 'DEB_outVSArturoLab.png')
-ggplot(data = dat)+
-  geom_line(mapping = aes(x = t, y = L_w, colour = temp), size = 1, linetype = 'solid')+
-  scale_color_manual(values = cols)+
-  facet_wrap(facets = ~f, ncol = 5, nrow = 2)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
-  geom_point(data = lab, mapping = aes(x = t, y = Ls, colour = Temperatura))+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=10, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=10, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=10, angle=0),
-        axis.title.y = element_text(face='bold', color='black', size=10, angle=90),
-        plot.title   = element_text(face='bold', color='black', size=10, angle=0),
-        legend.text  = element_text(face='bold', color='black', size=10),
-        legend.title = element_text(face='bold', color='black', size=10),
-        legend.position   = c(0.03, 0.9),
-        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
-ggsave(filename = ggname, plot = last_plot(), width = 12, height = 8)
+# ggname <- paste0(dirpath, 'DEB_outVSArturoLab.png')
+# ggplot(data = dat)+
+#   geom_line(mapping = aes(x = t, y = L_w, colour = temp), size = 1, linetype = 'solid')+
+#   scale_color_manual(values = cols)+
+#   facet_wrap(facets = ~f, ncol = 5, nrow = 2)+
+#   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+#   geom_point(data = lab, mapping = aes(x = t, y = Ls, colour = Temperatura))+
+#   theme(axis.text.x  = element_text(face='bold', color='black', size=10, angle=0),
+#         axis.text.y  = element_text(face='bold', color='black', size=10, angle=0),
+#         axis.title.x = element_text(face='bold', color='black', size=10, angle=0),
+#         axis.title.y = element_text(face='bold', color='black', size=10, angle=90),
+#         plot.title   = element_text(face='bold', color='black', size=10, angle=0),
+#         legend.text  = element_text(face='bold', color='black', size=10),
+#         legend.title = element_text(face='bold', color='black', size=10),
+#         legend.position   = c(0.03, 0.9),
+#         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+#         strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
+# ggsave(filename = ggname, plot = last_plot(), width = 12, height = 8)
 
 mean_dat <- tapply(dat$L_w, list(dat$t, dat$temp), mean)
 sd_dat   <- tapply(dat$L_w, list(dat$t, dat$temp), sd)
@@ -77,7 +77,8 @@ ggplot(data = dat)+
                 plot.title   = element_text(face='bold', color='black', size=25, angle=0),
                 legend.text  = element_text(face='bold', color='black', size=25),
                 legend.title = element_text(face='bold', color='black', size=25),
-                legend.position   = c(0.07, 0.9),
+                legend.position   = c(0.09, 0.75),
                 legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
                 strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
+

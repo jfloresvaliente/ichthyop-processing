@@ -13,23 +13,23 @@ sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
 z_depth   <- -45 # debe ser un numero negativo
 
-#===== Config for temp var =====#
-namevar  <- 'TEMP'
-zlim     <- c(12, 28)
-isolines <- seq(zlim[1], zlim[2], 4) # Isolines to be plotted
-caption  <- 'Temperature [ºC]'
+# #===== Config for temp var =====#
+# namevar  <- 'TEMP'
+# zlim     <- c(12, 28)
+# isolines <- seq(zlim[1], zlim[2], 4) # Isolines to be plotted
+# caption  <- 'Temperature [ºC]'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
-# zlim     <- c(0, 5)
+# zlim     <- c(0, 3,5)
 # isolines <- seq(zlim[1], zlim[2], 1.5) # Isolines to be plotted
 # caption  <- 'Mesozooplankton [umol C L-1]'
 
-# #===== Config for functional response (f) var =====#
-# namevar  <- 'MESOf'
-# zlim     <- c(0.2, 0.7)
-# isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
-# caption  <- 'Functional response'
+#===== Config for functional response (f) var =====#
+namevar  <- 'MESOf'
+zlim     <- c(0.1, 0.7)
+isolines <- seq(zlim[1], zlim[2], 0.2) # Isolines to be plotted
+caption  <- 'Functional response'
 
 # #===== Config for salt var =====#
 # namevar  <- 'SALT'

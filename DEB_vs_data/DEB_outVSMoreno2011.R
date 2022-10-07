@@ -98,7 +98,7 @@ ggplot(data = dat)+
         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
         legend.text  = element_text(face='bold', color='black', size=25),
         legend.title = element_text(face='bold', color='black', size=25),
-        legend.position   = c(0.07, 0.9),
+        legend.position   = c(0.09, 0.75),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
         strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
