@@ -6,8 +6,8 @@
 # Aim    : Barplot associated to spawning depth & Lines associated to spawning bathymetry.
 # URL    : 
 #=============================================================================#
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2f1/results/'
-ymax    <- 100
+dirpath <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.2/results/'
+ymax    <- 40
 ylab <- 'Recruitment (%)'
 years   <- 1980:2000 # Number of simulation years
 

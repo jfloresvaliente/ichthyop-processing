@@ -11,20 +11,16 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case1kx0.2/results/'
 xlim     <- c(-85, -70) # Londitude
 ylim     <- c(-20, 0)   # Latitude
 bin_lon  <- .1
 bin_lat  <- .1
 
 #========== Zlim ==========#
-zlimA <- c(20,90) # Age at recruitment
-zlimB <- c(0,150) # No mortality
-zlimC <- c(0,2) # Constant mortality
-
-zlimD <- zlimA    # Age at recruitment
-zlimE <- c(0,100) # No mortality
-zlimF <- c(0,1) # Constant mortality
+zlimA <- c(40,90) # Age at recruitment
+zlimB <- c(0,200) # No mortality
+zlimC <- c(0,0.1) # Constant mortality
 
 xposlab <- -82
 yposlab <- -23.7
@@ -60,7 +56,7 @@ ggname   <- paste0(dirpath, 'SpatialDistributionNumberIndividuals', bin_lat, '.p
 p1 <- ggplot(data = df)+
   stat_bin_hex(data = df, mapping = aes(x = Lon_ini, y = Lat_ini), binwidth = c(bin_lon, bin_lat))+
   scale_fill_gradientn(colours = tim.colors(64), limits = zlimB, na.value = '#800000')+
-  labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
+  labs(x = 'Longitude', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
@@ -89,7 +85,7 @@ ggname   <- paste0(dirpath, 'SpatialDistributionAgeRecruitment', bin_lat, '.png'
 p1 <- ggplot(data = df)+
   stat_summary_hex(data = df, mapping = aes(x = Lon_ini, y = Lat_ini, z = Age), fun = mean, binwidth = c(bin_lon, bin_lat))+
   scale_fill_gradientn(colours = rev(tim.colors(64)), limits = zlimA, na.value = '#00008F')+
-  labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
+  labs(x = 'Longitude', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
@@ -118,7 +114,7 @@ ggname   <- paste0(dirpath, 'SpatialDistributionN_constant', bin_lat, '.png')
 p1 <- ggplot(data = df)+
   stat_summary_hex(data = df, mapping = aes(x = Lon_ini, y = Lat_ini, z = N_constant), fun = sum, binwidth = c(bin_lon, bin_lat))+
   scale_fill_gradientn(colours = tim.colors(64), limits = zlimC, na.value = '#800000')+
-  labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
+  labs(x = 'Longitude', y = 'Latitude', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),

@@ -8,8 +8,8 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath1  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/results/' # f variable
-dirpath2  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1f1/results/' # f = 1
+dirpath1  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/' # f variable
+dirpath2  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2f1/results/' # f = 1
 
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Percentage of variation (%)'

@@ -9,8 +9,8 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-# dirpath  <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/out/'
-# new_path <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/cfg/'
+# dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.6/'
+# new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/cfg/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

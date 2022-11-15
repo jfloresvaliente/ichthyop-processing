@@ -10,16 +10,16 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA6-14/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru10km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+csv1 <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1kx0.2/'
+csv2 <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case2kx0.2/'
 
 # ylab <- 'Retention (%)'
 ylab <- 'Recruitment (%)'
 # ylab <- 'Pre-recruitment (%)'
 meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 
-lats     <- seq(from = 6, to = 14, by = 2)
-ymax     <- c(0,70)
+lats     <- seq(from = 2, to = 20, by = 2)
+ymax     <- c(0,30)
 col_bars <- c('grey10','grey50')
 
 # legend   <- c( 'Age criteria', 'Size criteria')
@@ -31,12 +31,15 @@ col_bars <- c('grey10','grey50')
 # legend   <- c( '2 km', '2 km new')
 # legend   <- c( 'ROMS', 'ROMS-PISCES')
 # legend   <- c('Size criteria k_x = 0', 'Size criteria k_x = 1.6')
-legend   <- c('10kmparent', 'peru10km')
+legend   <- c('Case1', 'Case2')
 
 png_name <- paste0(dirpath, 'barplot_ichthyop_comparison.png')
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
+dat1 <- read.table(paste0(csv1, '/results/ichthyop_output.csv'), header = T, sep = ';')
+dat2 <- read.table(paste0(csv2, '/results/ichthyop_output.csv'), header = T, sep = ';')
+
 yticks <- seq(ymax[1],ymax[2],10)
 
 day1 <- recruitment_month(dat1)

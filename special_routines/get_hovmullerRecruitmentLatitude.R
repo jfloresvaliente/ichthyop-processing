@@ -6,23 +6,23 @@
 # Aim    : Get Hovmuller of anual mean Recruitment.
 # URL    : 
 #=============================================================================#
-dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/'
+# dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.2/'
 latilim       <- c(-20, -2) # Latitude extension of the spawning zone
 lat_div       <- 2        # Latitudinal resolution
-t_x           <- c(1,4,7) # 10kmparent
-# t_x           <- c(1,3,5) # rsodi
+# t_x           <- c(1,4,7) # 10kmparent
+t_x           <- c(1,3,5) # rsodi
 # t_x           <- c(1,6,11) # peru02km
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-dir.create(path = paste0(dirpath, '/hovmuller/'), showWarnings = F)
-hovmullerRdata <- paste0(dirpath, '/hovmuller/hovmullerRecruitmentLatitude', lat_div, 'degrees.Rdata')
+dir.create(path = paste0(dirpath, '/results/hovmuller/'), showWarnings = F)
+hovmullerRdata <- paste0(dirpath, '/results/hovmuller/hovmullerRecruitmentLatitude', lat_div, 'degrees.Rdata')
 
 lat_ini <- seq(latilim[1], latilim[2], lat_div)
 lat_out <- lat_ini + lat_div
 
-load(file = paste0(dirpath, 'data_atRecruitmentAge.Rdata'))
+load(file = paste0(dirpath, '/results/data_atRecruitmentAge.Rdata'))
 
 hov_release <- NULL
 hov_recruit <- NULL

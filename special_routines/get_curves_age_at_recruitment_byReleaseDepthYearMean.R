@@ -12,7 +12,7 @@ ages    <- 90 # Age
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-load(file = paste0(dirpath, 'data_atRecruitmentAge.Rdata'))
+load(file = paste0(dirpath, '/results/data_atRecruitmentAge.Rdata'))
 
 depth_lev <- levels(factor(df$ReleaseDepth))
 
@@ -27,7 +27,7 @@ for(i in 1:length(depth_lev)){
 }
 rownames(age_percent) <- depth_lev
 colnames(age_percent) <- 1:ages
-save(age_percent, file = paste0(dirpath, 'recruited_age_percentageReleaseDepthYearMean.Rdata'))
+save(age_percent, file = paste0(dirpath, '/results/recruited_age_percentageReleaseDepthYearMean.Rdata'))
 
 # recruite$sum <- 1
 # a <- tapply(recruite$N_constant, recruite$Age, sum)

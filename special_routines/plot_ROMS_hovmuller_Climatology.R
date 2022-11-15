@@ -8,16 +8,16 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/interpolatedYearMonth/'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/interpolatedYearMonth/'
 sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
-# years <- 1:3 # 10 km
-years <- 1980:2000 # rsodi
+years <- 1:3 # 10 km
+# years <- 1980:2000 # rsodi
 
 # #===== Config for temp var =====#
 # namevar  <- 'TEMP'
-# zlim     <- c(12, 28)
-# isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
+# zlim     <- c(12, 22)
+# isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
 # caption  <- 'Temperature [ºC]'
 
 # #===== Config for MESO var =====#
@@ -27,9 +27,9 @@ years <- 1980:2000 # rsodi
 # caption  <- 'Mesozooplankton [umol C L-1]'
 
 #===== Config for functional response (f) var =====#
-namevar  <- 'MESOf'
-zlim     <- c(0.1, 0.7)
-isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
+namevar  <- 'MESOkx0.6'
+zlim     <- c(0.4, 1)
+isolines <- seq(zlim[1], zlim[2], 0.05) # Isolines to be plotted
 caption  <- 'Functional response'
 
 # #===== Config for salt var =====#
@@ -87,15 +87,15 @@ filled.contour(x = x, y = y, z = z, zlim = zlim,
                xlab = '', ylab = '',
                plot.axes = {
                  contour(x = x, y = y, z = z, levels = isolines, labels = isolines, add = T, lwd = 2, labcex = 1)
-                 axis(side = 1, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
-                 axis(side = 2, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 10))
+                 axis(side = 1, font = 2, cex.axis = 1.5, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
+                 axis(side = 2, font = 2, cex.axis = 1.5, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 10))
                  box(lwd = 2)
                },
                key.axes = axis(4, isolines, font = 2, lwd.ticks = 2, cex.axis = 1.5)
 )
-mtext(side = 1, line = 3.5, font = 2, cex = 1.5, text = 'Month')
-mtext(side = 2, line = 3.5, font = 2, cex = 1.5, text = 'Depth [m]')
-mtext(side = 3, line = 0.2, font = 2, cex = 1.5, text = caption, adj = 0)
+mtext(side = 1, line = 3.0, font = 2, cex = 1.5, adj = 0.45, text = 'Months')
+mtext(side = 2, line = 3.8, font = 2, cex = 1.5, text = 'Depth [m]')
+mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
 
 dev.off()
 

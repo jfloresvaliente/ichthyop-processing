@@ -108,9 +108,9 @@ filled.contour(x = x, y = y, z = z1, zlim = zlim,
                },
                key.axes = axis(4, isolines, font = 2, lwd.ticks = 2, cex.axis = 1.5)
 )
-mtext(side = 1, line = 3.5, font = 2, cex = 1.5, text = 'Month')
-mtext(side = 2, line = 3.5, font = 2, cex = 1.5, text = 'Depth [m]')
-mtext(side = 3, line = 0.2, font = 2, cex = 1.5, text = caption, adj = 0)
+mtext(side = 1, line = 3.0, font = 2, cex = 1.5, adj = 0.45, text = 'Months')
+mtext(side = 2, line = 3.8, font = 2, cex = 1.5, text = 'Depth [m]')
+mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
 
 dev.off()
 
@@ -131,9 +131,9 @@ filled.contour(x = x, y = y, z = z2, zlim = zlim,
                },
                key.axes = axis(4, isolines, font = 2, lwd.ticks = 2, cex.axis = 1.5)
 )
-mtext(side = 1, line = 3.5, font = 2, cex = 1.5, text = 'Month')
-mtext(side = 2, line = 3.5, font = 2, cex = 1.5, text = 'Depth [m]')
-mtext(side = 3, line = 0.2, font = 2, cex = 1.5, text = caption, adj = 0)
+mtext(side = 1, line = 3.0, font = 2, cex = 1.5, adj = 0.45, text = 'Months')
+mtext(side = 2, line = 3.8, font = 2, cex = 1.5, text = 'Depth [m]')
+mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
 
 dev.off()
 

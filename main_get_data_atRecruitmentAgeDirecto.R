@@ -11,8 +11,8 @@ source('ichthyop_functions.R')
 
 # dirpath  <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/out/'
 # new_path <- 'D:/ICHTHYOP/peru02km/LatitudeBathyDepth/cfg/'
-# variname <- c('length','MESO','temp')
-variname <- NULL
+variname <- c('length','MESO','temp')
+# variname <- NULL
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

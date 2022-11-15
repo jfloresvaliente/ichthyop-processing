@@ -6,24 +6,24 @@
 # Aim    : Get Hovmuller of inter-anual Recruitment.
 # URL    : 
 #=============================================================================#
-dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/'
+# dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.2/'
 latilim       <- c(-20, -2) # Latitude extension of the spawning zone
 lat_div       <- 2        # Latitudinal resolution
-t_x           <- c(1,4,7) # 10kmparent
-# t_x           <- c(1,3,5) # rsodi
+# t_x           <- c(1,4,7) # 10kmparent
+t_x           <- c(1,3,5) # rsodi
 # t_x           <- c(1,6,11) # peru02km
-years         <- c(1,3)
+years         <- c(1980,2000)
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-dir.create(path = paste0(dirpath, '/hovmuller/'), showWarnings = F)
-hovmullerRdata <- paste0(dirpath, '/hovmuller/hovmullerRecruitmentLatitudeByYear', lat_div, 'degrees.Rdata')
+dir.create(path = paste0(dirpath, '/results/hovmuller/'), showWarnings = F)
+hovmullerRdata <- paste0(dirpath, '/results/hovmuller/hovmullerRecruitmentLatitudeByYear', lat_div, 'degrees.Rdata')
 
 lat_ini <- seq(latilim[1], latilim[2], lat_div)
 lat_out <- lat_ini + lat_div
 
-load(file = paste0(dirpath, 'data_atRecruitmentAge.Rdata'))
+load(file = paste0(dirpath, '/results/data_atRecruitmentAge.Rdata'))
 df$Year[df$Year == 2009] <- 1
 df$Year[df$Year == 2010] <- 2
 df$Year[df$Year == 2011] <- 3

@@ -33,6 +33,8 @@ y <- hovmuller$y
 z <- hovmuller$z + T_K
 
 lev <- seq(from = zlim[1], to = zlim[2], length.out = nlevels) # Niveles para la paleta de color
+ytics <- seq(from = range(y)[1], to = range(y)[2], by = 2)
+ylabs <- paste0(abs(ytics), 'ºS')
 
 #===== CURVA 1 =====#
 # Parameters
@@ -94,14 +96,14 @@ filled.contour(x = x, y = y, z = z1, zlim = zlim,
                plot.axes = {
                  contour(x = x, y = y, z = z1, levels = isolines, labels = isolines, add = T, lwd = 2, labcex = 1)
                  axis(side = 1, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
-                 axis(side = 2, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 2))
+                 axis(side = 2, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = ytics, labels = ylabs)
                  box(lwd = 2)
                },
                key.axes = axis(4, isolines, font = 2, lwd.ticks = 2, cex.axis = 1.5)
 )
-mtext(side = 1, line = 3.5, font = 2, cex = 1.5, text = 'Years of simulation')
-mtext(side = 2, line = 3.5, font = 2, cex = 1.5, text = 'Latitude')
-mtext(side = 3, line = 0.2, font = 2, cex = 1.5, text = caption, adj = 0)
+mtext(side = 1, line = 3.0, font = 2, cex = 1.5, adj = 0.45, text = 'Years')
+mtext(side = 2, line = 3.8, font = 2, cex = 1.5, text = 'Latitude')
+mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
 
 dev.off()
 
@@ -117,14 +119,14 @@ filled.contour(x = x, y = y, z = z2, zlim = zlim,
                plot.axes = {
                  contour(x = x, y = y, z = z2, levels = isolines, labels = isolines, add = T, lwd = 2, labcex = 1)
                  axis(side = 1, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = (1:range(x)[2]))
-                 axis(side = 2, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = seq(from = range(y)[1], to = range(y)[2], by = 2))
+                 axis(side = 2, font = 2, cex.axis= 1.5, lwd = 2, lwd.ticks = 2, at = ytics, labels = ylabs)
                  box(lwd = 2)
                },
                key.axes = axis(4, isolines, font = 2, lwd.ticks = 2, cex.axis = 1.5)
 )
-mtext(side = 1, line = 3.5, font = 2, cex = 1.5, text = 'Years of simulation')
-mtext(side = 2, line = 3.5, font = 2, cex = 1.5, text = 'Latitude')
-mtext(side = 3, line = 0.2, font = 2, cex = 1.5, text = caption, adj = 0)
+mtext(side = 1, line = 3.0, font = 2, cex = 1.5, adj = 0.45, text = 'Years')
+mtext(side = 2, line = 3.8, font = 2, cex = 1.5, text = 'Latitude')
+mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
 
 dev.off()
 

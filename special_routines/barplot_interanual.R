@@ -8,24 +8,24 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1f1/results/'
-ymax    <- c(0,70)
+dirpath <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case1kx0.6/'
+ymax    <- c(0,1)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
-hlines  <- seq(from = ymax[1], to = ymax[2], by = 10)
+hlines  <- seq(from = ymax[1], to = ymax[2], by = .5)
 years   <- seq(1980:2000) # Number of simulation years
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-dat <- read.table(paste0(dirpath, 'ichthyop_output.csv'), sep = ';', header = T)
+dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', header = T)
 dat$Recruitprop[is.na(dat$Recruitprop)] <- 0
 year  <- recruitment_year(dat)
 
 yticks1 <- hlines
 
 # Plot de las 3 profundidades juntas
-png(filename = paste0(dirpath, '/barplot_interanual.png'), height = 450, width = 1550, res = 120)
+png(filename = paste0(dirpath, '/results/barplot_interanual.png'), height = 450, width = 1550, res = 120)
 par(mar = c(5,5,1,1))
 
 # Plot by year

@@ -1,15 +1,15 @@
 T_K  <- 273.15     # Kelvin
 Temp <- seq(from = 0, to = 35, by = 0.01) + T_K; # Kelvin
-T_A  <- 9800 # K Arrhenius temperature
+T_A  <- 10000 # K Arrhenius temperature
 
 # Temperatura de referencia 1
-T_ref1 <- 16 + T_K
+T_ref1 <- 20 + T_K
 c_T1   <- exp(T_A / T_ref1 - T_A / Temp) # Arrhenius factor
-DEB_var1 <- 230.75 # Variable DEB
+DEB_var1 <- 0.2420 # Variable DEB
 DEB_var1_T <- DEB_var1 * c_T1
 
 # Temperatura de referencia 2
-T_ref2 <- 20 + T_K
+T_ref2 <- 16 + T_K
 
 DEB_var2 <- DEB_var1 * exp(T_A / T_ref1 - T_A / T_ref2)
 c_T2 <- exp(T_A / T_ref2 - T_A / Temp)

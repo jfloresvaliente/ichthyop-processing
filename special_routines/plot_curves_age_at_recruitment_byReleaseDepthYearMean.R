@@ -6,7 +6,7 @@
 # Aim    : Plot curves of percentage of particles at recruited age
 # URL    : 
 #=============================================================================#
-dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/'
+# dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/'
 days    <- 91 # Step time
 ymax    <- 1.4 # Percetage of particles recruited
 ymax2   <- 40
@@ -17,14 +17,14 @@ depth   <- c('0-15', '15-30', '30-45')
 #=============================================================================#
 cols <- c('red', 'green', 'blue')
 
-load(paste0(dirpath, 'recruited_age_percentageReleaseDepthYearMean.Rdata'))
+load(paste0(dirpath, '/results/recruited_age_percentageReleaseDepthYearMean.Rdata'))
 dat <- age_percent; rm(age_percent)
 dat2 <- apply(X = dat, MARGIN = 1, FUN = cumsum)
 
 dat[dat == 0] <- NA
 dat2[dat2 == 0] <- NA
 
-png(paste0(dirpath, 'recruited_age_percentageReleaseDepthYearMean.png'), width = 850, height = 850, res = 120)
+png(paste0(dirpath, '/results/recruited_age_percentageReleaseDepthYearMean.png'), width = 850, height = 850, res = 120)
 par(mar = c(5,5,1,1))
 plot(1, type = 'n', ylim = c(0,ymax), xlim = c(0,days-1), xlab = '', ylab = '', main = '', yaxs = 'i', xaxs = 'i', axes = F)
 axis(side = 1, font = 2, lwd = 2, cex.axis = 1.5, lwd.ticks = 2)
@@ -43,7 +43,7 @@ box()
 dev.off()
 
 
-png(paste0(dirpath, 'recruited_age_percentageReleaseDepthYearMeanCumSum.png'), width = 850, height = 850, res = 120)
+png(paste0(dirpath, '/results/recruited_age_percentageReleaseDepthYearMeanCumSum.png'), width = 850, height = 850, res = 120)
 par(mar = c(5,5,1,1))
 plot(1, type = 'n', ylim = c(0,ymax2), xlim = c(0,days-1), xlab = '', ylab = '', main = '', yaxs = 'i', xaxs = 'i', axes = F)
 axis(side = 1, font = 2, lwd = 2, cex.axis = 1.5, lwd.ticks = 2)

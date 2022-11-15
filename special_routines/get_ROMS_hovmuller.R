@@ -12,11 +12,11 @@ source('ichthyop_functions.R')
 dirpath   <- 'E:/ROMS_SILUMATIONS/rsodi1/'
 sufijo    <- 'release_zone'
 namevar   <- 'MESO'
-k_x       <- 1.6 # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
+k_x       <- 0.6 # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
 xy        <- read.table(paste0(dirpath, '/interpolatedYearMonth/',sufijo,'_rowcol_index.txt'))
 mask      <- as.matrix(read.table(paste0(dirpath, '/interpolatedYearMonth/mask.txt')))
 ver_lev   <- as.vector(read.table(paste0(dirpath, '/interpolatedYearMonth/depth.txt'), header = T))[,1]
-years     <- c(1980, 2000)    # Years comprising the simulation
+years     <- c(1980, 2000)    # Years comprising the simulation (revisar linea 43)
 months    <- c(1,12)          # Months comprising the simulation
 
 #======= Do not change anything from here=======#
@@ -47,7 +47,7 @@ rownames(z) <- x
 colnames(z) <- y
 
 if(!is.null(k_x)){
-  Rdata <- paste0(new_dir, sufijo, '_', toupper(namevar), 'f', '_hovmuller.Rdata')
+  Rdata <- paste0(new_dir, sufijo, '_', toupper(namevar), 'kx', k_x, '_hovmuller.Rdata')
 }else{
   Rdata <- paste0(new_dir, sufijo, '_', toupper(namevar), '_hovmuller.Rdata')
 }
