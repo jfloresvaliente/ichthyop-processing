@@ -5,7 +5,7 @@ T_A  <- 10000 # K Arrhenius temperature
 # Temperatura de referencia 1
 T_ref1 <- 20 + T_K
 c_T1   <- exp(T_A / T_ref1 - T_A / Temp) # Arrhenius factor
-DEB_var1 <- 0.2420 # Variable DEB
+DEB_var1 <- 0.002 # Variable DEB
 DEB_var1_T <- DEB_var1 * c_T1
 
 # Temperatura de referencia 2
@@ -25,4 +25,6 @@ print(paste('Temperatura de Referencia Inicial =', T_ref1-T_K, 'ºC'))
 print(paste('Temperatura de Referencia Final =', T_ref2-T_K, 'ºC'))
 print(paste('Valor de la Variable DEB =', a, 'a temperatura de referencia', T_ref1-T_K, 'ºC')) 
 print(paste('Valor de la Variable DEB =', b, 'a temperatura de referencia', T_ref2-T_K, 'ºC')) 
+
+
 

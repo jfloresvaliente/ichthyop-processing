@@ -12,7 +12,7 @@ retention <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Recruitment (%)'
 ymax1     <- c(0,65)
-ymax2     <- c(0,1)
+ymax2     <- c(0,1.1)
 yticks1 <- seq(ymax1[1],ymax1[2],10)
 yticks2 <- seq(ymax2[1],ymax2[2],.2)
 legend_text <- c('Age criterion','Size criterion','Size criterion + Constant mortality')
@@ -67,6 +67,7 @@ mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5,    font = 2, text = 'a)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = plot1, labels = 1:12)
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
+arrows(plot1, month1[,2], plot1, month1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
 lines(plot1, month2[,1], lwd = 3)
@@ -123,6 +124,7 @@ mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'b)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = plot1, labels = rep('',9))
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
 text(plot1, -ymax1[2]/20, labels = latlab, srt = 20, xpd = TRUE, cex = 1, font = 2)
+arrows(plot1, zone1[,2], plot1, zone1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
 lines(plot1, zone2[,1], lwd = 3)
@@ -148,6 +150,7 @@ mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'c)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = plot1, labels = rownames(depth1))
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
+arrows(plot1, depth1[,2], plot1, depth1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
 lines(plot1, depth2[,1], lwd = 3)
@@ -173,6 +176,7 @@ mtext(side = 2, line = 2.5, cex = 1.3, font = 2, text = ylab)
 mtext(side = 3, line = -1 , cex = 1.5, font = 2, text = 'd)', adj = 0.025)
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = plot1, labels = rownames(bathy1))
 axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, labels = yticks1, las = 2)
+arrows(plot1, bathy1[,2], plot1, bathy1[,3], angle = 90, code = 3, length = 0.02)
 
 # dat2 curve
 lines(plot1, bathy2[,1], lwd = 3)

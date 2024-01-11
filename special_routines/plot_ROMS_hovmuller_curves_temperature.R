@@ -8,13 +8,13 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/interpolatedYearMonth/'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/interpolatedYearMonth/'
 sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
 
 #===== Config for temp var =====#
 namevar  <- 'TEMP'
-zlim     <- c(.6, 2)
+zlim     <- c(.0, 2.4)
 isolines <- seq(zlim[1], zlim[2], .2) # Isolines to be plotted
 caption  <- 'Correction Temperature'
 

@@ -12,9 +12,9 @@ lab <- subset(lab, lab$age_days <= age)
 colnames(lab) <- c('t','L')
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/PickSpaw1/DEB_out_s/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEB_out/'
 
-functional_response <- seq(0.1, 1, 0.1)
+functional_response <- seq(1, 1, 0.1)
 temperature         <- c(16)
 cols                <- tim.colors(n = length(temperature))
 
@@ -32,7 +32,7 @@ for(i in 1:length(functional_response)){
 
 dat$temp <- as.factor(dat$temp)
 dat$f    <- paste('f =', as.factor(dat$f))
-dat$Ww   <- dat$W_E + dat$W_V + dat$W_ER
+# dat$Ww   <- dat$W_E + dat$W_V + dat$W_ER
 dat <- subset(dat, dat$t <= age)
 
 # PLOTS

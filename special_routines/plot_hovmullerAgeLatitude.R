@@ -8,10 +8,10 @@
 #=============================================================================#
 library(fields)
 
-dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case2/results/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052/case1/results/'
 lat_div  <- 2  # Latitudinal resolution
 nlevels  <- 64 # Number of levels in the color palette
-zlim     <- c(20,85)
+zlim     <- c(20,90)
 isolines1 <- round(seq(zlim[1], zlim[2], 5), 2) # Isolines to be plotted
 isolines2 <- round(seq(zlim[1], zlim[2], 20), 2) # Isolines to be plotted
 

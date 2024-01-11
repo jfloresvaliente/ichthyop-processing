@@ -9,10 +9,10 @@ lab$Temperatura <- as.factor(lab$Temperatura)
 lab$Ls   <- lab$Ls/10000 # de micras a cm
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/PickSpaw1/DEB_out_s/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEB_out/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
-functional_response <- seq(0.1, 1, 0.1)
+functional_response <- seq(0.4, 1, 0.1)
 temperature         <- c(15, 18, 19)
 cols                <- c('blue','green','red')
 # cols                <- tim.colors(n = length(temperature))
@@ -31,7 +31,7 @@ for(i in 1:length(functional_response)){
 
 dat$temp <- as.factor(dat$temp)
 dat$f    <- paste('f =', as.factor(dat$f))
-dat$Ww   <- dat$W_E + dat$W_V + dat$W_ER
+# dat$Ww   <- dat$W_E + dat$W_V + dat$W_ER
 dat <- subset(dat, dat$t <= 35)
 
 # PLOTS
@@ -61,7 +61,7 @@ temp     <- rep(colnames(mean_dat), each = dim(mean_dat)[1])
 sum_dat  <- data.frame(tim, temp, as.vector(mean_dat), as.vector(mean_dat)+as.vector(sd_dat), as.vector(mean_dat)-as.vector(sd_dat))
 colnames(sum_dat) <- c('t', 'temp', 'mean', 'sd_up', 'sd_down')
 
-ggname <- paste0(dirpath, 'DEB_outVSArturoLab_promedio_f.png')
+ggname <- paste0(dirpath, 'DEB_outVSArturoLab_promedio_f_1.0.png')
 ggplot(data = dat)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = mean, colour = temp), size = 2)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = sd_up, colour = temp), linetype = 'dotted')+
@@ -82,3 +82,7 @@ ggplot(data = dat)+
                 strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
+
+
+T15 <- subset(dat, dat$temp == 15 & dat$f == 'f = 0.4')
+plot(T15$t, T15$L_w, type = 'l')

@@ -8,11 +8,11 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case1kx0.6/'
-ymax    <- c(0,1)
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.2/'
+ymax    <- c(0,30)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
-hlines  <- seq(from = ymax[1], to = ymax[2], by = .5)
+hlines  <- seq(from = ymax[1], to = ymax[2], by = 5)
 years   <- seq(1980:2000) # Number of simulation years
 
 #=============================================================================#

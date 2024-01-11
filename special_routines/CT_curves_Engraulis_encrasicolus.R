@@ -26,7 +26,7 @@ plot(Temp, type = 'n', axes = F, xlab = '', ylab = '', xaxs = 'i', yaxs = 'i', x
 axis(1, font = 2, lwd.ticks = 2, cex = 2, cex.axis = 1.5)
 axis(2, font = 2, lwd.ticks = 2, cex = 2, cex.axis = 1.5, las = 2)
 box(lwd = 2)
-mtext(side = 1, line = 2.5, font = 2, cex = 1.5, text = 'Temprature (ºC)')
+mtext(side = 1, line = 2.5, font = 2, cex = 1.5, text = 'Temperature (ºC)')
 mtext(side = 2, line = 3.5, font = 2, cex = 1.5, text = 'Correction factor')
 
 #===== CURVA 1 =====#
