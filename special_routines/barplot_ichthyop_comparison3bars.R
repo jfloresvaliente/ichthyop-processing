@@ -14,6 +14,15 @@ dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA6-14/ou
 dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
 
+# dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/AnalisisSensibilidad/sen10km/out/ichthyop_output.csv', header = T, sep = ';')
+# dat1 <- subset(dat1, dat1$TotalParticles == 5000 & dat1$Coast_Behavior == 'Standstill')
+# 
+# dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/AnalisisSensibilidad/sen02km/out/ichthyop_output.csv', header = T, sep = ';')
+# dat2 <- subset(dat2, dat2$TotalParticles == 5000 & dat2$Coast_Behavior == 'Standstill')
+# 
+# dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/AnalisisSensibilidad/sen02km_new/out/ichthyop_output.csv', header = T, sep = ';')
+# dat3 <- subset(dat3, dat3$TotalParticles == 5000 & dat3$Coast_Behavior == 'Standstill')
+
 # ylab <- 'Retention (%)'
 ylab <- 'Recruitment (%)'
 # ylab <- 'Pre-recruitment (%)'

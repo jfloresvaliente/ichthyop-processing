@@ -20,18 +20,18 @@ compute_recruitment_ichthyop <- function(
 
   #============ ============ Arguments ============ ============#
   
-  # dirpath = Directory path which contains series of ICHTHYOP outputs (.nc)
+  # dirpath = Directory path containing a set of ICHTHYOP outputs (.nc)
 
-  # In case one wishes to consider only a subset from all drifters
-  # firstdrifter = Index of first drifter to be computed
-  # lastdrifter  = Index of last drifter to be computed
+  # If one wishes to consider only a subset of all drifters
+  # firstdrifter = Index of the first drifter to be computed
+  # lastdrifter  = Index of the last drifter to be computed
 
-  # computeattime   = The time record at which to compute recruitment
+  # computeattime   = The time at which recruitment should be computed
   # nbreleasezones  = The number of release zones
-  # recruitmentzone = The index of the recruitment zone for which recruitment is computed
+  # recruitmentzone = The recruitment index is computed for a specific recruitment zone
 
-  # To read configuration files (.xml) from a different directory to original directory where files were stored
-  # old_path = path written in each ncdf input file as attribute
+  # To read configuration files (.xml) from a directory other than the original directory where the files were stored.
+  # old_path = path written in each ncdf ICHTHYOP output file as attribute
   # new_path = path where '.xml' files are stored
 
   # dates = (.csv) file with YEAR/MONTH index to match with t0 (beginning of simulation)
@@ -40,7 +40,7 @@ compute_recruitment_ichthyop <- function(
   # ['NumberReleased','NumberRecruited','ReleaseArea','Year','Month','Eps','Age','Coast_Behavior',...
   # 'Temp_min','Name_file','t_x','Zone_name','Depth','Bathy','TotalParticles','Recruitprop]'
 
-  # Then one can calculate new features.
+  # Then, one can calculate new features:
   # Do not forget to add them in the 'return' of the 'compute_recruitment_file' internal function
   
   #============ ============ Arguments ============ ============#

@@ -10,8 +10,8 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-csv1 <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1kx0.2/'
-csv2 <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case2kx0.2/'
+csv1 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/'
+csv2 <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/out_case2/'
 
 # ylab <- 'Retention (%)'
 ylab <- 'Recruitment (%)'
@@ -19,7 +19,7 @@ ylab <- 'Recruitment (%)'
 meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 
 lats     <- seq(from = 2, to = 20, by = 2)
-ymax     <- c(0,30)
+ymax     <- c(0,45)
 col_bars <- c('grey10','grey50')
 
 # legend   <- c( 'Age criteria', 'Size criteria')
@@ -31,7 +31,8 @@ col_bars <- c('grey10','grey50')
 # legend   <- c( '2 km', '2 km new')
 # legend   <- c( 'ROMS', 'ROMS-PISCES')
 # legend   <- c('Size criteria k_x = 0', 'Size criteria k_x = 1.6')
-legend   <- c('Case1', 'Case2')
+# legend   <- c('Case1', 'Case2')
+legend   <- c('E. encrasicolus', 'E. ringens')
 
 png_name <- paste0(dirpath, 'barplot_ichthyop_comparison.png')
 #=============================================================================#
@@ -76,10 +77,10 @@ axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, la
 
 arrows(dayplot[1,], day1[,2],
        dayplot[1,], day1[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 arrows(dayplot[2,], day2[,2],
        dayplot[2,], day2[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 
 legend('topright',
        bty = 'n',
@@ -105,10 +106,10 @@ text(apply(zoneplot,2,mean), -ymax[2]/20, labels = latlab, srt = 20, xpd = TRUE,
 
 arrows(zoneplot[1,], zone1[,2],
        zoneplot[1,], zone1[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 arrows(zoneplot[2,], zone2[,2],
        zoneplot[2,], zone2[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 
 #========================= Plot by spawning depth =========================#
 par(mar = c(3.5,4,.5,4))
@@ -122,10 +123,10 @@ axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, la
 
 arrows(depthplot[1,], depth1[,2],
        depthplot[1,], depth1[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 arrows(depthplot[2,], depth2[,2],
        depthplot[2,], depth2[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 
 #========================= Plot by spawning bathymetry =========================#
 par(mar = c(3.5,4,.5,4))
@@ -139,10 +140,10 @@ axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks, la
 
 arrows(bathyplot[1,], bathy1[,2],
        bathyplot[1,], bathy1[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 arrows(bathyplot[2,], bathy2[,2],
        bathyplot[2,], bathy2[,3],
-       angle=90,code=3,length=0.025)
+       angle=90,code=3,length=0.025, col = 'grey25')
 
 dev.off()
 #=============================================================================#

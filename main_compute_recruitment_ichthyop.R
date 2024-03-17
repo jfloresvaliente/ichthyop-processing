@@ -1,6 +1,6 @@
 #=============================================================================#
 # Name   : main_compute_recruitment_ichthyop
-# Author : C. Lett; modified by Jorge Flores-Valiente
+# Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
 # Aim    : Compute recruitment from ICHTHYOP outputs (.nc)
@@ -9,8 +9,8 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-# dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.6/'
-# new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/cfg/'
+dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/out_case2/'
+new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/cfg/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -33,7 +33,7 @@ dat <- compute_recruitment_ichthyop(dirpath            = dirpath,
                                     ,computeattime     = computeattime
                                     ,nbreleasezones    = nbreleasezones
                                     ,recruitmentzone   = recruitmentzone
-                                    ,old_path          = old_path
+                                    ,old_path          = dirpath
                                     ,new_path          = new_path
                                     ,dates             = dates
 )

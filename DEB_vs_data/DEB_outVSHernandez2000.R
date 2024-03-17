@@ -9,7 +9,7 @@ lab$L    <- lab$L/10 # de mm a cm
 lab      <- subset(lab, lab$Autor == 'Hernandez2000')
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEB_out_s/'
+dirpath <- 'C:/Users/jflores/Desktop/DEB_out_ringens/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(0.5, 1, 0.1)

@@ -8,17 +8,18 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.2/'
-ymax    <- c(0,30)
+dirpath <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/out_case2/'
+ymax    <- c(0,20)
 lats    <- seq(from = 2, to = 20, by = 2)
 ylab    <- 'Recruitment (%)'
 hlines  <- seq(from = ymax[1], to = ymax[2], by = 5)
-years   <- seq(1980:2000) # Number of simulation years
+# years   <- seq(1980:2000) # Number of simulation years
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', header = T)
+dat <- subset(dat, dat$Zone_name != 'zone1') # Quitar la zona1 'Golfo de Guayaquil - Ecuador'
 dat$Recruitprop[is.na(dat$Recruitprop)] <- 0
 year  <- recruitment_year(dat)
 
@@ -42,3 +43,6 @@ axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.2, font = 2, at = yticks1, l
 # text(zoneplot, -ymax[2]/20, labels = latlab, srt = 20, xpd = TRUE, cex = 1, font = 2)
 text(yearplot, -ymax[2]/20, labels = yearlab, srt = 20, xpd = TRUE, cex = 1, font = 2)
 dev.off()
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#

@@ -18,11 +18,11 @@ compute_recruitment_ichthyop_drifters <- function(
 ){
   #============ ============ Arguments ============ ============#
   
-  # dirpath = Directory path which contains series of ICHTHYOP outputs (.nc)
+  # dirpath = Directory path containing a set of ICHTHYOP outputs (.nc)
   
-  # In case one wishes to consider only a subset from all drifters
-  # firstdrifter = Index of first drifter to be computed
-  # lastdrifter  = Index of last drifter to be computed
+  # If one wishes to consider only a subset of all drifters
+  # firstdrifter = Index of the first drifter to be computed
+  # lastdrifter  = Index of the last drifter to be computed
   
   # firsttime    = Index of first time to be computed
   # lasttime     = Index of last  time to be computed

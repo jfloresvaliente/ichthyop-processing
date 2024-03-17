@@ -7,14 +7,14 @@
 # URL    : 
 #=============================================================================#
 source('ichthyop_functions.R')
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/results/' # Dirpath
+dirpath   <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/out_case1/results/' # Dirpath
 retention <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/ichthyop_output.csv' # .csv retention file
 lats      <- seq(from = 2, to = 20, by = 2)
 ylab      <- 'Recruitment (%)'
 ymax1     <- c(0,65)
-ymax2     <- c(0,1.1)
+ymax2     <- c(0,0.1)
 yticks1 <- seq(ymax1[1],ymax1[2],10)
-yticks2 <- seq(ymax2[1],ymax2[2],.2)
+yticks2 <- seq(ymax2[1],ymax2[2],.05)
 legend_text <- c('Age criterion','Size criterion','Size criterion + Constant mortality')
 
 #=============================================================================#

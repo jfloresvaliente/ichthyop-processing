@@ -8,12 +8,12 @@ lab      <- read.table(csv_file, header = T, sep = ';')
 lab$standard_length <- lab$standard_length/10 # de mm a cm
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEB_out_s/'
+dirpath <- 'C:/Users/jflores/Desktop/DEB_out_ringens/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
-functional_response <- seq(1, 1.3, 0.1)
+functional_response <- seq(from = 0.1, to = 1, by = 0.1)
 temperature         <- c(11,14)
-cols                <- tim.colors(n = length(temperature))
+cols                <- c('blue', 'red')
 
 dat <- NULL
 for(i in 1:length(functional_response)){
@@ -50,3 +50,6 @@ ggplot(data = dat)+
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
         strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 12, height = 8)
+
+ggplot(data = dat)+
+  geom_line(mapping = aes(x = t, y = L_w, colour = temp), size = 1, linetype = 'solid')

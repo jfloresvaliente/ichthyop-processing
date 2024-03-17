@@ -11,7 +11,7 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/out_case1/results/'
 xlim     <- c(-95, -70) # Londitude
 ylim     <- c(-25, 0)   # Latitude
 bin_lon  <- .1
