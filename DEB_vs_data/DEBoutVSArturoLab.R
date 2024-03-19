@@ -17,12 +17,12 @@ ratio <- 15.2       # Ratio entre eje X e Y
 # Get laboratory data
 dirpath  <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/engraulis_data/'
 csv_file <- paste0(dirpath, 'Crecimiento_E.ringens_IMAPRE.csv')
-lab      <- read.table(csv_file, header = T, sep = ',')
-lab$Temperatura <- as.factor(lab$Temperatura)
-lab$Ls   <- lab$Ls/10000 # de micras a cm
+dat2     <- read.table(csv_file, header = T, sep = ',')
+dat2$Temperatura <- as.factor(dat2$Temperatura)
+dat2$Ls   <- dat2$Ls/10000 # de micras a cm
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBout/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(from = 0.1, to = 1, by = 0.1)
@@ -93,7 +93,7 @@ ggplot(data = dat)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = mean,    colour = temp), size = 2)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = sd_up,   colour = temp), linetype = 'dotted')+
   geom_line(data = sum_dat, mapping = aes(x = t, y = sd_down, colour = temp), linetype = 'dotted')+
-  geom_point(data = lab, mapping = aes(x = t, y = Ls, colour = Temperatura), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = Ls, colour = Temperatura), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
@@ -116,7 +116,7 @@ ggplot(data = dat)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = mean, colour = temp), size = 2)+
   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp), linetype = 'dotted')+
   geom_line(data = f_min  , mapping = aes(x = t, y = Lw  , colour = temp), linetype = 'dotted')+
-  geom_point(data = lab, mapping = aes(x = t, y = Ls, colour = Temperatura), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = Ls, colour = Temperatura), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
@@ -136,7 +136,7 @@ ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 ggname <- paste0(dirpath, 'DEB_out_f1_vsArturoLab.png')
 ggplot(data = dat)+
   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp), size = 2)+
-  geom_point(data = lab, mapping = aes(x = t, y = Ls, colour = Temperatura), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = Ls, colour = Temperatura), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
@@ -151,6 +151,27 @@ ggplot(data = dat)+
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
         strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
+
+# Plot4: Max growth (solid lines) maximal functional response (f = 1)
+ggname <- paste0(dirpath, 'DEB_out_fvsArturoLab.png')
+ggplot(data = dat)+
+  geom_line(data = dat, mapping = aes(x = t, y = Lw  , colour = temp), size = 2)+
+  geom_point(data = dat2, mapping = aes(x = t, y = Ls, colour = Temperatura), size = 1.5)+
+  coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
+  facet_wrap(~f)+
+  scale_color_manual(values = cols)+
+  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  theme(axis.text.x  = element_text(face='bold', color='black', size=10, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=10, angle=0),
+        axis.title.x = element_text(face='bold', color='black', size=10, angle=0, margin = margin(t = 20)),
+        axis.title.y = element_text(face='bold', color='black', size=10, angle=90,margin = margin(r = 20)),
+        plot.title   = element_text(face='bold', color='black', size=10, angle=0),
+        legend.text  = element_text(face='bold', color='black', size=10),
+        legend.title = element_text(face='bold', color='black', size=10),
+        legend.position   = c(0.7, 0.09),
+        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+        strip.text        = element_text(face='bold', color='black', size=10)) # Para cambiar el tamaño del título en facet_wrap
+ggsave(filename = ggname, plot = last_plot(), width = 12, height = 8)
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
