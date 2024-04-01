@@ -4,7 +4,7 @@ library(hexbin)
 library(gridExtra)
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBout/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 E_Hb    = 0.335  # J, Maturity threshold at birth % ouverture de la bouche
@@ -91,8 +91,25 @@ dev.off()
 
 # Plots en funcion de temp
 p1 <- ggplot(data = dat, aes(x = factor(temp), y = age_birth))+
-  # geom_boxplot(outlier.shape = NA)+
-  geom_point()
+  geom_point()+
+  annotate(geom = 'point', x = 5, y = 5, colour = "red", size = 3)+
+  labs(x = 'Temperature (ºC)', y = 'Age at birth (d)')+
+  # geom_point(aes(shape = Lw_ini), size = 1.3)+
+  # labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', shape = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
+  theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=13, angle=0),
+        axis.title.x = element_text(face='bold', color='black', size=15, angle=0, margin = margin(t = 20)),
+        axis.title.y = element_text(face='bold', color='black', size=15, angle=90,margin = margin(r = 20)),
+        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+        plot.margin  = unit(c(.5,4,.5,.5),'cm'),
+        legend.text  = element_text(face='bold', color='black', size=10),
+        legend.title = element_text(face='bold', color='black', size=10),
+        legend.position   = c(1.1, .75),
+        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+        strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
+png(filename = 'C:/Users/jflores/Desktop/age_at_birth.png', width = 850, height = 650, res = 120)
+grid.arrange(p1, nrow = 1)
+dev.off()
 
 
 p2 <- ggplot(data = dat, aes(x = factor(temp), y = length_birth))+
@@ -102,7 +119,25 @@ p2 <- ggplot(data = dat, aes(x = factor(temp), y = length_birth))+
 
 p3 <- ggplot(data = dat, aes(x = factor(temp), y = age_metamorphosis))+
   # geom_boxplot(outlier.shape = NA)+
-  geom_point()
+  geom_point()+
+  labs(x = 'Temperature (ºC)', y = 'Age at metamorphosis (d)')+
+  # geom_point(aes(shape = Lw_ini), size = 1.3)+
+  # labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', shape = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
+  theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=13, angle=0),
+        axis.title.x = element_text(face='bold', color='black', size=15, angle=0, margin = margin(t = 20)),
+        axis.title.y = element_text(face='bold', color='black', size=15, angle=90,margin = margin(r = 20)),
+        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+        plot.margin  = unit(c(.5,4,.5,.5),'cm'),
+        legend.text  = element_text(face='bold', color='black', size=10),
+        legend.title = element_text(face='bold', color='black', size=10),
+        legend.position   = c(1.1, .75),
+        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+        strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
+png(filename = 'C:/Users/jflores/Desktop/age_at_metamorphosis.png', width = 850, height = 650, res = 120)
+grid.arrange(p3, nrow = 1)
+dev.off()
+  
 
 p4 <- ggplot(data = dat, aes(x = factor(temp), y = length_metamorphosis))+
   geom_boxplot(outlier.shape = NA)

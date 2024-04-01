@@ -6,38 +6,26 @@
 # Aim    : Plot DEB_out files vs Moreno 2011 data
 # URL    :
 #=============================================================================#
+# Type of length: standard (Ls, mm)
+# Time: age (days)
+
 library(ggplot2)
 library(fields)
 
-# # Para el rango de larvas
-# age   <- 55       # Limite del eje X en dias
-# xlim  <- c(-3, 55) # X-axis limits
-# ylim  <- c(0,2.5)  # Y-axis limits
-# ratio <- 25      # Ratio entre eje X e Y
-
-# # Para el rango de adultos
-# age   <- 200        # Limite del eje X en dias
-# xlim  <- c(-3, 58)  # X-axis limits
-# ylim  <- c(0,2.5)   # Y-axis limits
-# ratio <- 25.2         # Ratio entre eje X e Y
-
-# Para el rango de adultos
-age   <- 200        # Limite del eje X en dias
-xlim  <- c(-3, age)  # X-axis limits
-ylim  <- c(0,8)   # Y-axis limits
-ratio <- 25.2         # Ratio entre eje X e Y
+age   <- 200        # X-axis limit in days
+xlim  <- c(-3, age) # X-axis limits
+ylim  <- c(0,8)     # Y-axis limits
+ratio <- 25.2       # Ratio between X and Y axis
 
 # Get bibliography data
-dirpath  <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/bib_data/'
-csv_file <- paste0(dirpath, 'Moreno et al 2011 fig4.csv')
+dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/bib_data/'
+csv_file  <- paste0(dirpath, 'Moreno2011fig4.csv')
 dat2      <- read.table(csv_file, header = T, sep = ';')
-dat2$standard_length_mm <- dat2$standard_length_mm/10 # Longitud estandar [de mm a cm]
-dat2 <- subset(dat2, dat2$age_days <= age)
-dat2$Temperatura <- 16
-colnames(dat2) <- c('t','Ls','Temperatura')
+dat2$temp <- 16
+dat2$L    <- dat2$L/10 # from millimeters to centimeters
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/'
+dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2Jusup/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(from = 0.1, to = 1, by = 0.1)
@@ -81,9 +69,9 @@ for(i in 1:length(functional_response)){
   }
 }
 
-# Adjustments to the data
-dat$temp <- as.factor(dat$temp) # Temperature as factor
-dat$f    <- paste('f =', as.factor(dat$f)) # A subset of data at a given age.
+# Data adjustments
+dat$temp <- as.factor(dat$temp)             # Temperature as factor
+dat$f    <- paste('f =', as.factor(dat$f))  # 'f' as a factor
 
 # Compute the mean and standard deviation of growth for each time interval
 mean_dat <- tapply(dat$Lw, list(dat$t, dat$temp), mean)
@@ -103,12 +91,12 @@ f_min <- subset(dat, dat$f == min(dat$f))
 
 # Plot1: Mean (solid lines) of the different functional responses (f) and
 # their standard deviation (sd, dotted lines) at each time step.
-ggname <- paste0(dirpath, 'DEB_out_fMeanSD_vsMoreno2011.png')
+ggname <- paste0(dirpath, 'DEBoutVSMoreno2011fMeanSD.png')
 ggplot(data = dat)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = mean, colour = temp), size = 2)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = sd_up, colour = temp), linetype = 'dotted')+
   geom_line(data = sum_dat, mapping = aes(x = t, y = sd_down, colour = temp), linetype = 'dotted')+
-  geom_point(data = dat2, mapping = aes(x = t, y = Ls), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
@@ -126,12 +114,12 @@ ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
 # Plot2: Mean (solid lines) of the different functional responses (f) and
 # maximum and minimun funcional response (dotted lines) values at each time step.
-ggname <- paste0(dirpath, 'DEB_out_fMaxMin_vsMoreno2011.png')
+ggname <- paste0(dirpath, 'DEBoutVSMoreno2011fMaxMin.png')
 ggplot(data = dat)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = mean, colour = temp), size = 2)+
   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp), linetype = 'dotted')+
   geom_line(data = f_min  , mapping = aes(x = t, y = Lw  , colour = temp), linetype = 'dotted')+
-  geom_point(data = dat2, mapping = aes(x = t, y = Ls), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
@@ -148,10 +136,10 @@ ggplot(data = dat)+
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
 # Plot3: Max growth (solid lines) maximal functional response (f = 1)
-ggname <- paste0(dirpath, 'DEB_out_f1_vsMoreno2011.png')
+ggname <- paste0(dirpath, 'DEBoutVSMoreno2011f1.png')
 ggplot(data = dat)+
   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp), size = 2)+
-  geom_point(data = dat2, mapping = aes(x = t, y = Ls), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
@@ -168,10 +156,10 @@ ggplot(data = dat)+
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
 # Plot4: Max growth (solid lines) maximal functional response (f = 1)
-ggname <- paste0(dirpath, 'DEB_out_fvsMoreno2011.png')
+ggname <- paste0(dirpath, 'DEBoutVSMoreno2011f.png')
 ggplot(data = dat)+
   geom_line(data = dat, mapping = aes(x = t, y = Lw  , colour = temp), size = 2)+
-  geom_point(data = dat2, mapping = aes(x = t, y = Ls), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   facet_wrap(~f)+
   scale_color_manual(values = cols)+
