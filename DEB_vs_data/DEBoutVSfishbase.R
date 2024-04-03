@@ -1,35 +1,34 @@
 #=============================================================================#
-# Name   : DEBoutVSMorales-nin1989
+# Name   : DEBoutVSfishbase
 # Author : Jorge Flores-Valiente
 # Date   :
 # Version:
-# Aim    : Plot DEB_out files vs Morales-nin1989 data
+# Aim    : Plot DEB_out files vs fishbase data
 # URL    :
 #=============================================================================#
-# Type of length: total (Lt, cm)
-# Time: age (years)
+# Type of length: standard (Ls, cm)
+# Time: age (days)
 
 library(ggplot2)
 library(fields)
 
-xlim  <- c(0,4)     # X-axis limits
-ylim  <- c(0,20)    # Y-axis limits
-ratio <- 1/5        # Ratio between X and Y axis
+xlim  <- c(0, 1100)  # X-axis limits
+ylim  <- c(0,20)   # Y-axis limits
+ratio <- 55       # Ratio between X and Y axis
 
-# Get bibliography data
+# Get laboratory data
 dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/bib_data/'
-csv_file  <- paste0(dirpath, 'Morales-nin1989.csv')
+csv_file  <- paste0(dirpath, 'fishbase_Eringens.csv')
 dat2      <- read.table(csv_file, header = T, sep = ';')
-dat2$temp <- 16
-dat2$t <- dat2$t + 1 # One year added to the age-length key
+dat2$temp <- as.factor(dat2$temp)
 
 # Get DEB_out data
-dirpath <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/'
+dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(from = 0.1, to = 1, by = 0.1)
-temperature         <- c(16)
-cols                <- tim.colors(n = length(temperature))
+temperature         <- c(15, 18)
+cols                <- c('blue','green')
 
 dat <- NULL
 for(i in 1:length(functional_response)){
@@ -37,8 +36,7 @@ for(i in 1:length(functional_response)){
     
     txt_file <- paste0(dirpath, 'DEB_outT', temperature[j],'f',functional_response[i],'.txt')
     df   <- read.table(file = txt_file, header = T, sep = ',')
-    df <- df[-dim(df)[1],]
-    # df$t <- df$t - 2 # Se resta 2 dias que corresponde al periodo de huevo (E. ringens)
+    df$t <- df$t - 2 # Se resta 2 dias que corresponde al periodo de huevo (E. ringens)
     # df   <- subset(df, df$t <= age)
     
     # If it is necessary to calculate the physical length
@@ -68,7 +66,6 @@ for(i in 1:length(functional_response)){
     print(txt_file)
   }
 }
-dat$t <- dat$t/365 # days to years
 
 # Data adjustments
 dat$temp <- as.factor(dat$temp)             # Temperature as factor
@@ -92,15 +89,15 @@ f_min <- subset(dat, dat$f == min(dat$f))
 
 # Plot1: Mean (solid lines) of the different functional responses (f) and
 # their standard deviation (sd, dotted lines) at each time step.
-ggname <- paste0(dirpath, 'Morales-nin1989fMeanSD.png')
+ggname <- paste0(dirpath, 'DEBoutVSfishbasefMeanSD.png')
 ggplot(data = dat)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = mean,    colour = temp), size = 2)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = sd_up,   colour = temp), linetype = 'dotted')+
   geom_line(data = sum_dat, mapping = aes(x = t, y = sd_down, colour = temp), linetype = 'dotted')+
-  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Age [years]', y = 'TotalLength [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -115,15 +112,15 @@ ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
 # Plot2: Mean (solid lines) of the different functional responses (f) and
 # maximum and minimun funcional response (dotted lines) values at each time step.
-ggname <- paste0(dirpath, 'Morales-nin1989fMaxMin.png')
+ggname <- paste0(dirpath, 'DEBoutVSfishbasefMaxMin.png')
 ggplot(data = dat)+
   geom_line(data = sum_dat, mapping = aes(x = t, y = mean, colour = temp), size = 2)+
   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp), linetype = 'dotted')+
   geom_line(data = f_min  , mapping = aes(x = t, y = Lw  , colour = temp), linetype = 'dotted')+
-  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Age [years]', y = 'TotalLength [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -137,13 +134,13 @@ ggplot(data = dat)+
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
 # Plot3: Max growth (solid lines) maximal functional response (f = 1)
-ggname <- paste0(dirpath, 'Morales-nin1989f1.png')
+ggname <- paste0(dirpath, 'DEBoutVSfishbasef1.png')
 ggplot(data = dat)+
   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp), size = 2)+
-  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Age [years]', y = 'TotalLength [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -157,14 +154,14 @@ ggplot(data = dat)+
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
 # Plot4: Max growth (solid lines) maximal functional response (f = 1)
-ggname <- paste0(dirpath, 'Morales-nin1989f.png')
+ggname <- paste0(dirpath, 'DEBoutVSfishbasef.png')
 ggplot(data = dat)+
   geom_line(data = dat, mapping = aes(x = t, y = Lw  , colour = temp), size = 2)+
-  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   facet_wrap(~f)+
   scale_color_manual(values = cols)+
-  labs(x = 'Age [years]', y = 'TotalLength [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=10, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=10, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=10, angle=0, margin = margin(t = 20)),
