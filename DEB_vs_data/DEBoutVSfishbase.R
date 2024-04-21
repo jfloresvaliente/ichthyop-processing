@@ -97,7 +97,7 @@ ggplot(data = dat)+
   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -120,7 +120,7 @@ ggplot(data = dat)+
   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -140,7 +140,7 @@ ggplot(data = dat)+
   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -161,7 +161,7 @@ ggplot(data = dat)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   facet_wrap(~f)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=10, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=10, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=10, angle=0, margin = margin(t = 20)),

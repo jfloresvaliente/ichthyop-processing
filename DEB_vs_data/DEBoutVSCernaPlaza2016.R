@@ -14,13 +14,13 @@ library(fields)
 
 xlim  <- c(0, 650) # X-axis limits
 ylim  <- c(0,20)   # Y-axis limits
-ratio <- 22.5      # Ratio between X and Y axis
+ratio <- 32.5      # Ratio between X and Y axis
 
 # Get bibliography data
 dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/bib_data/'
 csv_file  <- paste0(dirpath, 'CernaPlaza2016.csv')
 dat2      <- read.table(csv_file, header = T, sep = ';')
-# dat2$t <- dat2$t + 202
+dat2$t <- dat2$t + 202
 
 # Get DEB_out data
 dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/'
@@ -96,7 +96,7 @@ ggplot(data = dat)+
   geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -119,7 +119,7 @@ ggplot(data = dat)+
   geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -139,7 +139,7 @@ ggplot(data = dat)+
   geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -160,7 +160,7 @@ ggplot(data = dat)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   facet_wrap(~f)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', color = 'T [ºC]')+
+  labs(x = 'Time after hatching [d]', y = 'Total Length [cm]', color = 'T [ºC]')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=10, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=10, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=10, angle=0, margin = margin(t = 20)),

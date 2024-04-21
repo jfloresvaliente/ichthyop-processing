@@ -6,7 +6,7 @@
 # Aim    : make a lm and anova for ouputs of ichthyop simulations 
 # URL    : 
 #===============================================================================
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu7/results/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case2/results/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
