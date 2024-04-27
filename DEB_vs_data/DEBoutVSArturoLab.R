@@ -25,7 +25,7 @@ dat2$temp <- as.factor(dat2$temp)
 dat2$L    <- dat2$L/10000 # from microns to cm
 
 # Get DEB_out data
-dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/'
+dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(from = 0.1, to = 1, by = 0.1)
