@@ -3,15 +3,15 @@ library(gridExtra)
 library(stringr)
 library(fields)
 
-dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV4/',
-             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV4/')
-Lw <- c(.5, 3)
+dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV4/cTcase2/',
+             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV4/cTcase2/')
+Lw <- c(0.5, 3)
 
 dat <- NULL
 for(k in 1:length(dirpath)){
   for(i in 1:length(Lw)){
     directory_out <- paste0(dirpath[k], 'Lw',Lw[i], '/')
-    files_f0 <- list.files(path = directory_out, pattern = 'f0.txt', full.names = T)
+    files_f0 <- list.files(path = directory_out, pattern = '.txt', full.names = T)
     
     for(j in 1:length(files_f0)){
       print(files_f0[j])
@@ -22,43 +22,46 @@ for(k in 1:length(dirpath)){
       
       # En caso de inanicion
       ind <- which(df$E <= 0)[1] # Elegir el momento antes de que E_0 sea negativo = muerte
-      df <- df[1:ind,]
+      if(is.na(ind)){
+        df <- df[1,]
+        
+        # New data frame
+        age_starvation <- NA
+        Lw_ini         <- paste(Lw[i], 'cm')
+        Lw_end         <- NA
+        temp           <- df$temp
+        sp             <- df$sp
+      }else{
+        df <- df[(ind),]
+        # New data frame
+        age_starvation <- df$t
+        Lw_ini         <- paste(Lw[i], 'cm')
+        Lw_end         <- df$Lw
+        temp           <- df$temp
+        sp             <- df$sp
+      }
       
-      # encontrar la talla inicial deseada
-      ind_talla <- which(df$Lw >= Lw[i])[1] - 1 # Elegir indice de  tiempo en que alcanza la talla inicial
-      df <- df[-c(1:ind_talla), ]
-      
-      # New data frame
-      age_talla      <- df$t[1]
-      age_starvation <- df$t[dim(df)[1]]
-      t_starvation   <- age_starvation - age_talla
-      Lw_ini        <- Lw[i]
-      Lw_end        <- df$Lw[dim(df)[1]]
-      temp           <- df$temp[1]
-      sp             <- df$sp[1]
-      
-      df <- cbind(age_talla, age_starvation, t_starvation, Lw_ini, Lw_end, temp, sp)
-      colnames(df) <- c('age_talla', 'age_starvation', 't_starvation', 'Lw_ini', 'Lw_end', 'temp', 'sp')
+      df <- cbind(age_starvation, Lw_ini, Lw_end, temp, sp)
+      colnames(df) <- c('age_starvation', 'Lw_ini', 'Lw_end', 'temp', 'sp')
       dat <- rbind(dat, df)
     }
   }
 }
 
+dat                <- as.data.frame(dat)
+dat$Lw_ini         <- as.factor(dat$Lw_ini)
+dat$sp             <- as.factor(dat$sp)
+dat$temp           <- as.numeric(dat$temp)
+dat$age_starvation <- as.numeric(dat$age_starvation)
 
-dat <- as.data.frame(dat)
-dat$Lw_ini <- as.factor(dat$Lw_ini)
-dat$t_starvation <- as.numeric(dat$t_starvation)
-dat$sp <- as.factor(dat$sp)
-dat$temp <- as.numeric(dat$temp)
+# dat <- subset(dat, dat$temp >= 14)
+dat <- subset(dat, dat$temp >= 14 & dat$temp <= 24)
 
-dat <- subset(dat, dat$temp >= 14)
-
-# colnames(dat) <- c('age_talla', 'age_starvation', 't_starvation', 'Initial\nStandard Length\n(cm)', 'Lw_end', 'temp', 'sp')
 rownames(dat) <- NULL
 
 #----------- GGPLOT -----------#
 # 
-p1 <- ggplot(data = dat, mapping = aes(x = temp, y = t_starvation, colour = sp))+
+p1 <- ggplot(data = dat, mapping = aes(x = temp, y = age_starvation, colour = sp))+
   geom_line(aes(linetype = Lw_ini), size = 1.3)+
   labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', linetype = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
   # geom_point(aes(shape = Lw_ini), size = 1.3)+
@@ -78,7 +81,7 @@ png(filename = 'C:/Users/jflores/Desktop/t_starvation_f0.png', width = 1250, hei
 grid.arrange(p1, nrow = 1)
 dev.off()
 
-p2 <- ggplot(data = dat, mapping = aes(x = temp, y = t_starvation, colour = sp))+
+p2 <- ggplot(data = dat, mapping = aes(x = temp, y = age_starvation, colour = sp))+
   geom_line(aes(linetype = Lw_ini), size = 1.3)+
   labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', linetype = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
   facet_wrap(~Lw_ini)+
@@ -98,3 +101,4 @@ p2 <- ggplot(data = dat, mapping = aes(x = temp, y = t_starvation, colour = sp))
 png(filename = 'C:/Users/jflores/Desktop/t_starvation_f0_V2.png', width = 1250, height = 550, res = 120)
 grid.arrange(p2, nrow = 1)
 dev.off()
+
