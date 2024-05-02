@@ -23,10 +23,11 @@ csv_file  <- paste0(dirpath, 'CrecimientoEringensIMAPRE.csv')
 dat2      <- read.table(csv_file, header = T, sep = ',')
 dat2$temp <- as.factor(dat2$temp)
 dat2$L    <- dat2$L/10000 # from microns to cm
+dat2$t    <- dat2$t + 2 # is added 2 days corresponding to hatching.
 
 # Get DEB_out data
-dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/',
-             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/')
+dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTeq1/',
+             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/cTeq1/')
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(from = 0.1, to = 1, by = 0.1)
@@ -44,7 +45,7 @@ for(k in 1:length(dirpath)){
       df   <- read.table(file = txt_file, header = T, sep = ',')
       # Identificamos de que especie se trata:
       if(grepl(pattern = 'ringens', x = txt_file)) df$sp <- 'E. ringens' else df$sp <- 'E. encrasicolus'
-      df$t <- df$t - 2 # Se resta 2 dias que corresponde al periodo de huevo (E. ringens)
+      # df$t <- df$t - 2 # Se resta 2 dias que corresponde al periodo de huevo (E. ringens)
       df   <- subset(df, df$t <= age)
       
       # If it is necessary to calculate the physical length
@@ -101,10 +102,11 @@ ggplot(data = f_max)+
   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
+  scale_linetype_manual(values=c('twodash', 'solid'))+
+  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
   # facet_wrap(~sp)+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
+  theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
         axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
@@ -112,7 +114,7 @@ ggplot(data = f_max)+
         legend.title = element_text(face='bold', color='black', size=15),
         legend.position   = c(0.17, 0.8),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face='bold', color='black', size=12)) # Para cambiar el tamaño del título en facet_wrap
+        strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
 
 # Plot2: Max growth (solid lines) maximal functional response (f = 1)
@@ -122,10 +124,11 @@ ggplot(data = f_max)+
   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
+  scale_linetype_manual(values=c('twodash', 'solid'))+
+  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
   facet_wrap(~sp)+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
+  theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
         axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
@@ -133,7 +136,7 @@ ggplot(data = f_max)+
         legend.title = element_text(face='bold', color='black', size=15),
         legend.position   = c(0.17, 0.8),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face='bold', color='black', size=12)) # Para cambiar el tamaño del título en facet_wrap
+        strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 12, height = 8)
 
 # Plot3: Max growth (solid lines) maximal functional response (f = 1)
@@ -143,10 +146,11 @@ ggplot(data = f_max)+
   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
-  labs(x = 'Time after hatching [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
+  scale_linetype_manual(values=c('twodash', 'solid'))+
+  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
   facet_wrap(~temp)+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=25, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=25, angle=0),
+  theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
         axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
@@ -154,7 +158,7 @@ ggplot(data = f_max)+
         legend.title = element_text(face='bold', color='black', size=15),
         legend.position   = c(0.08, 0.75),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face='bold', color='black', size=12)) # Para cambiar el tamaño del título en facet_wrap
+        strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 16, height = 8)
 #=============================================================================#
 # END OF PROGRAM

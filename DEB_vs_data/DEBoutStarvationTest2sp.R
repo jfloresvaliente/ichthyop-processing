@@ -21,7 +21,7 @@ for(k in 1:length(dirpath)){
       if(grepl(pattern = 'ringens', x = files_f0[j])) df$sp <- 'E. ringens' else df$sp <- 'E. encrasicolus'
       
       # En caso de inanicion
-      ind <- which(df$E <= 0)[1] # Elegir el momento antes de que E_0 sea negativo = muerte
+      ind <- which(df$starvation == 1)[1] # Elegir el momento antes de que E_0 sea negativo = muerte
       if(is.na(ind)){
         df <- df[1,]
         
@@ -54,37 +54,41 @@ dat$sp             <- as.factor(dat$sp)
 dat$temp           <- as.numeric(dat$temp)
 dat$age_starvation <- as.numeric(dat$age_starvation)
 
-# dat <- subset(dat, dat$temp >= 14)
-dat <- subset(dat, dat$temp >= 14 & dat$temp <= 24)
+dat <- subset(dat, dat$temp >= 14)
+# dat <- subset(dat, dat$temp >= 14 & dat$temp <= 24)
 
 rownames(dat) <- NULL
 
 #----------- GGPLOT -----------#
 # 
-p1 <- ggplot(data = dat, mapping = aes(x = temp, y = age_starvation, colour = sp))+
-  geom_line(aes(linetype = Lw_ini), size = 1.3)+
-  labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', linetype = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
-  # geom_point(aes(shape = Lw_ini), size = 1.3)+
-  # labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', shape = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=15, angle=0, margin = margin(t = 20)),
-        axis.title.y = element_text(face='bold', color='black', size=15, angle=90,margin = margin(r = 20)),
-        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
-        plot.margin  = unit(c(.5,4,.5,.5),'cm'),
-        legend.text  = element_text(face='bold', color='black', size=10),
-        legend.title = element_text(face='bold', color='black', size=10),
-        legend.position   = c(1.1, .75),
-        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
-png(filename = 'C:/Users/jflores/Desktop/t_starvation_f0.png', width = 1250, height = 550, res = 120)
-grid.arrange(p1, nrow = 1)
-dev.off()
+# p1 <- ggplot(data = dat, mapping = aes(x = temp, y = age_starvation, colour = sp))+
+#   # geom_line(aes(linetype = Lw_ini), size = 1.3)+
+#   geom_point(aes(shape = Lw_ini), size = 2)+
+#   labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', linetype = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
+#   coord_fixed(xlim = c(14,30), ylim = c(0,15), ratio = 1.1)+
+#   # geom_point(aes(shape = Lw_ini), size = 1.3)+
+#   # labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', shape = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
+#   theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
+#         axis.text.y  = element_text(face='bold', color='black', size=13, angle=0),
+#         axis.title.x = element_text(face='bold', color='black', size=15, angle=0, margin = margin(t = 20)),
+#         axis.title.y = element_text(face='bold', color='black', size=15, angle=90,margin = margin(r = 20)),
+#         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+#         plot.margin  = unit(c(.5,4,.5,.5),'cm'),
+#         legend.text  = element_text(face='bold', color='black', size=10),
+#         legend.title = element_text(face='bold', color='black', size=10),
+#         legend.position   = c(1.275, .65),
+#         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+#         strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
+# png(filename = 'C:/Users/jflores/Desktop/t_starvation_f0.png', width = 750, height = 550, res = 120)
+# grid.arrange(p1, nrow = 1)
+# dev.off()
 
 p2 <- ggplot(data = dat, mapping = aes(x = temp, y = age_starvation, colour = sp))+
-  geom_line(aes(linetype = Lw_ini), size = 1.3)+
+  # geom_line(aes(linetype = Lw_ini), size = 1.3)+
+  geom_point(aes(shape = sp), size = 2)+
   labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', linetype = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
   facet_wrap(~Lw_ini)+
+  coord_fixed(xlim = c(14,30), ylim = c(0,15))+
   # geom_point(aes(shape = Lw_ini), size = 1.3)+
   # labs(x = 'Temperature (ºC)', y = 'Time to starvation (d)', shape = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
   theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
@@ -95,7 +99,7 @@ p2 <- ggplot(data = dat, mapping = aes(x = temp, y = age_starvation, colour = sp
         plot.margin  = unit(c(.5,4,.5,.5),'cm'),
         legend.text  = element_text(face='bold', color='black', size=10),
         legend.title = element_text(face='bold', color='black', size=10),
-        legend.position   = c(1.1, .75),
+        legend.position   = c(1.125, .65),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
         strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
 png(filename = 'C:/Users/jflores/Desktop/t_starvation_f0_V2.png', width = 1250, height = 550, res = 120)
