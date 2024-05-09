@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : 
+# Name   : DEB_out_stdabj_age_transitions
 # Author : Jorge Flores-Valiente
 # Date   :
 # Version:
@@ -21,6 +21,7 @@ L_p  <- 9.52   # J, Maturity threshold at puberty
 
 functional_response <- seq(1)
 temperature         <- 14:24
+cols <- c('blue', 'red')
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -48,86 +49,71 @@ for(k in 1:length(dirpath)){
       i_b <- which(df$Lw >= L_b)[1]
       t_b <- df$t[i_b]
       Lb <- df$Lw[i_b]
+      birth <- cbind(t_b, Lb, temperature[j], functional_response[i], 'Age at birth (d)', df$sp[1])
       
       # metamorphosis index
       i_j <- which(df$Lw >= L_j)[1]
       t_j <- df$t[i_j]
       Lj <- df$Lw[i_j]
+      metam <- cbind(t_j, Lj, temperature[j], functional_response[i], 'Age at metamorphosis (d)', df$sp[1])
       
       # puberty index
       i_p <- which(df$Lw >= L_p)[1]
       t_p <- df$t[i_p]
       Lp <- df$Lw[i_p]
-      
-      val_in <- c(t_b, Lb, t_j, Lj,t_p, Lp, temperature[j], functional_response[i], df$sp[1])
+      puber <- cbind(t_p, Lp, temperature[j], functional_response[i], 'Age at puberty (d)', df$sp[1])
+
+      # val_in <- rbind(birth, metam, puber)
+      val_in <- rbind(birth, metam)
       dat <- rbind(dat, val_in)
     }
   }
   
 }
 
-colnames(dat) <- c('age_birth', 'length_birth', 'age_metamorphosis', 'length_metamorphosis', 'age_puberty', 'length_puberty', 'temp', 'f','sp')
+colnames(dat) <- c('age', 'length', 'temp', 'f', 'transition','sp')
 dat <- as.data.frame(dat)
 row.names(dat) <- NULL
 
-dat$age_birth         <- as.numeric(dat$age_birth)
-dat$age_metamorphosis <- as.numeric(dat$age_metamorphosis)
-dat$age_puberty       <- as.numeric(dat$age_puberty)
-dat$sp                <- as.factor(dat$sp)
+dat$age        <- as.numeric(dat$age)
+dat$length     <- as.numeric(dat$length)
+dat$temp       <- as.numeric(dat$temp)
+dat$f          <- as.factor(dat$f)
+dat$transition <- as.factor(dat$transition)
+dat$sp         <- as.factor(dat$sp)
 
-p1 <- ggplot(data = dat, mapping = aes(x = temp, y = age_birth, colour = sp))+
-  geom_point()+
-  labs(x = 'Temperature (ºC)', y = 'Age at birth (d)', linetype = '', colour = 'sp')+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=15, angle=0, margin = margin(t = 20)),
-        axis.title.y = element_text(face='bold', color='black', size=15, angle=90,margin = margin(r = 20)),
+dat_text <- data.frame(
+  label      = c('a)', 'b)'),
+  transition = c('Age at birth (d)', 'Age at metamorphosis (d)'),
+  x = c(14.3,14.3),
+  y = c(8,46)
+)
+
+ggname <- paste0('C:/Users/jflores/Desktop/age_transitions2SP.png')
+ggplot(data = dat)+
+  geom_point(mapping = aes(x = temp, y = age, colour = sp, shape = sp), size = 2)+
+  scale_color_manual(values = cols)+
+  labs(x = 'Temperature [ºC]', y = 'Time [d]', linetype = '', colour = 'sp')+
+  facet_wrap(~transition, scales = 'free')+
+  geom_text(
+    data    = dat_text,
+    mapping = aes(x = x, y = y, label = label),
+    hjust   = 0,
+    vjust   = 0,
+    size = 8
+  )+
+  theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
+        axis.title.x = element_text(face='bold', color='black', size=20, angle=0, margin = margin(t = 20)),
+        axis.title.y = element_text(face='bold', color='black', size=20, angle=90,margin = margin(r = 20)),
         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
         plot.margin  = unit(c(.5,4,.5,.5),'cm'),
-        legend.text  = element_text(face='bold', color='black', size=10),
-        legend.title = element_text(face='bold', color='black', size=10),
-        legend.position   = c(.8, .75),
+        legend.text  = element_text(face='bold', color='black', size=17),
+        legend.title = element_text(face='bold', color='black', size=17),
+        legend.position   = c(0.38, .85),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
-png(filename = 'C:/Users/jflores/Desktop/age_birth2SP.png', width = 1050, height = 850, res = 120)
-grid.arrange(p1, nrow = 1)
-dev.off()
-
-p2 <- ggplot(data = dat, mapping = aes(x = temp, y = age_metamorphosis, colour = sp))+
-  geom_point()+
-  labs(x = 'Temperature (ºC)', y = 'Age at metamorphosis (d)', linetype = '', colour = 'sp')+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=15, angle=0, margin = margin(t = 20)),
-        axis.title.y = element_text(face='bold', color='black', size=15, angle=90,margin = margin(r = 20)),
-        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
-        plot.margin  = unit(c(.5,4,.5,.5),'cm'),
-        legend.text  = element_text(face='bold', color='black', size=10),
-        legend.title = element_text(face='bold', color='black', size=10),
-        legend.position   = c(.8, .75),
-        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
-png(filename = 'C:/Users/jflores/Desktop/age_metamorphosis2SP.png', width = 1050, height = 850, res = 120)
-grid.arrange(p2, nrow = 1)
-dev.off()
-
-p3 <- ggplot(data = dat, mapping = aes(x = temp, y = age_puberty, colour = sp))+
-  geom_point()+
-  labs(x = 'Temperature (ºC)', y = 'Age at puberty (d)', linetype = '', colour = 'sp')+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=13, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=15, angle=0, margin = margin(t = 20)),
-        axis.title.y = element_text(face='bold', color='black', size=15, angle=90,margin = margin(r = 20)),
-        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
-        plot.margin  = unit(c(.5,4,.5,.5),'cm'),
-        legend.text  = element_text(face='bold', color='black', size=10),
-        legend.title = element_text(face='bold', color='black', size=10),
-        legend.position   = c(.8, .75),
-        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face = 'bold', color = 'black', size = 12)) # Para cambiar el tamaño del título en facet_wrap
-png(filename = 'C:/Users/jflores/Desktop/age_puberty2SP.png', width = 1050, height = 850, res = 120)
-grid.arrange(p3, nrow = 1)
-dev.off()
+        strip.text        = element_text(face = 'bold', color = 'black', size = 20)) # Para cambiar el tamaño del título en facet_wrap
+ggsave(filename = ggname, plot = last_plot(), width = 16, height = 8)
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

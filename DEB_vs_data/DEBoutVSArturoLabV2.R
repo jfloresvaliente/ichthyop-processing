@@ -11,6 +11,7 @@
 
 library(ggplot2)
 library(fields)
+library(dplyr)
 
 age   <- 35         # X-axis limit in days
 xlim  <- c(-3, 35)  # X-axis limits
@@ -26,8 +27,8 @@ dat2$L    <- dat2$L/10000 # from microns to cm
 dat2$t    <- dat2$t + 2 # is added 2 days corresponding to hatching.
 
 # Get DEB_out data
-dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTeq1/',
-             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/cTeq1/')
+dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTcase2/',
+             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/cTcase2/')
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 functional_response <- seq(from = 0.1, to = 1, by = 0.1)
@@ -89,66 +90,103 @@ for(k in 1:length(dirpath)){
 dat$temp <- as.factor(dat$temp)             # Temperature as factor
 dat$f    <- paste('f =', as.factor(dat$f))  # 'f' as a factor
 
- 
 # Obtain growth with a maximum f
 f_max <- subset(dat, dat$f == max(dat$f))
 
 #------------- PLOTS -------------#
+# 
+# # Plot1: Max growth (solid lines) maximal functional response (f = 1)
+# ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V1.png')
+# ggplot(data = f_max)+
+#   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp, linetype = sp), size = 1)+
+#   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
+#   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
+#   scale_color_manual(values = cols)+
+#   scale_linetype_manual(values=c('twodash', 'solid'))+
+#   labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
+#   # facet_wrap(~sp)+
+#   theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+#         axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
+#         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
+#         axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
+#         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+#         legend.text  = element_text(face='bold', color='black', size=15),
+#         legend.title = element_text(face='bold', color='black', size=15),
+#         legend.position   = c(0.17, 0.8),
+#         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+#         strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
+# ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
+# 
+# # Plot2: Max growth (solid lines) maximal functional response (f = 1)
+# ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V2.png')
+# ggplot(data = f_max)+
+#   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp, linetype = sp), size = 1)+
+#   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
+#   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
+#   scale_color_manual(values = cols)+
+#   scale_linetype_manual(values=c('twodash', 'solid'))+
+#   labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
+#   facet_wrap(~sp)+
+#   theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+#         axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
+#         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
+#         axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
+#         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+#         legend.text  = element_text(face='bold', color='black', size=15),
+#         legend.title = element_text(face='bold', color='black', size=15),
+#         legend.position   = c(0.17, 0.8),
+#         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+#         strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
+# ggsave(filename = ggname, plot = last_plot(), width = 12, height = 8)
+# 
+# # Plot3: Max growth (solid lines) maximal functional response (f = 1)
+# ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V3.png')
+# ggplot(data = f_max)+
+#   geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp, linetype = sp), size = 1)+
+#   geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
+#   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
+#   scale_color_manual(values = cols)+
+#   scale_linetype_manual(values=c('twodash', 'solid'))+
+#   labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
+#   facet_wrap(~temp)+
+#   theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+#         axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
+#         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
+#         axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
+#         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+#         legend.text  = element_text(face='bold', color='black', size=15),
+#         legend.title = element_text(face='bold', color='black', size=15),
+#         legend.position   = c(0.08, 0.75),
+#         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+#         strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
+# ggsave(filename = ggname, plot = last_plot(), width = 16, height = 8)
 
-# Plot1: Max growth (solid lines) maximal functional response (f = 1)
-ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V1.png')
+# Plot4: Max growth (solid lines) maximal functional response (f = 1)
+f_max$temp <- paste(f_max$temp, 'ºC')
+dat2$temp <- paste(dat2$temp, 'ºC')
+cols <- rep(c('blue', 'red'), 3)
+
+dat_text <- data.frame(
+  label = c('a)', 'b)', 'c)'),
+  temp   = c('15 ºC', '18 ºC', '19 ºC')
+)
+
+ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V4.png')
 ggplot(data = f_max)+
-  geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp, linetype = sp), size = 1)+
-  geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
+  geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = sp), size = 1)+
+  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   scale_linetype_manual(values=c('twodash', 'solid'))+
-  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
-  # facet_wrap(~sp)+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
-        axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
-        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
-        legend.text  = element_text(face='bold', color='black', size=15),
-        legend.title = element_text(face='bold', color='black', size=15),
-        legend.position   = c(0.17, 0.8),
-        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
-ggsave(filename = ggname, plot = last_plot(), width = 8, height = 8)
-
-# Plot2: Max growth (solid lines) maximal functional response (f = 1)
-ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V2.png')
-ggplot(data = f_max)+
-  geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp, linetype = sp), size = 1)+
-  geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
-  coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
-  scale_color_manual(values = cols)+
-  scale_linetype_manual(values=c('twodash', 'solid'))+
-  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
-  facet_wrap(~sp)+
-  theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
-        axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
-        axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
-        axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
-        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
-        legend.text  = element_text(face='bold', color='black', size=15),
-        legend.title = element_text(face='bold', color='black', size=15),
-        legend.position   = c(0.17, 0.8),
-        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
-ggsave(filename = ggname, plot = last_plot(), width = 12, height = 8)
-
-# Plot3: Max growth (solid lines) maximal functional response (f = 1)
-ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V3.png')
-ggplot(data = f_max)+
-  geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = temp, linetype = sp), size = 1)+
-  geom_point(data = dat2, mapping = aes(x = t, y = L, colour = temp), size = 1.5)+
-  coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
-  scale_color_manual(values = cols)+
-  scale_linetype_manual(values=c('twodash', 'solid'))+
-  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Temperature Cº')+
+  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'sp')+
   facet_wrap(~temp)+
+  geom_text(
+    data    = dat_text,
+    mapping = aes(x = -1, y = 2.4, label = label),
+    hjust   = 0,
+    vjust   = 0,
+    size = 8
+  )+
   theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
@@ -156,9 +194,9 @@ ggplot(data = f_max)+
         plot.title   = element_text(face='bold', color='black', size=25, angle=0),
         legend.text  = element_text(face='bold', color='black', size=15),
         legend.title = element_text(face='bold', color='black', size=15),
-        legend.position   = c(0.08, 0.75),
+        legend.position   = c(0.08, 0.7),
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
-        strip.text        = element_text(face='bold', color='black', size=15)) # Para cambiar el tamaño del título en facet_wrap
+        strip.text        = element_text(face='bold', color='black', size=20)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 16, height = 8)
 #=============================================================================#
 # END OF PROGRAM
