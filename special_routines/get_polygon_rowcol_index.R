@@ -31,6 +31,7 @@ getpolygon_rowcol_index <- function(
   # lat4 = latitud del punto 4
   
   #============ ============ Arguments ============ ============#
+  graphics.off()
   
   library(ncdf4)
   library(fields)
@@ -109,18 +110,18 @@ getpolygon_rowcol_index <- function(
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
-dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+dirpath <- 'C:/Users/jflores/Documents/JORGE/JUMBO/R_models/MDS/'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 
-# Polygon defined off the Peruvian coast
-lon1 <- -80
-lon2 <- -75
-lon3 <- -76
-lon4 <- -81
-lat1 <- -6
-lat2 <- -15.5
-lat3 <- -15.5
-lat4 <- -6
+# # Polygon defined off the Peruvian coast
+# lon1 <- -80
+# lon2 <- -75
+# lon3 <- -76
+# lon4 <- -81
+# lat1 <- -6
+# lat2 <- -15.5
+# lat3 <- -15.5
+# lat4 <- -6
 
 # # Polygon defined in the Guayaquil Gulf
 # lon1 <- -82.3
@@ -131,6 +132,16 @@ lat4 <- -6
 # lat2 <- -2
 # lat3 <- -4.5
 # lat4 <- -4.5
+
+# Polygon defined off the Jumbo Squid
+lon1 <- -80
+lon2 <- -70
+lon3 <- -78
+lon4 <- -87
+lat1 <- -2
+lat2 <- -19
+lat3 <- -19
+lat4 <- -2
 
 getpolygon_rowcol_index(nc_file = nc_file,
                         lon1 = lon1, lat1 = lat1,

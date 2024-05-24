@@ -12,16 +12,16 @@ library(hexbin)
 library(gridExtra)
 
 # Get DEB_out data
-dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTcase2/',
-             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/cTcase2/')
+dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTcase1/',
+             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/cTcase1/')
 
 L_b  <- 0.52   # J, Maturity threshold at birth % ouverture de la bouche
 L_j  <- 1.38   # J, Maturity threshold at metamorphosis
 L_p  <- 9.52   # J, Maturity threshold at puberty
 
 functional_response <- seq(1)
-temperature         <- 14:24
-cols <- c('blue', 'red')
+temperature         <- 14:21
+cols <- c('red', 'blue')
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -36,7 +36,8 @@ for(k in 1:length(dirpath)){
       df <- read.table(file = txt_file, header = T, sep = ',')
       
       # Identificamos de que especie se trata:
-      if(grepl(pattern = 'ringens', x = txt_file)) df$sp <- 'E. ringens' else df$sp <- 'E. encrasicolus'
+      # if(grepl(pattern = 'ringens', x = txt_file)) df$sp <- 'E. ringens' else df$sp <- 'E. encrasicolus'
+      if(grepl(pattern = 'ringens', x = txt_file)) df$sp <- 'DEBabj' else df$sp <- 'DEBstd'
       
       # If it is necessary to calculate the physical length
       if(sum(grepl(pattern = 'Lw', x = names(df))) == 0){
@@ -85,15 +86,24 @@ dat$sp         <- as.factor(dat$sp)
 dat_text <- data.frame(
   label      = c('a)', 'b)'),
   transition = c('Age at birth (d)', 'Age at metamorphosis (d)'),
-  x = c(14.3,14.3),
+  x = c(14.3, 14.3),
   y = c(8,46)
 )
 
+# dat_text <- data.frame(
+#   label      = c('a)', 'b)', 'c)'),
+#   transition = c('Age at birth (d)', 'Age at metamorphosis (d)', 'Age at puberty (d)'),
+#   x = c(14.3, 14.3, 14.3),
+#   y = c(8,46, 400)
+# )
+
+#------------- PLOTS -------------#
+
 ggname <- paste0('C:/Users/jflores/Desktop/age_transitions2SP.png')
 ggplot(data = dat)+
-  geom_point(mapping = aes(x = temp, y = age, colour = sp, shape = sp), size = 2)+
-  scale_color_manual(values = cols)+
-  labs(x = 'Temperature [ºC]', y = 'Time [d]', linetype = '', colour = 'sp')+
+  geom_point(mapping = aes(x = temp, y = age, colour = sp), size = 3)+
+  scale_color_manual(values = cols, 'Model Type')+
+  labs(x = 'Temperature [ºC]', y = 'Time [d]')+
   facet_wrap(~transition, scales = 'free')+
   geom_text(
     data    = dat_text,
