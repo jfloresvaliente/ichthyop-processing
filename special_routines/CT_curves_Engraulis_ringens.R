@@ -7,11 +7,11 @@
 # URL    : 
 #=============================================================================#
 dirpath  <- 'C:/Users/jflores/Desktop/'
-out_name <- 'E_ringens_CTcurves'
+out_name <- 'CTcurves_Engraulis_ringens'
 
 T_K    <- 273.15;     # Kelvin
-T_ref  <- 16 + T_K;   # Kelvin
-T_A    <- 10000
+T_ref  <- 20 + T_K;   # Kelvin
+T_A    <- 8000
 
 # Temperature range
 Temp   <- seq(from = 0, to = 35, by = 0.01) + T_K; # Kelvin
@@ -26,10 +26,10 @@ plot(Temp, type = 'n', axes = F, xlab = '', ylab = '', xaxs = 'i', yaxs = 'i', x
 axis(1, font = 2, lwd.ticks = 2, cex = 2, cex.axis = 1.5)
 axis(2, font = 2, lwd.ticks = 2, cex = 2, cex.axis = 1.5, las = 2)
 box(lwd = 2)
-mtext(side = 1, line = 2.5, font = 2, cex = 1.5, text = 'Temprature (ºC)')
+mtext(side = 1, line = 2.5, font = 2, cex = 1.5, text = 'Temperature (ºC)')
 mtext(side = 2, line = 3.5, font = 2, cex = 1.5, text = 'Correction factor')
 
-#===== CURVA 1 =====#
+#===== CASE 2 =====#
 # Parameters
 T_L  <- 6 + T_K     # K Lower temp boundary
 T_H  <- 24 + T_K    # K Upper temp boundary
@@ -60,7 +60,7 @@ lines(Temp - T_K, TC_5, lwd = 4.5, col = 'red')
 # text(2.5, 1.6, adj = 0, font = 2, col = 'red', cex = text_size, bquote(paste('T'[AH]*' = ', .(T_AH))))
 # text(2.5, 1.3, adj = 0, font = 2, col = 'red', cex = text_size, bquote(paste('TC'[max]*' = ', .(Temp[which.max(TC_5)]-T_K))))
 
-#===== CURVA 2 =====#
+#===== CASE 1 =====#
 # Parameters
 T_L  <- 6 + T_K     # K Lower temp boundary
 T_H  <- 21 + T_K    # K Upper temp boundary

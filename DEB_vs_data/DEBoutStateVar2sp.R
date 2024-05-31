@@ -1,9 +1,9 @@
 #=============================================================================#
-# Name   : DEBoutVSArturoLabV2
+# Name   : DEBoutStateVar2sp
 # Author : Jorge Flores-Valiente
 # Date   :
 # Version:
-# Aim    : Plot DEB_out files for 2 SP vs Arturo laboratory data
+# Aim    : Plot DEB_out state variables for 2 SP
 # URL    :
 #=============================================================================#
 # Type of length: standard (Ls, microns)
@@ -14,17 +14,9 @@ library(fields)
 library(dplyr)
 
 age   <- 35         # X-axis limit in days
-xlim  <- c(-3, 35)  # X-axis limits
-ylim  <- c(0,2.5)   # Y-axis limits
-ratio <- 15.2       # Ratio between X and Y axis
-
-# Get laboratory data
-dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/engraulis_data/'
-csv_file  <- paste0(dirpath, 'CrecimientoEringensIMAPRE.csv')
-dat2      <- read.table(csv_file, header = T, sep = ',')
-dat2$temp <- as.factor(dat2$temp)
-dat2$L    <- dat2$L/10000 # from microns to cm
-dat2$t    <- dat2$t + 2 # is added 2 days corresponding to hatching.
+# xlim  <- c(-3, age)  # X-axis limits
+# ylim  <- c(0,2.5)   # Y-axis limits
+# ratio <- 15.2       # Ratio between X and Y axis
 
 # Get DEB_out data
 dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTcase1/',
@@ -77,10 +69,13 @@ for(k in 1:length(dirpath)){
       
       col_ind <- c(
         which(colnames(df) == 't'),
+        which(colnames(df) == 'E'),
+        which(colnames(df) == 'V'),
         which(colnames(df) == 'Lw'),
         which(colnames(df) == 'temp'),
         which(colnames(df) == 'f'),
-        which(colnames(df) == 'sp'))
+        which(colnames(df) == 'sp')
+        )
       df <- df[,col_ind]
       
       dat <- rbind(dat, df)
@@ -100,7 +95,6 @@ f_max <- subset(dat, dat$f == max(dat$f))
 
 # Plot: Max growth (solid lines) maximal functional response (f = 1)
 f_max$temp <- paste(f_max$temp, 'ºC')
-dat2$temp <- paste(dat2$temp, 'ºC')
 cols <- rep(c('red', 'blue'), 3)
 
 dat_text <- data.frame(
@@ -108,22 +102,48 @@ dat_text <- data.frame(
   temp   = c('15 ºC', '18 ºC', '19 ºC')
 )
 
-ggname <- paste0('C:/Users/jflores/Desktop/DEBoutVSArturoLabf1V4.png')
+ggname <- paste0('C:/Users/jflores/Desktop/DEBoutStateVar2sp_E.png')
 ggplot(data = f_max)+
-  geom_line(data = f_max  , mapping = aes(x = t, y = Lw  , colour = sp), linewidth = 1.5)+
-  geom_point(data = dat2, mapping = aes(x = t, y = L), size = 1.5)+
-  coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
+  geom_line(data = f_max  , mapping = aes(x = t, y = E, colour = sp), linewidth = 1.5)+
+  # coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
   scale_color_manual(values = cols)+
   scale_linetype_manual(values=c('twodash', 'solid'))+
-  labs(x = 'Age [d]', y = 'Standard Length [cm]', colour = 'Model Type')+
+  labs(x = 'Age [d]', y = 'Reserve [J]', colour = 'Model Type')+
   facet_wrap(~temp)+
-  geom_text(
-    data    = dat_text,
-    mapping = aes(x = -1, y = 2.4, label = label),
-    hjust   = 0,
-    vjust   = 0,
-    size = 8
-  )+
+  # geom_text(
+  #   data    = dat_text,
+  #   mapping = aes(x = -1, y = 175, label = label),
+  #   hjust   = 0,
+  #   vjust   = 0,
+  #   size = 8
+  # )+
+  theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
+        axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
+        axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),
+        axis.title.y = element_text(face='bold', color='black', size=25, angle=90,margin = margin(r = 20)),
+        plot.title   = element_text(face='bold', color='black', size=25, angle=0),
+        legend.text  = element_text(face='bold', color='black', size=15),
+        legend.title = element_text(face='bold', color='black', size=15),
+        legend.position   = c(0.08, 0.7),
+        legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
+        strip.text        = element_text(face='bold', color='black', size=20)) # Para cambiar el tamaño del título en facet_wrap
+ggsave(filename = ggname, plot = last_plot(), width = 16, height = 8)
+
+ggname <- paste0('C:/Users/jflores/Desktop/DEBoutStateVar2sp_V.png')
+ggplot(data = f_max)+
+  geom_line(data = f_max  , mapping = aes(x = t, y = V, colour = sp), linewidth = 1.5)+
+  # coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
+  scale_color_manual(values = cols)+
+  scale_linetype_manual(values=c('twodash', 'solid'))+
+  labs(x = 'Age [d]', y = 'Structure (cm^3)', colour = 'Model Type')+
+  facet_wrap(~temp)+
+  # geom_text(
+  #   data    = dat_text,
+  #   mapping = aes(x = -1, y = 0.075, label = label),
+  #   hjust   = 0,
+  #   vjust   = 0,
+  #   size = 8
+  # )+
   theme(axis.text.x  = element_text(face='bold', color='black', size=20, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=20, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=25, angle=0, margin = margin(t = 20)),

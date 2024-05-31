@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : DEBoutStarvationTest2sp
+# Name   : DEBout_std_abj_starvation
 # Author : Jorge Flores-Valiente
 # Date   :
 # Version:
@@ -11,8 +11,9 @@ library(gridExtra)
 library(stringr)
 library(fields)
 
-dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV4/cTcase1/',
-             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV4/cTcase1/')
+dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV4/cTcase2/',
+             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV4/cTcase2/')
+
 Lw <- c(0.5, 3)
 cols <- c('red', 'blue')
 
@@ -25,45 +26,51 @@ for(k in 1:length(dirpath)){
     for(j in 1:length(files_f0)){
       print(files_f0[j])
       df <- read.table(files_f0[j], header = T, sep = ',')
+      df   <- df[-dim(df)[1],] # The last row containing an inf value is deleted.
       
       # Identificamos de que especie se trata:
       # if(grepl(pattern = 'ringens', x = files_f0[j])) df$sp <- 'E. ringens' else df$sp <- 'E. encrasicolus'
       if(grepl(pattern = 'ringens', x = files_f0[j])) df$sp <- 'DEBabj' else df$sp <- 'DEBstd'
       
-      # En caso de inanicion
-      ind <- which(df$starvation == 1)[1] # Elegir el momento antes de que E_0 sea negativo = muerte
-      if(is.na(ind)){
-        df <- df[1,]
-        
-        # New data frame
-        age_starvation <- NA
-        Lw_ini         <- paste(Lw[i], 'cm')
-        Lw_end         <- NA
-        temp           <- df$temp
-        sp             <- df$sp
-      }else{
-        df <- df[(ind),]
-        # New data frame
-        age_starvation <- df$t
-        Lw_ini         <- paste(Lw[i], 'cm')
-        Lw_end         <- df$Lw
-        temp           <- df$temp
-        sp             <- df$sp
-      }
+      ini <- df$t[which(df$f == 0)[1]]
+      fin <- df$t[which(df$starvation == 1)[1]]
+      # # En caso de inanicion
+      # ind <- which(df$starvation == 1)[1] # Elegir el momento antes de que E_0 sea negativo = muerte
+      # if(is.na(ind)){
+      #   df <- df[1,]
+      #   
+      #   # New data frame
+      #   age_starvation <- NA
+      #   Lw_ini         <- paste(Lw[i], 'cm')
+      #   Lw_end         <- NA
+      #   temp           <- df$temp
+      #   sp             <- df$sp
+      # }else{
+      #   df <- df[(ind),]
+      #   # New data frame
+      #   age_starvation <- df$t
+      #   Lw_ini         <- paste(Lw[i], 'cm')
+      #   Lw_end         <- df$Lw
+      #   temp           <- df$temp
+      #   sp             <- df$sp
+      # }
       
-      df <- cbind(age_starvation, Lw_ini, Lw_end, temp, sp)
-      colnames(df) <- c('age_starvation', 'Lw_ini', 'Lw_end', 'temp', 'sp')
+      df <- cbind(ini, fin, df$temp[1], df$sp[1], (fin-ini), paste(Lw[i], 'cm'))
+      colnames(df) <- c('age_ini', 'age_fin', 'temp', 'sp', 'starvation','talla_ini')
       dat <- rbind(dat, df)
     }
   }
 }
 
-dat                <- as.data.frame(dat)
-dat$Lw_ini         <- as.factor(dat$Lw_ini)
-dat$sp             <- as.factor(dat$sp)
-dat$temp           <- as.numeric(dat$temp)
-dat$age_starvation <- as.numeric(dat$age_starvation)
+dat            <- as.data.frame(dat)
+dat$age_ini    <- as.numeric(dat$age_ini)
+dat$age_fin    <- as.numeric(dat$age_fin)
+dat$temp       <- as.numeric(dat$temp)
+dat$sp         <- as.factor(dat$sp)
+dat$starvation <- as.numeric(dat$starvation)
+dat$talla_ini  <- as.factor(dat$talla_ini)
 
+dat$starvation[dat$starvation <= 0] <- NA
 dat <- subset(dat, dat$temp >= 14)
 # dat <- subset(dat, dat$temp >= 14 & dat$temp <= 24)
 
@@ -72,17 +79,17 @@ rownames(dat) <- NULL
 #------------- PLOTS -------------#
 
 dat_text <- data.frame(
-  label      = c('a)', 'b)'),
-  Lw_ini = c('0.5 cm', '3 cm')
+  label     = paste0(letters[1:length(levels(factor(dat$sp)))], ')'),
+  talla_ini = paste(levels(factor(dat$talla_ini)))
 )
 
 ggname <- paste0('C:/Users/jflores/Desktop/t_starvation_f0_V2.png')
 ggplot(data = dat)+
-  geom_point(data = dat, mapping = aes(x = temp, y = age_starvation, colour = sp), size = 2)+
+  geom_point(data = dat, mapping = aes(x = temp, y = starvation, colour = sp), size = 2)+
   labs(x = 'Temperature [ºC]', y = 'Time to starvation [d]', linetype = 'Initial\nStandard Length\n(cm)', colour = 'sp')+
   scale_color_manual(values = cols, 'Model Type')+
   coord_fixed(xlim = c(14,30), ylim = c(0,15))+
-  facet_wrap(~Lw_ini)+
+  facet_wrap(~talla_ini)+
   geom_text(
     data    = dat_text,
     mapping = aes(x = 15, y = 14.5, label = label),
