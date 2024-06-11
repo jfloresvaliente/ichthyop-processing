@@ -12,18 +12,17 @@
 library(ggplot2)
 library(fields)
 
-age   <- 200        # X-axis limit in days
+age   <- 35         # X-axis limit in days
 xlim  <- c(0, age)  # X-axis limits
 
 # Get the full name of the .txt files to be read (DEBout)
 dirpath <- c('C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTcase1/',
-             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2_shape_laure/cTcase1/')
-txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
+             'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/delta_pecquerie/cTcase1/')
 
 # Select the desired temperatures and functional responses to be plotted
 functional_response <- seq(from = 1, to = 1, by = 0.1)
 temperature         <- c(15, 19, 21, 23)
-cols                <- c('blue','green','red')
+cols <- c('red', 'blue') # Color for each species (model type)
 
 # .txt file reading loop
 dat <- NULL
@@ -93,10 +92,8 @@ dat$f    <- paste('f =', as.factor(dat$f))  # 'f' as a factor
 # Obtain growth with a maximum f (f = 1)
 f_max <- subset(dat, dat$f == max(dat$f))
 
-
 # Set subplots-labels
 f_max$temp <- paste(f_max$temp, 'ºC')
-cols <- rep(c('red', 'blue'), 3)
 
 dat_text <- data.frame(
   label = paste0(letters[1:length(levels(factor(dat$temp)))], ')'),
@@ -105,7 +102,7 @@ dat_text <- data.frame(
 
 #=============== PLOTS ===============#
 # Plot1: Max growth (Lw) (solid lines) maximal functional response (f = 1)
-ylim  <- c(0, 20)   # Y-axis limits
+ylim  <- c(0, 2.5)   # Y-axis limits
 ratio <- (xlim[2]-xlim[1])/(ylim[2]-ylim[1]) # Ratio between X and Y axis for a square figure
 
 ggname <- paste0('C:/Users/jflores/Desktop/DEBout_std_abj_Lw.png')

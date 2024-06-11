@@ -3,7 +3,7 @@
 # Author : Jorge Flores-Valiente
 # Date   :
 # Version:
-# Aim    : To convert VOLUMETRIC LENGTH into PHYSICAL LENGTH and vice versa.
+# Aim    : To convert VOLUMETRIC LENGTH into PHYSICAL LENGTH
 # URL    :
 #=============================================================================#
 
