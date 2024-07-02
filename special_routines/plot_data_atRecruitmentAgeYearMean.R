@@ -11,17 +11,17 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/out_case1/results/'
-xlim     <- c(-95, -70) # Londitude
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1/'
+xlim     <- c(-85, -70) # Londitude
 ylim     <- c(-25, 0)   # Latitude
 bin_lon  <- .1
 bin_lat  <- .1
-ggname   <- paste0(dirpath, 'grid_arrange', bin_lat, '.png')
+ggname   <- paste0(dirpath, '/results/grid_arrange', bin_lat, '.png')
 
 #========== Zlim ==========#
-zlimA <- c(20,90) # Age at recruitment
-zlimB <- c(0,300) # No mortality
-zlimC <- c(0,2) # Constant mortality
+zlimA <- c(40,90) # Age at recruitment
+zlimB <- c(0,100) # No mortality
+zlimC <- c(0,0.20) # Constant mortality
 
 zlimD <- zlimA    # Age at recruitment
 zlimE <- c(0,100) # No mortality
@@ -33,7 +33,7 @@ yposlab <- -23.7
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 
-load(file = paste0(dirpath, 'data_atRecruitmentAge.Rdata'))
+load(file = paste0(dirpath, '/results/data_atRecruitmentAge.Rdata'))
 
 df <- subset(df, df$IfRecruited == 1)
 
@@ -63,7 +63,7 @@ p1 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b) Recruitment\'s Density"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -104,7 +104,8 @@ p3 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("a) Age at recruitment (days)"))', parse = TRUE)+
+  # annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("a) Age at recruitment (days)"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("a)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -145,7 +146,7 @@ p5 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("c) Super-Individual\'s Worth"))', parse = TRUE)+
+  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("c)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -220,7 +221,8 @@ p6 <- ggplot(data = df)+
 
 # [2x3 draw] a,b,c,d,e,f 
 png(filename = ggname, width = 950, height = 650, res = 120)
-grid.arrange(p3, p1, p5, p4, p2, p6, nrow = 2)
+# grid.arrange(p3, p1, p5, p4, p2, p6, nrow = 2)
+grid.arrange(p3, p1, p5, nrow = 1)
 
 # png(filename = ggname, width = 950, height = 350, res = 120)
 # grid.arrange(p3, p1, p5, nrow = 1)

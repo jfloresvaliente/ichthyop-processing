@@ -9,8 +9,8 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/out_case2/'
-new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/cfg/'
+dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.4/'
+new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj_shape_pecq/cfg/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -21,7 +21,7 @@ old_path        <- substr(x = cfgnc , start = 1 , stop = str_locate(string = cfg
 firstdrifter    <- 1
 lastdrifter     <- as.numeric(ncatt_get(nc , 0 , 'release.zone.number_particles')$value)
 computeattime   <- length(ncvar_get(nc, 'time'))
-nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value -1
+nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value - 1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 
@@ -33,7 +33,7 @@ dat <- compute_recruitment_ichthyop(dirpath            = dirpath,
                                     ,computeattime     = computeattime
                                     ,nbreleasezones    = nbreleasezones
                                     ,recruitmentzone   = recruitmentzone
-                                    ,old_path          = dirpath
+                                    ,old_path          = old_path
                                     ,new_path          = new_path
                                     ,dates             = dates
 )

@@ -6,12 +6,12 @@
 # Aim    : 
 # URL    : 
 #=============================================================================#
-# dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/results_no_shelf/'
+dirpath       <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.6/'
 computeattime <- 91
 N0            <- 1 # Initial value of the particle affected by mortality
 
 for(i in 1:12){
-  RData <- paste0(dirpath,'trajectoriesM',i,'.RData')
+  RData <- paste0(dirpath,'/results/trajectoriesM',i,'.RData')
   load(RData)
   dat <- trajectories; rm(trajectories)
   talla <- dat$length/10 #convert from mm to cm

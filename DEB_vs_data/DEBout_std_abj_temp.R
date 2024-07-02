@@ -12,7 +12,7 @@
 library(ggplot2)
 library(fields)
 
-age   <- 35         # X-axis limit in days
+age   <- 60         # X-axis limit in days
 xlim  <- c(0, age)  # X-axis limits
 
 # Get the full name of the .txt files to be read (DEBout)
@@ -96,16 +96,17 @@ f_max <- subset(dat, dat$f == max(dat$f))
 f_max$temp <- paste(f_max$temp, 'ºC')
 
 dat_text <- data.frame(
-  label = paste0(letters[1:length(levels(factor(dat$temp)))], ')'),
+  label = paste0(letters[9:12], ')'),
+  # label = paste0(letters[1:length(levels(factor(dat$temp)))], ')'),
   temp  = paste(levels(factor(dat$temp)), 'ºC')
 )
 
 #=============== PLOTS ===============#
 # Plot1: Max growth (Lw) (solid lines) maximal functional response (f = 1)
-ylim  <- c(0, 2.5)   # Y-axis limits
+ylim  <- c(0, 3)   # Y-axis limits
 ratio <- (xlim[2]-xlim[1])/(ylim[2]-ylim[1]) # Ratio between X and Y axis for a square figure
 
-ggname <- paste0('C:/Users/jflores/Desktop/DEBout_std_abj_Lw.png')
+ggname <- paste0(dirpath[2], 'DEBout_std_abj_Lw.png')
 ggplot(data = f_max)+
   geom_line(data = f_max  , mapping = aes(x = t, y = Lw, colour = sp), linewidth = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
@@ -132,11 +133,11 @@ ggplot(data = f_max)+
         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.5, linetype='solid'),
         strip.text        = element_text(face='bold', color='black', size=20)) # Para cambiar el tamaño del título en facet_wrap
 ggsave(filename = ggname, plot = last_plot(), width = 16, height = 6)
- 
+
 # Plot2: Structure (V) (solid lines) maximal functional response (f = 1)
 ylim  <- c(0, 0.05)   # Y-axis limits
 ratio <- (xlim[2]-xlim[1])/(ylim[2]-ylim[1]) # Ratio between X and Y axis for a square figure
-ggname <- paste0('C:/Users/jflores/Desktop/DEBout_std_abj_V.png')
+ggname <- paste0(dirpath[2], 'DEBout_std_abj_V.png')
 ggplot(data = f_max)+
   geom_line(data = f_max  , mapping = aes(x = t, y = V, colour = sp), linewidth = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
@@ -165,9 +166,9 @@ ggplot(data = f_max)+
 ggsave(filename = ggname, plot = last_plot(), width = 16, height = 6)
 
 # Plot3: Reserve (E) (solid lines) maximal functional response (f = 1)
-ylim  <- c(0, 100000)    # Y-axis limits
+ylim  <- c(0, 100)    # Y-axis limits
 ratio <- (xlim[2]-xlim[1])/(ylim[2]-ylim[1]) # Ratio between X and Y axis for a square figure
-ggname <- paste0('C:/Users/jflores/Desktop/DEBout_std_abj_E.png')
+ggname <- paste0(dirpath[2], 'DEBout_std_abj_E.png')
 ggplot(data = f_max)+
   geom_line(data = f_max  , mapping = aes(x = t, y = E, colour = sp), linewidth = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+
@@ -198,7 +199,7 @@ ggsave(filename = ggname, plot = last_plot(), width = 16, height = 6)
 # Plot4: delta_M (solid lines) maximal functional response (f = 1)
 ylim  <- c(0.05, 0.2)       # Y-axis limits
 ratio <- (xlim[2]-xlim[1])/(ylim[2]-ylim[1]) # Ratio between X and Y axis for a square figure
-ggname <- paste0('C:/Users/jflores/Desktop/DEBout_std_abj_delta.png')
+ggname <- paste0(dirpath[2], 'DEBout_std_abj_delta.png')
 ggplot(data = f_max)+
   geom_line(data = f_max  , mapping = aes(x = t, y = delta, colour = sp), linewidth = 1.5)+
   coord_fixed(xlim = xlim, ylim = ylim, ratio = ratio)+

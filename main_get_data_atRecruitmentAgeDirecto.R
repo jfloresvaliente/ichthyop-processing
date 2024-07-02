@@ -9,8 +9,8 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/out_case2/'
-new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/cfg/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1_kx1.6/'
+new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/cfg/'
 variname <- c('length','MESO','temp')
 # variname <- NULL
 

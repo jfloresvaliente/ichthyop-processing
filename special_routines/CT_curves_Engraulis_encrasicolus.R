@@ -17,6 +17,7 @@ T_A    <- 9800
 Temp   <- seq(from = 0, to = 35, by = 0.01) + T_K; # Kelvin
 
 text_size <- 1
+CT_out <- matrix(data = NA, ncol = 4, nrow = length(Temp))
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -50,7 +51,7 @@ if(T_L > T_ref || T_H < T_ref){
 s_L_ratio <- (1 + exp(T_AL/T_ref - T_AL/T_L)) / (1 + exp(T_AL/Temp - T_AL/T_L))
 s_H_ratio <- (1 + exp(T_AH/T_H - T_AH/T_ref)) / (1 + exp(T_AH/T_H - T_AH/Temp))
 TC_5      <- s_A * ((Temp <= T_ref) * s_L_ratio + (Temp > T_ref) * s_H_ratio)
-TC_ring1 <- TC_5
+TC_ring2  <- TC_5
 lines(Temp - T_K, TC_5, lwd = 4.5, col = 'red')
 
 # text(2.5, 2.8, adj = 0, font = 2, col = 'red', cex = text_size, bquote(paste('T'[L]*' = ',  .(T_L-T_K))))
@@ -81,7 +82,7 @@ if(T_L > T_ref || T_H < T_ref){
 s_L_ratio <- (1 + exp(T_AL/T_ref - T_AL/T_L)) / (1 + exp(T_AL/Temp - T_AL/T_L))
 s_H_ratio <- (1 + exp(T_AH/T_H - T_AH/T_ref)) / (1 + exp(T_AH/T_H - T_AH/Temp))
 TC_5      <- s_A * ((Temp <= T_ref) * s_L_ratio + (Temp > T_ref) * s_H_ratio)
-TC_ring2 <- TC_5
+TC_ring1  <- TC_5
 lines(Temp - T_K, TC_5, lwd = 3.0, col = 'blue')
 
 # text(27, 2.8, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('T'[L]*' = ',  .(T_L-T_K))))
@@ -122,6 +123,13 @@ lines(Temp - T_K, TC_5, lwd = 3.0, col = 'blue')
 # text(27, 1.3, adj = 0, font = 2, col = 'blue', cex = text_size, bquote(paste('TC'[max]*' = ', .(Temp[which.max(TC_5)]-T_K))))
 
 dev.off()
+
+CT_out[,1] <- TC_ring1
+CT_out[,2] <- TC_ring2
+CT_out[,3] <- Temp - T_K
+CT_out[,4] <- 'E. encrasicolus'
+colnames(CT_out) <- c('Case1', 'Case2', 'Temp', 'sp')
+encrasicolus <- as.data.frame(CT_out)
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

@@ -110,8 +110,19 @@ getpolygon_rowcol_index <- function(
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
-dirpath <- 'C:/Users/jflores/Documents/JORGE/JUMBO/R_models/MDS/'
+dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
+
+# Polygon defined off the Peruvian coast (6-14 ºS, spatial resolution test)
+lon1 <- -80 # esquina superior derecha
+lon2 <- -75 # esquina inferior derecha
+lon3 <- -77 # esquina inferior izquierda
+lon4 <- -82 # esquina superior izquierda
+
+lat1 <- -6  # esquina superior derecha
+lat2 <- -14 # esquina inferior derecha
+lat3 <- -14 # esquina inferior izquierda
+lat4 <- -6  # esquina superior izquierda
 
 # # Polygon defined off the Peruvian coast
 # lon1 <- -80
@@ -133,15 +144,15 @@ nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 # lat3 <- -4.5
 # lat4 <- -4.5
 
-# Polygon defined off the Jumbo Squid
-lon1 <- -80
-lon2 <- -70
-lon3 <- -78
-lon4 <- -87
-lat1 <- -2
-lat2 <- -19
-lat3 <- -19
-lat4 <- -2
+# # Polygon defined off the Jumbo Squid
+# lon1 <- -80
+# lon2 <- -70
+# lon3 <- -78
+# lon4 <- -87
+# lat1 <- -2
+# lat2 <- -19
+# lat3 <- -19
+# lat4 <- -2
 
 getpolygon_rowcol_index(nc_file = nc_file,
                         lon1 = lon1, lat1 = lat1,
@@ -150,5 +161,5 @@ getpolygon_rowcol_index(nc_file = nc_file,
                         lon4 = lon4, lat4 = lat4
                      )
 
-csv_name <- paste0(dirpath, 'getpolygon_rowcol_index.txt')
-write.table(x = PolygIndex, file = csv_name, col.names = F, row.names = F)
+txt_name <- paste0(dirpath, 'getpolygon_rowcol_index.txt')
+write.table(x = PolygIndex, file = txt_name, col.names = F, row.names = F)

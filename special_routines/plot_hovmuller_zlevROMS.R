@@ -1,7 +1,15 @@
+#=============================================================================#
+# Name   : plot_curves_age_at_recruitment_byReleaseDepthYearMean
+# Author : Jorge Flores-Valiente
+# Date   : 
+# Version:
+# Aim    : 
+# URL    : 
+#=============================================================================#
 library(R.matlab)
 library(fields)
 library(vcd)
-dirpath   <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/interpolatedYearMonth/'
 xy        <- read.table(paste0(dirpath, 'getline_rowcol_index.txt'))
 depth_lim <- c(-100, -1)   # Latitude extension of the area 
 nlevels   <- 25           # Number of levels in the color palette

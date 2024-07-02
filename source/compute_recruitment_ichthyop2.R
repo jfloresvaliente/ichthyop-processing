@@ -6,10 +6,10 @@
 # Aim    :
 # URL    : 
 #=============================================================================#
-# dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/results_no_shelf/'
+dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1_kx1.6/'
 
-csv <- read.table(paste0(dirpath, 'ichthyop_output.csv'), header = T, sep = ';')
-Rdata <- paste0(dirpath,'data_atRecruitmentAge.Rdata')
+csv <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), header = T, sep = ';')
+Rdata <- paste0(dirpath,'/results/data_atRecruitmentAge.Rdata')
 print(Rdata)
 load(Rdata)
 
@@ -32,9 +32,17 @@ for(i in 1:dim(csv)[1]){
   N_length   <- sum(recruited$N_length)/NumberReleased*100
   N_constant <- sum(recruited$N_constant)/NumberReleased*100
   
-  dat[i,] <- cbind(NumberReleased, NumberRecruited,
-                   csv$Year[i], csv$Month[i], csv$t_x[i], csv$Zone_name[i], csv$ReleaseDepth[i], csv$ReleaseBathy[i],
-                   Recruitprop, N_length, N_constant)
+  dat[i,] <- cbind(NumberReleased,
+                   NumberRecruited,
+                   csv$Year[i],
+                   csv$Month[i],
+                   csv$t_x[i],
+                   csv$Zone_name[i],
+                   csv$ReleaseDepth[i],
+                   csv$ReleaseBathy[i],
+                   Recruitprop,
+                   N_length,
+                   N_constant)
 }
 
 colnames(dat) <- c(
@@ -50,4 +58,7 @@ colnames(dat) <- c(
   ,'N_lengthprop'
   ,'N_constantprop'
 )
-write.table(x = dat, file = paste0(dirpath, 'ichthyop_output2.csv'), sep = ';', row.names = F)
+write.table(x = dat, file = paste0(dirpath, '/results/ichthyop_output2.csv'), sep = ';', row.names = F)
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#

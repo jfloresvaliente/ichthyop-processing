@@ -26,7 +26,7 @@ dat2$L    <- dat2$L/10000 # from microns to cm
 dat2$t    <- dat2$t + 2 # add 2 days (hatching) to the age
 
 # Get the full name of the .txt files to be read (DEBout)
-dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_encrasicolus_param/DEBoutV2/cTeq1/'
+dirpath   <- 'C:/Users/jflores/Documents/JORGE/TESIS/TESIS_PHD/DEB/ichthyop_DEB/Engraulis_ringens_param/DEBoutV2/delta_pecquerie/cTeq1/'
 txt_files <- list.files(path = dirpath, pattern = 'DEB_out', full.names = T)
 
 # Select the desired temperatures and functional responses to be plotted

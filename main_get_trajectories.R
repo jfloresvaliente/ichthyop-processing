@@ -9,7 +9,7 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-# dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/out_case1/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.0/'
 new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/cfg/'
 variname <- c('length','MESO','temp')
 
@@ -46,7 +46,7 @@ for(i in 1:12){
                      ,firsttime         = firsttime
                      ,lasttime          = lasttime
                      ,recruitmentzone   = recruitmentzone
-                     ,old_path          = dirpath
+                     ,old_path          = old_path
                      ,new_path          = new_path
                      ,dates             = dates
                      ,variname          = variname)

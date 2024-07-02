@@ -7,7 +7,7 @@
 # URL    : 
 #=============================================================================#
 library(Hmisc)
-# dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5/out_simu9/results_no_shelf/'
+dirpath       <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.6/'
 computeattime <- 91
 freq_record   <- 1 # Record frequency in Ichthyop
 
@@ -17,9 +17,9 @@ freq_record   <- 1 # Record frequency in Ichthyop
 df <- NULL 
 for(i in 1:12){
 
-  Rdata <- paste0(dirpath,'trajectoriesM',i,'.Rdata')
-  load(Rdata)
+  Rdata <- paste0(dirpath,'/results/trajectoriesM',i,'.Rdata')
   print(Rdata)
+  load(Rdata)
   dat <- trajectories; rm(trajectories)
   dat$Age <- (dat$Timer-1)/freq_record
 
@@ -71,10 +71,10 @@ df <- df[,-c(rm_col_ind)]
 
 names_col <- c('Lon_end', 'Lat_end', 'IfRecruited', 'Mortality', 'ReleaseArea',
                'Year', 'Month', 't_x','Zone_name', 'ReleaseDepth',
-               'ReleaseBathy', 'N_length', 'N_constant', 'Age','Lon_ini','Lat_ini')
+               'ReleaseBathy', 'N_length', 'N_constant', 'Age', 'Lon_ini', 'Lat_ini')
 colnames(df) <- names_col
 
-Rdata  <- paste0(dirpath, 'data_atRecruitmentAge.Rdata')
+Rdata  <- paste0(dirpath, '/results/data_atRecruitmentAge.Rdata')
 print(paste0('saving .....', Rdata))
 save(df, file = Rdata)
 #=============================================================================#
