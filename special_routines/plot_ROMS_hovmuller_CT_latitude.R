@@ -15,13 +15,19 @@ z_depth   <- -45 # debe ser un numero negativo
 
 #===== Config for temp var =====#
 namevar  <- 'TEMP'
-zlim     <- c(.6, 2)
+zlim     <- c(0.4, 1.2)
 isolines <- seq(zlim[1], zlim[2], .2) # Isolines to be plotted
 caption  <- 'Correction Temperature'
 
 T_K    <- 273.15;     # Kelvin
+
+# E. encrasicolus
 T_ref  <- 16 + T_K;   # Kelvin
-T_A    <- 10000
+T_A    <- 9800
+
+# E. ringens
+T_ref  <- 20 + T_K;   # Kelvin
+T_A    <- 9576
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -38,16 +44,16 @@ ylabs <- paste0(abs(ytics), 'ºS')
 
 #===== CURVA 1 =====#
 # Parameters
-T_L  <- 6 + T_K     # K Lower temp boundary
-T_H  <- 21 + T_K    # K Upper temp boundary
-T_A  <- T_A        # K Arrhenius temperature
-T_AL <- 20000       # K Arrh. temp for lower boundary
-T_AH <- 190000/2    # K Arrh. temp for upper boundary
+T_L  <- 6 + T_K  # K Lower temp boundary
+T_H  <- 21 + T_K # K Upper temp boundary
+T_A  <- T_A      # K Arrhenius temperature
+T_AL <- 20000    # K Arrh. temp for lower boundary
+T_AH <- 190000/2 # K Arrh. temp for upper boundary
 
-s_A = exp(T_A/T_ref - T_A/z)  # Arrhenius factor
+s_A  <- exp(T_A/T_ref - T_A/z)  # Arrhenius factor
 
 # 1-parameter correction factor
-TC_1 = s_A
+TC_1 <- s_A
 
 # 5-parameter correction factor
 if(T_L > T_ref || T_H < T_ref){
@@ -57,20 +63,20 @@ if(T_L > T_ref || T_H < T_ref){
 s_L_ratio <- (1 + exp(T_AL/T_ref - T_AL/T_L)) / (1 + exp(T_AL/z - T_AL/T_L))
 s_H_ratio <- (1 + exp(T_AH/T_H - T_AH/T_ref)) / (1 + exp(T_AH/T_H - T_AH/z))
 TC_5      <- s_A * ((z <= T_ref) * s_L_ratio + (z > T_ref) * s_H_ratio)
-z1 <- TC_5
+z1        <- TC_5
 
 #===== CURVA 2 =====#
 # Parameters
-T_L  <- 6 + T_K     # K Lower temp boundary
-T_H  <- 24 + T_K    # K Upper temp boundary
-T_A  <- T_A        # K Arrhenius temperature
-T_AL <- 20000       # K Arrh. temp for lower boundary
-T_AH <- 190000*3    # K Arrh. temp for upper boundary
+T_L  <- 6 + T_K  # K Lower temp boundary
+T_H  <- 24 + T_K # K Upper temp boundary
+T_A  <- T_A      # K Arrhenius temperature
+T_AL <- 20000    # K Arrh. temp for lower boundary
+T_AH <- 190000*3 # K Arrh. temp for upper boundary
 
-s_A = exp(T_A/T_ref - T_A/z)  # Arrhenius factor
+s_A  <- exp(T_A/T_ref - T_A/z)  # Arrhenius factor
 
 # 1-parameter correction factor
-TC_1 = s_A
+TC_1 <- s_A
 
 # 5-parameter correction factor
 if(T_L > T_ref || T_H < T_ref){
@@ -80,9 +86,9 @@ if(T_L > T_ref || T_H < T_ref){
 s_L_ratio <- (1 + exp(T_AL/T_ref - T_AL/T_L)) / (1 + exp(T_AL/z - T_AL/T_L))
 s_H_ratio <- (1 + exp(T_AH/T_H - T_AH/T_ref)) / (1 + exp(T_AH/T_H - T_AH/z))
 TC_5      <- s_A * ((z <= T_ref) * s_L_ratio + (z > T_ref) * s_H_ratio)
-z2 <- TC_5
+z2        <- TC_5
 
-# Make plots
+#------------- Make plots -------------#
 
 # Case 1
 png_name <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller_latitude',0,z_depth,'mCase1.png')
@@ -129,7 +135,6 @@ mtext(side = 2, line = 3.8, font = 2, cex = 1.5, text = 'Latitude')
 mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
 
 dev.off()
-
 
 print(range(z1))
 print(range(z2))

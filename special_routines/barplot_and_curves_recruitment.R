@@ -6,8 +6,8 @@
 # Aim    : Barplot associated to spawning depth & Lines associated to spawning bathymetry.
 # URL    : 
 #=============================================================================#
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/results/'
-ymax    <- 70
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.6/results/'
+ymax    <- 5
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

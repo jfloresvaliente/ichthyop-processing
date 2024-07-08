@@ -8,15 +8,15 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'E:/ROMS_SILUMATIONS/10kmparent/interpolatedYearMonth/'
-sufijo    <- '6_14S'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/interpolatedYearMonth/'
+sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
 
-# #===== Config for temp var =====#
-# namevar  <- 'TEMP'
-# zlim     <- c(12, 28)
-# isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
-# caption  <- 'Temperature [ºC]'
+#===== Config for temp var =====#
+namevar  <- 'TEMP'
+zlim     <- c(13, 22)
+isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
+caption  <- 'Temperature [ºC]'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'

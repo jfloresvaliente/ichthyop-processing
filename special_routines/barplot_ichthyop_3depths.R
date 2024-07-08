@@ -11,9 +11,9 @@ source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
 
-dat1 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA/out/results_30days/'
-dat2 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEBf1/k_x0_90days/out/results/'
-dat3 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB/k_x1.6_90days/out/results/'
+dat1 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/results/'
+dat2 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.0/results/'
+dat3 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.4/results/'
 
 # ylab <- 'Retention (%)'
 # ylab <- 'Recruitment (%)'

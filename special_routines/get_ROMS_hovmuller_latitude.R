@@ -10,20 +10,24 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath   <- 'E:/ROMS_SILUMATIONS/10kmparent/'
-sufijo    <- '6_14S'
-namevar   <- 'temp'
-k_x       <- 0.6 # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
-xy        <- read.table(paste0(dirpath, '/interpolatedYearMonth/', sufijo, '/getpolygon_rowcol_index.txt'))
-mask      <- as.matrix(read.table(paste0(dirpath, '/interpolatedYearMonth/mask.txt')))
-ver_lev   <- as.vector(read.table(paste0(dirpath, '/interpolatedYearMonth/depth.txt'), header = T))[,1]
+sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined.
+namevar   <- 'MESO'
+k_x       <- 1.6 # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
 years     <- c(2012, 2014)    # Years comprising the simulation (Revisar linea 52)
 months    <- c(1,12)          # Months comprising the simulation
-lat       <- as.matrix(read.table(paste0(dirpath, '/interpolatedYearMonth/lat.txt')))
-z_depth   <- -45 # Debe ser un numero negativo
-lat       <- lat
-lat_lim   <- c(-14,-6)
 
-#======= Do not change anything from here=======#
+#=============================================================================#
+#===================== Do not change anything from here ======================#
+#=============================================================================#
+outpath   <- paste0(dirpath, '/interpolatedYearMonth/', sufijo, '/')
+xy        <- read.table(paste0(outpath, sufijo,'_rowcol_index.txt'))
+mask      <- as.matrix(read.table(paste0(outpath, '/mask.txt')))
+ver_lev   <- as.vector(read.table(paste0(outpath, '/depth.txt'), header = T))[,1]
+
+lat       <- as.matrix(read.table(paste0(outpath, '/lat.txt')))
+z_depth   <- -45 # Debe ser un numero negativo
+lat_lim   <- c(-20,-2)
+
 nc <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
 time_step <- length(ncvar_get(nc, 'scrum_time')) # Time steps in ROMS
 nc_close(nc)
@@ -31,7 +35,7 @@ nc_close(nc)
 depth_lim <- range(ver_lev)
 
 new_dir <- paste0(dirpath, '/interpolatedYearMonth/', sufijo,'/')
-dir.create(path = paste0(new_dir), showWarnings = T)
+dir.create(path = paste0(new_dir), showWarnings = F)
 
 ROMS_hovmuller_latitude(dirpath   = paste0(dirpath, '/interpolatedYearMonth/'),
                namevar   = namevar,
@@ -48,16 +52,16 @@ ROMS_hovmuller_latitude(dirpath   = paste0(dirpath, '/interpolatedYearMonth/'),
 )
 
 z <- hovmuller
-x <- seq(from = years[1], to = years[2]+0.999, length.out = dim(z)[1]) # Para interanual
-# x <- seq(from = 1, to = years[2]-years[1] + 1.999, length.out = dim(z)[1]) # Para climatologico
+# x <- seq(from = years[1], to = years[2]+0.999, length.out = dim(z)[1]) # Para interanual
+x <- seq(from = 0, to = years[2]-years[1] + 0.999, length.out = dim(z)[1]) # Para climatologico
 y <- seq(lat_lim[1], lat_lim[2], length.out = (lat_lim[2]-lat_lim[1])/2)
 rownames(z) <- x
 colnames(z) <- y
 
 if(!is.null(k_x)){
-  Rdata <- paste0(new_dir, toupper(namevar), 'kx', k_x, '_hovmuller_latitude',0,z_depth,'m.Rdata')
+  Rdata <- paste0(outpath, sufijo, '_',toupper(namevar), 'kx', k_x, '_hovmuller_latitude',0,z_depth,'m.Rdata')
 }else{
-  Rdata <- paste0(new_dir, toupper(namevar), '_hovmuller_latitude',0,z_depth,'m.Rdata')
+  Rdata <- paste0(outpath, sufijo, '_', toupper(namevar), '_hovmuller_latitude',0,z_depth,'m.Rdata')
 }
 
 hovmuller <- list(x = x, y = y, z = z)

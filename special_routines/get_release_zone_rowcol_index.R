@@ -11,7 +11,8 @@ library(fields)
 library(maps)
 library(mapdata)
 
-dirpath <- 'E:/ROMS_SILUMATIONS/rsodi1/'
+dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+sufijo  <- 'release_zone'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc      <- nc_open(nc_file)
 lon     <- ncvar_get(nc, 'lon_rho')
@@ -20,9 +21,12 @@ h       <- ncvar_get(nc, 'h')
 mask    <- ncvar_get(nc, 'mask_rho'); mask[mask == 0] <- NA
 nc_close(nc)
 
-latis <- c(-20,-2) # Latitudes de menor a mayor
-longi <- c(-82.5, -70) # Longitudes de menor a mayor
-bathy <- 2000 # Máxima batimería
+outpath <- paste0(dirpath, 'interpolatedYearMonth/', sufijo)
+dir.create(path = outpath, showWarnings = F)
+
+latis <- c(-20,-2)      # Latitudes from lowest to highest
+longi <- c(-82.5, -70)  # Lengths from shortest to longest
+bathy <- 2000           # Maximum bathymetry
 
 #=================================#
 # Get bathimetry between 0-2000 m
@@ -54,5 +58,11 @@ m <- mask * m
 x11(); image.plot(lon, lat, m, xlab = 'Longitude', ylab = 'Latitude')
 
 m <- which(m == 1, arr.ind = T)
-csv_name <- paste0(dirpath, 'release_zone_rowcol_index.txt')
-write.table(x = m, file = csv_name, col.names = F, row.names = F)
+
+write.table(x = m  ,  file = paste0(outpath, '/release_zone_rowcol_index.txt'), col.names = F, row.names = F)
+write.table(x = lon,  file = paste0(outpath, '/lon.txt'),  col.names = F, row.names = F)
+write.table(x = lat,  file = paste0(outpath, '/lat.txt'),  col.names = F, row.names = F)
+write.table(x = mask, file = paste0(outpath, '/mask.txt'), col.names = F, row.names = F)
+#=============================================================================#
+# END OF PROGRAM
+#=============================================================================#

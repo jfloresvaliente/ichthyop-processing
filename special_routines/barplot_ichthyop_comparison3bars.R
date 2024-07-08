@@ -10,9 +10,9 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/FISICA6-14/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
-dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/LatitudeBathyDepth/out/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.4/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.0/results/ichthyop_output.csv', header = T, sep = ';')
+dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.6/results/ichthyop_output.csv', header = T, sep = ';')
 
 # dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/AnalisisSensibilidad/sen10km/out/ichthyop_output.csv', header = T, sep = ';')
 # dat1 <- subset(dat1, dat1$TotalParticles == 5000 & dat1$Coast_Behavior == 'Standstill')
@@ -27,8 +27,8 @@ dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/LatitudeBat
 ylab <- 'Recruitment (%)'
 # ylab <- 'Pre-recruitment (%)'
 
-lats     <- seq(from = 6, to = 14, by = 2)
-ymax     <- c(0,70)
+lats     <- seq(from = 2, to = 20, by = 2)
+ymax     <- c(0,15)
 col_bars <- c('grey10','grey50','grey90')
 
 # legend   <- c('10 km', '02 km', '02 km (interpolated)')
@@ -36,14 +36,15 @@ col_bars <- c('grey10','grey50','grey90')
 # legend   <- c('simu 30 days', 'simu 90 days: I', 'simu 90 days: II')
 # legend   <- c('sans seiul', 'seiul = 0.052', 'seiul = 1')
 # legend   <- c('D01', 'D02s', 'D02r')
-legend   <- c('Sim 1', 'Sim 2', 'Sim 3')
+# legend   <- c('Sim 1', 'Sim 2', 'Sim 3')
+legend   <- c('Kx = 0.4', 'Kx = 1.0', 'Kx = 1.6')
 
 png_name <- paste0(dirpath, 'barplot_ichthyop_comparison3bars.png')
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 arrow_col <- 'blue'
-yticks <- seq(ymax[1],ymax[2],10)
+yticks <- seq(ymax[1],ymax[2],5)
 
 day1 <- recruitment_month(dat1)
 day2 <- recruitment_month(dat2)

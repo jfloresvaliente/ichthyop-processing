@@ -11,7 +11,7 @@ library(fields)
 library(hexbin)
 library(gridExtra)
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1/'
+dirpath  <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.4/'
 xlim     <- c(-85, -70) # Londitude
 ylim     <- c(-25, 0)   # Latitude
 bin_lon  <- .1
@@ -20,7 +20,7 @@ ggname   <- paste0(dirpath, '/results/grid_arrange', bin_lat, '.png')
 
 #========== Zlim ==========#
 zlimA <- c(40,90) # Age at recruitment
-zlimB <- c(0,100) # No mortality
+zlimB <- c(0,50) # No mortality
 zlimC <- c(0,0.20) # Constant mortality
 
 zlimD <- zlimA    # Age at recruitment
@@ -63,7 +63,7 @@ p1 <- ggplot(data = df)+
   labs(x = 'Longitude (W)', y = 'Latitude (S)', fill = '') +
   borders(fill='grey',colour='grey') +
   coord_fixed(xlim = xlim, ylim = ylim)+
-  annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b)"))', parse = TRUE)+
+  # annotate(geom='text', x = xposlab, y = yposlab, color = 'black', size = 3.5, hjust = 0, vjust = 1, label = 'atop(bold("b)"))', parse = TRUE)+
   theme(axis.text.x  = element_text(face='bold', color='black', size=7, angle=0),
         axis.text.y  = element_text(face='bold', color='black', size=7, angle=0),
         axis.title.x = element_text(face='bold', color='black', size=7, angle=0),
@@ -220,9 +220,9 @@ p6 <- ggplot(data = df)+
 #         legend.background = element_rect(fill=adjustcolor( 'red', alpha.f = 0), size=0.3, linetype='solid'))
 
 # [2x3 draw] a,b,c,d,e,f 
-png(filename = ggname, width = 950, height = 650, res = 120)
+png(filename = ggname, width = 650, height = 650, res = 120)
 # grid.arrange(p3, p1, p5, p4, p2, p6, nrow = 2)
-grid.arrange(p3, p1, p5, nrow = 1)
+grid.arrange(p1, nrow = 1)
 
 # png(filename = ggname, width = 950, height = 350, res = 120)
 # grid.arrange(p3, p1, p5, nrow = 1)

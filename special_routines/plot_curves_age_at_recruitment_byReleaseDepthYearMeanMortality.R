@@ -6,9 +6,9 @@
 # Aim    : Plot curves of percentage of particles at recruited age
 # URL    : 
 #=============================================================================#
-dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.6/'
 days    <- 91 # Step time
-ymax    <- 0.02 # Percetage of particles recruited
+ymax    <- 0.004 # Percetage of particles recruited
 ymax2   <- 0.4
 depth   <- c('0-15', '15-30', '30-45')
 
