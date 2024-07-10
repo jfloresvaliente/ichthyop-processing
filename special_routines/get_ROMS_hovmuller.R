@@ -9,12 +9,13 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath   <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+dirpath   <- 'D:/ROMS_SIMULATIONS/peru02km/'
 sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined.
-namevar   <- 'MESO'
-k_x       <- 1.6 # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
-years     <- c(2012, 2014)    # Years comprising the simulation (revisar linea 43)
-months    <- c(1,12)          # Months comprising the simulation
+namevar   <- 'v'
+k_x       <- NULL # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
+years     <- c(2009, 2009)  # Years comprising the simulation (revisar linea 43)
+months    <- c(1,12)        # Months comprising the simulation
+clim      <- T # en caso de ser una simulacion climatologica
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -41,8 +42,11 @@ ROMS_hovmuller(dirpath   = paste0(dirpath, '/interpolatedYearMonth/'),
                k_x       = k_x)
 
 z <- hovmuller
-# x <- seq(from = years[1], to = years[2]+0.999, length.out = dim(z)[1]) # Para interanual
-x <- seq(from = 1, to = years[2]-years[1] + 1.999, length.out = dim(z)[1]) # Para climatologico
+if(clim){
+  x <- seq(from = 1, to = years[2]-years[1] + 1.999, length.out = dim(z)[1]) # Para climatologico
+}else{
+  x <- seq(from = years[1], to = years[2]+0.999, length.out = dim(z)[1]) # Para interanual  
+}
 y <- rev(ver_lev)
 rownames(z) <- x
 colnames(z) <- y

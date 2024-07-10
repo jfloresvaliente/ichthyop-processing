@@ -8,16 +8,22 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/interpolatedYearMonth/'
+dirpath   <- 'E:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
 sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
 z_depth   <- -45 # debe ser un numero negativo
+
+#===== Config for temp var =====#
+namevar  <- 'TEMP'
+zlim     <- c(13, 28)
+isolines <- seq(zlim[1], zlim[2], 3) # Isolines to be plotted
+caption  <- 'Temperature [ºC]'
 
 # #===== Config for temp var =====#
 # namevar  <- 'TEMP'
 # zlim     <- c(12, 22)
 # isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
-# caption  <- 'Temperature [ºC]'
+# caption  <- 'Correction factor'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
@@ -25,11 +31,11 @@ z_depth   <- -45 # debe ser un numero negativo
 # isolines <- seq(zlim[1], zlim[2], 1.5) # Isolines to be plotted
 # caption  <- 'Mesozooplankton [umol C L-1]'
 
-#===== Config for functional response (f) var =====#
-namevar  <- 'MESOkx0.2'
-zlim     <- c(0.7, 1)
-isolines <- seq(zlim[1], zlim[2], 0.2) # Isolines to be plotted
-caption  <- 'Functional response'
+# #===== Config for functional response (f) var =====#
+# namevar  <- 'MESOkx0.2'
+# zlim     <- c(0.7, 1)
+# isolines <- seq(zlim[1], zlim[2], 0.2) # Isolines to be plotted
+# caption  <- 'Functional response'
 
 # #===== Config for salt var =====#
 # namevar  <- 'SALT'

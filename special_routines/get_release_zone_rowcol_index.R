@@ -11,7 +11,7 @@ library(fields)
 library(maps)
 library(mapdata)
 
-dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+dirpath <- 'D:/ROMS_SIMULATIONS/peru02km/'
 sufijo  <- 'release_zone'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 nc      <- nc_open(nc_file)

@@ -8,28 +8,34 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/interpolatedYearMonth/'
+dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/interpolatedYearMonth/'
 sufijo  <- 'release_zone'
 nlevels <- 64 # Number of levels in the color palette
 years   <- 1:3 # 10 km
 # years <- 1980:2000 # rsodi
 
 # #===== Config for temp var =====#
-namevar  <- 'TEMP'
-zlim     <- c(13, 22)
-isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
-caption  <- 'Temperature [ºC]'
+# namevar  <- 'TEMP'
+# zlim     <- c(13, 22)
+# isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
+# caption  <- 'Temperature [ºC]'
+
+# #===== Config for tempCT var =====#
+# namevar  <- 'TEMPCTcase1ringens'
+# zlim     <- c(0.4, 1.2)
+# isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
+# caption  <- 'Correction factor'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
-# zlim     <- c(0, 2.5)
-# isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
+# zlim     <- c(0, 4.5)
+# isolines <- seq(zlim[1], zlim[2], 0.5) # Isolines to be plotted
 # caption  <- 'Mesozooplankton [umol C L-1]'
 
 # #===== Config for functional response (f) var =====#
-# namevar  <- 'MESOkx1.6'
+# namevar  <- 'MESOkx0.4'
 # zlim     <- c(0.2, 0.9)
-# isolines <- seq(zlim[1], zlim[2], 0.05) # Isolines to be plotted
+# isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
 # caption  <- 'Functional response'
 
 # #===== Config for salt var =====#
@@ -44,23 +50,23 @@ caption  <- 'Temperature [ºC]'
 # isolines <- seq(zlim[1], zlim[2], 20) # Isolines to be plotted
 # caption  <- 'Oxygen [umol L-1]'
 
-# #===== Config for V var =====#
-# namevar  <- 'V'
-# zlim     <- c(-0.15, 0.15)
-# isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
-# caption  <- 'Velocity V [m/s]'
+#===== Config for V var =====#
+namevar  <- 'V'
+zlim     <- c(-0.1, 0.1)
+isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+caption  <- 'Velocity V [m/s]'
 
 # #===== Config for U var =====#
 # namevar  <- 'U'
-# zlim     <- c(-0.18, 0.08)
-# isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+# zlim     <- c(-0.14, 0.14)
+# isolines <- round(seq(zlim[1], zlim[2], 0.04), 2) # Isolines to be plotted
 # caption  <- 'Velocity U [m/s]'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-Rdata    <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller.Rdata')
-png_name <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller_Climatology.png')
+Rdata    <- paste0(dirpath, sufijo, '/', sufijo,'_', namevar, '_hovmuller.Rdata')
+png_name <- paste0(dirpath, sufijo, '/', sufijo,'_', namevar, '_hovmuller_Climatology.png')
 load(Rdata)
 
 z <- hovmuller$z
@@ -81,8 +87,8 @@ lev <- seq(from = zlim[1], to = zlim[2], length.out = nlevels) # Niveles para la
 png(filename = png_name, width = 1850, height = 750, res = 120)
 par(mar = c(5, 5, 3.5, 3.5))
 filled.contour(x = x, y = y, z = z, zlim = zlim,
-               # col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),
-               col = tim.colors(length(lev)-1),
+               col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),
+               # col = tim.colors(length(lev)-1),
                levels = lev,
                xlab = '', ylab = '',
                plot.axes = {

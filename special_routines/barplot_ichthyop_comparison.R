@@ -11,7 +11,7 @@ source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
 csv1 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052/case1/'
-csv2 <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1/'
+csv2 <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
 
 # ylab <- 'Retention (%)'
 ylab <- 'Recruitment (%)'
@@ -19,7 +19,7 @@ ylab <- 'Recruitment (%)'
 meses <- c('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 
 lats     <- seq(from = 2, to = 20, by = 2)
-ymax     <- c(0,40)
+ymax     <- c(0,50)
 col_bars <- c('grey10','grey50')
 
 # legend   <- c( 'Age criteria', 'Size criteria')
@@ -32,7 +32,8 @@ col_bars <- c('grey10','grey50')
 # legend   <- c( 'ROMS', 'ROMS-PISCES')
 # legend   <- c('Size criteria k_x = 0', 'Size criteria k_x = 1.6')
 # legend   <- c('Case1', 'Case2')
-legend   <- c('DEBstd', 'DEBabj')
+# legend   <- c('DEBstd', 'DEBabj')
+legend   <- c('DEBstd', 'DEBabj_EH')
 
 png_name <- paste0(dirpath, 'barplot_ichthyop_comparison.png')
 #=============================================================================#

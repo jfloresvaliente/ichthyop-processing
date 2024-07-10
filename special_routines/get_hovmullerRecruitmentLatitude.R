@@ -6,12 +6,12 @@
 # Aim    : Get Hovmuller of anual mean Recruitment.
 # URL    : 
 #=============================================================================#
-# dirpath       <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj/case2kx0.2/'
-latilim       <- c(-20, -2) # Latitude extension of the spawning zone
-lat_div       <- 2        # Latitudinal resolution
-# t_x           <- c(1,4,7) # 10kmparent
-t_x           <- c(1,3,5) # rsodi
-# t_x           <- c(1,6,11) # peru02km
+dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
+latilim <- c(-20, -2) # Latitude extension of the spawning zone
+lat_div <- 2        # Latitudinal resolution
+t_x     <- c(1,4,7) # 10kmparent
+# t_x     <- c(1,3,5) # rsodi
+# t_x     <- c(1,6,11) # peru02km
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

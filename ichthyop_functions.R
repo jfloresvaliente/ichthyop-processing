@@ -7,9 +7,11 @@
 # URL    : 
 #=============================================================================#
 source('source/compute_recruitment_ichthyop.R')
+source('source/compute_recruitment_ichthyop_EH.R')
 source('source/compute_recruitment_ichthyop_noshelf.R')
 source('source/compute_recruitment_ichthyop_drifters.R')
 source('source/get_data_atRecruitmentAgeDirecto.R')
+source('source/get_data_atRecruitmentAgeDirecto_EH.R')
 
 source('source/get_trajectories.R')
 source('source/get_trajectories_noshelf.R')
@@ -27,7 +29,9 @@ source('source/recruitment_year.R')
 source('source/recruitment_zone.R')
 
 source('source/ROMS_hovmuller.R')
+source('source/ROMS_hovmuller_CT.R')
 source('source/ROMS_hovmuller_latitude.R')
+source('source/ROMS_hovmuller_CT_latitude.R')
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

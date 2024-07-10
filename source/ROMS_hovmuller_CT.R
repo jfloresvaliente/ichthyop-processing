@@ -1,12 +1,12 @@
 #=============================================================================#
-# Name   : ROMS_hovmuller_latitude
+# Name   : ROMS_hovmuller_CT
 # Author : Jorge Flores
 # Date   : 
 # Version:
 # Aim    :
 # URL    : 
 #=============================================================================#
-ROMS_hovmuller_latitude <- function(
+ROMS_hovmuller_CT <- function(
     dirpath    = dirpath
     ,namevar   = namevar
     ,mask      = mask
@@ -15,12 +15,15 @@ ROMS_hovmuller_latitude <- function(
     ,time_step = time_step
     ,years     = years
     ,months    = months
-    ,k_x       = k_x
-    ,z_depth   = -10
-    ,lat       = lat
-    ,lat_lim   = c(-20,-2)
+    ,T_K       = 273.15
+    ,T_ref     = T_ref
+    ,T_A       = T_A
+    ,T_L       = 6
+    ,T_H       = 21
+    ,T_AL      = 20000
+    ,T_AH      = 190000/2
 ){
-  
+
   library(R.matlab)
   
   #============ ============ Arguments ============ ============#
@@ -33,9 +36,21 @@ ROMS_hovmuller_latitude <- function(
   # time_step = ROMS file time step in days
   # years     = Years between which Hovmuller is to be calculated
   # months    = Months between which Hovmuller is to be calculated
-  
+  # T_K       = kelvin degrees
+  # T_ref     = T_ref
+  # T_A       = Arrhenius temperature (species-specific)
+  # T_L       = Lower temperature boundary (Celsius degrees)
+  # T_H       = Upper temperature boundary (Celsius degrees)
+  # T_AL      = Arrhenius temperature for lower boundary (Kelvin degrees)
+  # T_AH      = Arrhenius temperature for upper boundary (Kelvin degrees)
+
   #============ ============ Arguments ============ ============#
   
+  # Transforming Celsius to Kelvin boundary temperatures
+  T_ref <- T_ref + T_K
+  T_L   <- T_L + T_K
+  T_H   <- T_H + T_K
+
   # Create the polygon mask in 4D from the ROMS mask
   mask4D <- matrix(data = NA, nrow = dim(mask)[1], ncol = dim(mask)[2])
   
@@ -51,12 +66,22 @@ ROMS_hovmuller_latitude <- function(
       
       matfile <- paste0(dirpath, namevar, 'Y', year, 'M', month,'.mat')
       print(matfile)
-      vari <- readMat(matfile)$newvar
+      vari <- readMat(matfile)$newvar + T_K
       
-      # If you want to calculate the functional response
-      if(!is.null(k_x)) vari <- vari / (vari + k_x)
+      # Calculate the temperature correction factor.
+      s_A  <- exp(T_A/T_ref - T_A/vari)  # Arrhenius factor
       
-      # if SIMU INTERANUAL EL MES 12 TIENE UN PASO MAS DE TIEMPO
+      # 5-parameter correction factor
+      if(T_L > T_ref || T_H < T_ref){
+        warning('Warning : invalid parameter combination, T_L > T_ref and/or T_H < T_ref\n')
+      }
+      
+      s_L_ratio <- (1 + exp(T_AL/T_ref - T_AL/T_L)) / (1 + exp(T_AL/vari - T_AL/T_L))
+      s_H_ratio <- (1 + exp(T_AH/T_H - T_AH/T_ref)) / (1 + exp(T_AH/T_H - T_AH/vari))
+      TC_5      <- s_A * ((vari <= T_ref) * s_L_ratio + (vari > T_ref) * s_H_ratio)
+      vari      <- TC_5
+      
+      # If this is an inter-annual simulation, month 12 (December) must have an additional time step.
       if(month == 12) vari <- vari[1:time_step,,,]
       
       # Convert to the classical dimension as R reads the ncdf [lon, lat, depth, time].
@@ -70,41 +95,19 @@ ROMS_hovmuller_latitude <- function(
       
       vari <- vari2; rm(vari2)
       
-      # Multiplicar por la mascara en 4D con los indices de la zona
+      # Multiply by 4D mask with zone indices
       vari <- vari * mask4D
       
-      # Extraer solo hasta la profundidad deseada
-      vari <- vari[,,1:which(ver_lev == z_depth),]
+      # Mean horizontally and leaving values for depth and time
+      vari <- apply(vari, c(3,4), mean, na.rm = T)
       
-      # Extraer por cada indice de xy
-      lati <- NULL
-      lati_valor <- NULL
-      for(i in 1:dim(xy)[1]){
-        sub_lati <- vari[xy[i,1], xy[i,2],,]
-        lati <- rbind(lati, apply(sub_lati, 2, mean, na.rm = T))
-
-        lati_valor <- c(lati_valor, lat[xy[i,1], xy[i,2]])
-      }
-
-      # Extraer por latitudes
-      lat_in <- seq(lat_lim[1], lat_lim[2], 2)
-      lat_on <- lat_in + 2
-      
-      lati_mat <- NULL
-      for(i in 1:(length(lat_in)-1)){
-        lat_index <- which(lati_valor > lat_in[i] & lati_valor <= lat_on[i])
-        sub_lati <- apply(X = lati[lat_index,], MARGIN = 2, FUN = mean, na.rm = T)
-        lati_mat <- rbind(lati_mat, sub_lati)
-      }
-      
-      vari <- lati_mat; rm(lati_mat)
-
-      # Agregar a la serie de tiempo
+      # Add to time series
       hovmuller <- cbind(hovmuller, vari)
     }
   }
   
   hovmuller <- t(hovmuller)
+  hovmuller <- hovmuller[,c(length(ver_lev):1)]
   assign(x = 'hovmuller', value = hovmuller, envir = .GlobalEnv)
 }
 #=============================================================================#

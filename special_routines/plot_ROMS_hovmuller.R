@@ -8,15 +8,21 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/interpolatedYearMonth/'
+dirpath   <- 'E:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
 sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
 
 #===== Config for temp var =====#
 namevar  <- 'TEMP'
-zlim     <- c(13, 22)
-isolines <- seq(zlim[1], zlim[2], 2) # Isolines to be plotted
+zlim     <- c(13, 28)
+isolines <- seq(zlim[1], zlim[2], 3) # Isolines to be plotted
 caption  <- 'Temperature [ºC]'
+
+# #===== Config for tempCT var =====#
+# namevar  <- 'TEMPCTcase1encrasicolus'
+# zlim     <- c(0.6, 1.45)
+# isolines <- seq(zlim[1], zlim[2], 0.2) # Isolines to be plotted
+# caption  <- 'Correction factor'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
@@ -57,8 +63,8 @@ caption  <- 'Temperature [ºC]'
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-Rdata    <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller.Rdata')
-png_name <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller.png')
+Rdata    <- paste0(dirpath, sufijo, '/', sufijo,'_', namevar, '_hovmuller.Rdata')
+png_name <- paste0(dirpath, sufijo, '/', sufijo,'_', namevar, '_hovmuller.png')
 load(Rdata)
 
 x <- hovmuller$x

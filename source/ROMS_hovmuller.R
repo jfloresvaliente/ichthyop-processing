@@ -30,6 +30,7 @@ ROMS_hovmuller <- function(
   # time_step = ROMS file time step in days
   # years     = Years between which Hovmuller is to be calculated
   # months    = Months between which Hovmuller is to be calculated
+  # K_X       = mean saturation constant to calculate functional response (f)
   
   #============ ============ Arguments ============ ============#
   
@@ -50,31 +51,32 @@ ROMS_hovmuller <- function(
       print(matfile)
       vari <- readMat(matfile)$newvar
       
-      # if SIMU INTERANUAL EL MES 12 TIENE UN PASO MAS DE TIEMPO
+      # If you want to calculate the functional response
+      if(!is.null(k_x)) vari <- vari / (vari + k_x)
+      
+      # If this is an inter-annual simulation, month 12 (December) must have an additional time step.
       if(month == 12) vari <- vari[1:time_step,,,]
 
       # Convert to the classical dimension as R reads the ncdf [lon, lat, depth, time].
       vari2 <- array(data = NA, dim = rev(dim(vari)))
       for(i in 1:dim(vari)[1]){
         for(j in 1:dim(vari)[2]){
-          subvari <- t(vari[i,j,,])
-          vari2[,,j,i] <- subvari
+          # subvari <- t(vari[i,j,,])
+          # vari2[,,j,i] <- subvari
+          vari2[,,j,i] <- t(vari[i,j,,])
         }
       }
       
       vari <- vari2; rm(vari2)
       
-      # If you want to calculate the functional response
-      if(!is.null(k_x)) vari <- vari / (vari + k_x)
-      
-      # Multiplicar por la mascara en 4D con los indices de la zona
+      # Multiply by 4D mask with zone indices
       vari <- vari * mask4D
       
-      # Promediar horizontalmente dejando valores para profundidad y tiempo
+      # Mean horizontally and leaving values for depth and time
       vari <- apply(vari, c(3,4), mean, na.rm = T)
       
-      # Agregar a la serie de tiempo
-      hovmuller <- cbind(hovmuller, vari)
+      # Add to time series
+      hovmuller <- cbind(hovmuller, vari); rm(vari)
     }
   }
   
