@@ -6,14 +6,14 @@
 # Aim    :
 # URL    : 
 #=============================================================================#
-source('ichthyop_libraries.R')
-source('ichthyop_functions.R')
+source('source/ROMS_hovmuller_CT.R')
+library(ncdf4)
 
-dirpath   <- 'E:/ROMS_SILUMATIONS/rsodi1/'
+dirpath   <- 'E:/ROMS_SIMULATIONS/10kmparent/'
 sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined.
 namevar   <- 'temp'         # variable name associated to the temperature in degrees Celsius.
-sp        <- 'encrasicolus' # species name.
-years     <- c(1980, 2000)  # Years comprising the simulation (revisar linea 43).
+sp        <- 'ringens' # species name.
+years     <- c(2012, 2014)  # Years comprising the simulation (revisar linea 43).
 months    <- c(1,12)        # Months comprising the simulation.
 clim      <- T # en caso de ser una simulacion climatologica
 
@@ -45,18 +45,18 @@ T_A  <- T_A      # K Arrhenius temperature
 T_AL <- 20000    # K Arrh. temp for lower boundary
 T_AH <- 190000/2 # K Arrh. temp for upper boundary
 
-outpath   <- paste0(dirpath, '/interpolatedYearMonth/', sufijo, '/')
-xy        <- read.table(paste0(outpath, sufijo,'_rowcol_index.txt'))
-mask      <- as.matrix(read.table(paste0(outpath, '/mask.txt')))
-ver_lev   <- as.vector(read.table(paste0(outpath, '/depth.txt'), header = T))[,1]
+outpath   <- paste0(dirpath, 'interpolatedYearMonth', '/', sufijo, '/')
+xy        <- read.table(paste0(outpath, sufijo, '_rowcol_index.txt'))
+mask      <- as.matrix(read.table(paste0(outpath, 'mask.txt')))
+ver_lev   <- as.vector(read.table(paste0(outpath, 'depth.txt'), header = T))[,1]
 
-nc <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
+nc <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[2])
 time_step <- length(ncvar_get(nc, 'scrum_time')) # Time steps in ROMS
 nc_close(nc)
 
 depth_lim <- range(ver_lev)
 
-ROMS_hovmuller_CT(dirpath   = paste0(dirpath, '/interpolatedYearMonth/'),
+ROMS_hovmuller_CT(dirpath   = outpath,
                   namevar   = namevar,
                   mask      = mask,
                   xy        = xy,
@@ -98,18 +98,18 @@ T_A  <- T_A      # K Arrhenius temperature
 T_AL <- 20000    # K Arrh. temp for lower boundary
 T_AH <- 190000*3 # K Arrh. temp for upper boundary
 
-outpath   <- paste0(dirpath, '/interpolatedYearMonth/', sufijo, '/')
-xy        <- read.table(paste0(outpath, sufijo,'_rowcol_index.txt'))
-mask      <- as.matrix(read.table(paste0(outpath, '/mask.txt')))
-ver_lev   <- as.vector(read.table(paste0(outpath, '/depth.txt'), header = T))[,1]
+outpath   <- paste0(dirpath, 'interpolatedYearMonth', '/', sufijo, '/')
+xy        <- read.table(paste0(outpath, sufijo, '_rowcol_index.txt'))
+mask      <- as.matrix(read.table(paste0(outpath, 'mask.txt')))
+ver_lev   <- as.vector(read.table(paste0(outpath, 'depth.txt'), header = T))[,1]
 
-nc <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
+nc <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[2])
 time_step <- length(ncvar_get(nc, 'scrum_time')) # Time steps in ROMS
 nc_close(nc)
 
 depth_lim <- range(ver_lev)
 
-ROMS_hovmuller_CT(dirpath   = paste0(dirpath, '/interpolatedYearMonth/'),
+ROMS_hovmuller_CT(dirpath   = outpath,
                   namevar   = namevar,
                   mask      = mask,
                   xy        = xy,

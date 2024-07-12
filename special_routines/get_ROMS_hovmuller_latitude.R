@@ -6,39 +6,38 @@
 # Aim    :
 # URL    : 
 #=============================================================================#
-source('ichthyop_libraries.R')
-source('ichthyop_functions.R')
+source('source/ROMS_hovmuller_latitude.R')
+library(ncdf4)
 
-dirpath   <- 'D:/ROMS_SIMULATIONS/peru02km/'
+dirpath   <- 'E:/ROMS_SIMULATIONS/rsodi1/'
 sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined.
-namevar   <- 'u'
-k_x       <- NULL           # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
-years     <- c(2009, 2009)  # Years comprising the simulation (Revisar linea 52)
+namevar   <- 'MESO'
+k_x       <- 0.4           # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
+years     <- c(1980,2000)   # Years comprising the simulation
 months    <- c(1,12)        # Months comprising the simulation
-clim      <- T # en caso de ser una simulacion climatologica
+z_depth   <- -45            # Depth at which the variable is averaged. Must be a negative number
+lat_lim   <- c(-20,-2)
+clim      <- F # in case of climatological simulation
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-outpath   <- paste0(dirpath, '/interpolatedYearMonth/', sufijo, '/')
-xy        <- read.table(paste0(outpath, sufijo,'_rowcol_index.txt'))
-mask      <- as.matrix(read.table(paste0(outpath, '/mask.txt')))
-ver_lev   <- as.vector(read.table(paste0(outpath, '/depth.txt'), header = T))[,1]
+outpath   <- paste0(dirpath, 'interpolatedYearMonth', '/', sufijo, '/')
+xy        <- read.table(paste0(outpath, sufijo, '_rowcol_index.txt'))
+mask      <- as.matrix(read.table(paste0(outpath, 'mask.txt')))
+ver_lev   <- as.vector(read.table(paste0(outpath, 'depth.txt'), header = T))[,1]
+lat       <- as.matrix(read.table(paste0(outpath, 'lat.txt')))
 
-lat       <- as.matrix(read.table(paste0(outpath, '/lat.txt')))
-z_depth   <- -45 # Debe ser un numero negativo
-lat_lim   <- c(-20,-2)
-
-nc <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[1])
+nc <- nc_open(list.files(path = dirpath, pattern = '.nc', full.names = T)[2])
 time_step <- length(ncvar_get(nc, 'scrum_time')) # Time steps in ROMS
 nc_close(nc)
 
 depth_lim <- range(ver_lev)
 
-new_dir <- paste0(dirpath, '/interpolatedYearMonth/', sufijo,'/')
-dir.create(path = paste0(new_dir), showWarnings = F)
+# new_dir <- paste0(dirpath, '/interpolatedYearMonth/', sufijo,'/')
+# dir.create(path = paste0(new_dir), showWarnings = F)
 
-ROMS_hovmuller_latitude(dirpath   = paste0(dirpath, '/interpolatedYearMonth/'),
+ROMS_hovmuller_latitude(dirpath   = outpath,
                namevar   = namevar,
                mask      = mask,
                xy        = xy,

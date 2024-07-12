@@ -6,9 +6,9 @@
 # Aim    : Barplot associated to spawning depth & Lines associated to spawning bathymetry.
 # URL    : 
 #=============================================================================#
-dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
-ymax    <- 70
-
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/LatitudeBathyDepth/out/'
+ymax    <- 80
+yticks  <- seq(from = 0, to = ymax, by = 10)
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
@@ -32,7 +32,7 @@ par(mar=c(6,4,1,.5), xpd=TRUE)
 plot1 <- barplot(t(depth), beside = T, ylim = c(0,ymax), axes = F, col = cols, names.arg = rep('',length(meses)), border = border)
 
 axis(side = 1, lwd = 2, lwd.ticks = 2, cex.axis = 1.3, font = 2, at = plot1[2,], labels = meses)
-axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.5, font = 2, las = 2)
+axis(side = 2, lwd = 2, lwd.ticks = 2, cex.axis = 1.5, font = 2, at = yticks, labels = yticks, las = 2)
 mtext(side = 2, text = 'Recruitment (%)', lwd = 2, font = 2, line = 2.8, cex = 1.5)
 
 lines(plot1[2,], bathy[,1])
@@ -53,6 +53,9 @@ legend('bottomleft', inset=c(0.50,-0.23), legend = colnames(bathy), bty = 'n', h
        lty = 1, pch = c(17,8,16), title = '', cex = 1.1)
 
 dev.off()
+
+print(depth)
+print(bathy)
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#

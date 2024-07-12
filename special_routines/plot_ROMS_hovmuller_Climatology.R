@@ -8,7 +8,7 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/interpolatedYearMonth/'
+dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/'
 sufijo  <- 'release_zone'
 nlevels <- 64 # Number of levels in the color palette
 years   <- 1:3 # 10 km
@@ -50,17 +50,17 @@ years   <- 1:3 # 10 km
 # isolines <- seq(zlim[1], zlim[2], 20) # Isolines to be plotted
 # caption  <- 'Oxygen [umol L-1]'
 
-#===== Config for V var =====#
-namevar  <- 'V'
-zlim     <- c(-0.1, 0.1)
-isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
-caption  <- 'Velocity V [m/s]'
+# #===== Config for V var =====#
+# namevar  <- 'V'
+# zlim     <- c(-0.1, 0.1)
+# isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+# caption  <- 'Velocity V [m/s]'
 
-# #===== Config for U var =====#
-# namevar  <- 'U'
-# zlim     <- c(-0.14, 0.14)
-# isolines <- round(seq(zlim[1], zlim[2], 0.04), 2) # Isolines to be plotted
-# caption  <- 'Velocity U [m/s]'
+#===== Config for U var =====#
+namevar  <- 'U'
+zlim     <- c(-0.15, 0.12)
+isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+caption  <- 'Velocity U [m/s]'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#

@@ -8,14 +8,14 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'E:/ROMS_SILUMATIONS/rsodi1/interpolatedYearMonth/'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/10kmparent/'
 sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
 
 #===== Config for temp var =====#
 namevar  <- 'TEMP'
-zlim     <- c(13, 28)
-isolines <- seq(zlim[1], zlim[2], 3) # Isolines to be plotted
+zlim     <- c(13, 22)
+isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
 caption  <- 'Temperature [ºC]'
 
 # #===== Config for tempCT var =====#
@@ -50,14 +50,14 @@ caption  <- 'Temperature [ºC]'
 
 # #===== Config for V var =====#
 # namevar  <- 'V'
-# zlim     <- c(-0.15, 0.15)
-# isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+# zlim     <- c(-0.2, 0.2)
+# isolines <- round(seq(zlim[1], zlim[2], 1), 2) # Isolines to be plotted
 # caption  <- 'Velocity V [m/s]'
 
 # #===== Config for U var =====#
 # namevar  <- 'U'
-# zlim     <- c(-0.18, 0.08)
-# isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+# zlim     <- c(-0.24, 0.24)
+# isolines <- round(seq(zlim[1], zlim[2], 0.12), 2) # Isolines to be plotted
 # caption  <- 'Velocity U [m/s]'
 
 #=============================================================================#

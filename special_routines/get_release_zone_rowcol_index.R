@@ -24,7 +24,7 @@ nc_close(nc)
 outpath <- paste0(dirpath, 'interpolatedYearMonth/', sufijo)
 dir.create(path = outpath, showWarnings = F)
 
-latis <- c(-20,-2)      # Latitudes from lowest to highest
+latis <- c(-14,-6)      # Latitudes from lowest to highest
 longi <- c(-82.5, -70)  # Lengths from shortest to longest
 bathy <- 2000           # Maximum bathymetry
 

@@ -8,7 +8,7 @@
 #=============================================================================#
 source('ichthyop_libraries.R')
 
-dirpath   <- 'E:/ROMS_SILUMATIONS/10kmparent/interpolatedYearMonth/'
+dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/peru02km_new/'
 sufijo    <- 'release_zone'
 nlevels   <- 64 # Number of levels in the color palette
 z_depth   <- -45 # debe ser un numero negativo
@@ -53,14 +53,14 @@ years <- 1:3 # 10 km
 
 # #===== Config for V var =====#
 # namevar  <- 'V'
-# zlim     <- c(-0.04, 0.04)
-# isolines <- round(seq(zlim[1], zlim[2], 0.01), 2) # Isolines to be plotted
+# zlim     <- c(-0.09, 0.09)
+# isolines <- round(seq(zlim[1], zlim[2], 0.03), 2) # Isolines to be plotted
 # caption  <- 'Velocity V [m/s]'
 
 #===== Config for U var =====#
 namevar  <- 'U'
-zlim     <- c(-0.09, 0.09)
-isolines <- round(seq(zlim[1], zlim[2], 0.03), 2) # Isolines to be plotted
+zlim     <- c(-0.08, 0.08)
+isolines <- round(seq(zlim[1], zlim[2], 0.02), 2) # Isolines to be plotted
 caption  <- 'Velocity U [m/s]'
 
 #=============================================================================#
@@ -108,7 +108,7 @@ mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
 
 dev.off()
 
-print(range(z))
+print(range(z, na.rm = T))
 # hcl.pals() # Funcion para listar la paleta de color disponible
 #=============================================================================#
 # END OF PROGRAM

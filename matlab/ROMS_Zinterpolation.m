@@ -3,9 +3,9 @@ clear variables
 clc
 
 %% Directory where the files (ROMS files) are stored
-dirpath  = 'D:/ROMS_SIMULATIONS/peru02km/';
+dirpath  = 'D:/ROMS_SIMULATIONS/peru10km/';
 ver_lev  = [-1 -5 -10 -15 -20 -25 -30 -35 -40 -45 -50 -60 -70 -80 -90 -100]; % Niveles verticales (Z) para interpolar
-N        = 42; % Numero de niveles RHO
+N        = 32; % Numero de niveles RHO
 var_name = 'v'; % Nombre de la variable a interpolar en Z
 
 %% Create a new directory to store interpolated variables
@@ -14,16 +14,26 @@ outpath  = [dirpath, 'interpolatedYearMonth/'];
 out_name = var_name;
 
 %% Get Interpolated variables each year & month
-for year = 2010:2011
+for year = 2009:2011
     for month = 1:12
 
     % Read CROCO-PISCES file (.nc)
+    
+%     % 10kmparent
+%     nc = [dirpath, 'roms_avg_Y', num2str(year), 'M', num2str(month), '.Jaard10kmClim.nc'];
 
-    % nc = [dirpath, 'roms_avg_Y', num2str(year), 'M', num2str(month), '.Jaard10kmClim.nc'];
+%     % peru10km
+    nc = [dirpath, 'roms_avg_Y', num2str(year), 'M', num2str(month), '.AscatMerClim.nc'];
+    
+%     % peru02km
+%     nc = [dirpath, 'roms_avg_Y', num2str(year), 'M', num2str(month), '.newperushtopoP.nc'];
+
+%     % peru02km_new
+%     nc = [dirpath, 'roms_avg.Y' num2str(year) '.M' num2str(month) '.Newperush.nc'];
+
+
     % nc = [dirpath, 'roms6b_avg.Y', num2str(year), '.M', num2str(month), '.rsodi1.nc'];
 
-    % peru02km
-    nc = [dirpath, 'roms_avg_Y', num2str(year), 'M', num2str(month), '.newperushtopoP.nc'];
     
     disp (['Reading... ' nc '  variable:  ' var_name]); % Display current nc file name
     ncload(nc, 'time_step', 'h', var_name);
