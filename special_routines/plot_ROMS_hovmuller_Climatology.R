@@ -20,21 +20,21 @@ years   <- 1:3 # 10 km
 # isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
 # caption  <- 'Temperature [ºC]'
 
-# #===== Config for tempCT var =====#
-# namevar  <- 'TEMPCTcase1ringens'
-# zlim     <- c(0.4, 1.2)
-# isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
-# caption  <- 'Correction factor'
+#===== Config for tempCT var =====#
+namevar  <- 'TEMPCTcase1encrasicolus'
+zlim     <- c(0.4, 1.4)
+isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
+caption  <- 'Correction factor'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
-# zlim     <- c(0, 4.5)
+# zlim     <- c(0.5, 4.5)
 # isolines <- seq(zlim[1], zlim[2], 0.5) # Isolines to be plotted
 # caption  <- 'Mesozooplankton [umol C L-1]'
 
 # #===== Config for functional response (f) var =====#
-# namevar  <- 'MESOkx0.4'
-# zlim     <- c(0.2, 0.9)
+# namevar  <- 'MESOkx1.6'
+# zlim     <- c(0.2, 0.7)
 # isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
 # caption  <- 'Functional response'
 
@@ -56,11 +56,11 @@ years   <- 1:3 # 10 km
 # isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
 # caption  <- 'Velocity V [m/s]'
 
-#===== Config for U var =====#
-namevar  <- 'U'
-zlim     <- c(-0.15, 0.12)
-isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
-caption  <- 'Velocity U [m/s]'
+# #===== Config for U var =====#
+# namevar  <- 'U'
+# zlim     <- c(-0.15, 0.15)
+# isolines <- round(seq(zlim[1], zlim[2], 0.05), 2) # Isolines to be plotted
+# caption  <- 'Velocity U [m/s]'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -87,8 +87,8 @@ lev <- seq(from = zlim[1], to = zlim[2], length.out = nlevels) # Niveles para la
 png(filename = png_name, width = 1850, height = 750, res = 120)
 par(mar = c(5, 5, 3.5, 3.5))
 filled.contour(x = x, y = y, z = z, zlim = zlim,
-               col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),
-               # col = tim.colors(length(lev)-1),
+               # col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),
+               col = tim.colors(length(lev)-1),
                levels = lev,
                xlab = '', ylab = '',
                plot.axes = {
