@@ -8,17 +8,17 @@
 #=============================================================================#
 source('ichthyop_functions.R')
 
-dirpath <- 'C:/Users/jflores/Documents/ICHTHYOP/peru10km/Brochier2008/LatitudeDepthBathy/out/'
-ymax    <- c(0,50)
+dirpath <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
+ymax    <- c(0,75)
 lats    <- seq(from = 6, to = 14, by = 2)
 ylab    <- 'Recruitment (%)'
 hlines  <- seq(from = ymax[1], to = ymax[2], by = 10)
-years   <- 2010:2011 # Number of simulation years
+# years   <- 2010:2011 # Number of simulation years
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
-dat <- read.table(paste0(dirpath, '/results/ichthyop_output.csv'), sep = ';', header = T)
+dat <- read.table(paste0(dirpath, '/resultsV/ichthyop_output.csv'), sep = ';', header = T)
 dat$Recruitprop[is.na(dat$Recruitprop)] <- 0
 year  <- recruitment_year(dat)
 month <- recruitment_month(dat)
@@ -33,7 +33,7 @@ zone  <- recruitment_zone(dat)
 
 yticks1 <- hlines
 
-png(filename = paste0(dirpath, '/results/ichthyop_output.png'), height = 850, width = 1350, res = 120)
+png(filename = paste0(dirpath, '/resultsV/ichthyop_output.png'), height = 850, width = 1350, res = 120)
 par(mfrow = c(2,3), mar = c(4,4,2,1))
 
 # Plot by year

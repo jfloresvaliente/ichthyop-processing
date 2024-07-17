@@ -55,15 +55,7 @@ ROMS_hovmuller_CT_latitude <- function(
   T_ref <- T_ref + T_K
   T_L   <- T_L + T_K
   T_H   <- T_H + T_K
-  
-  # # Create the polygon mask in 4D from the ROMS mask
-  # mask4D <- matrix(data = NA, nrow = dim(mask)[1], ncol = dim(mask)[2])
-  # 
-  # for(i in 1:dim(xy)[1]) mask4D[ xy[i,1] , xy[i,2] ] <- 1
-  # 
-  # mask4D <- rep(as.vector(mask4D), time = length(ver_lev) * time_step)
-  # mask4D <- array(data = mask4D, dim = c(dim(mask)[1], dim(mask)[2], length(ver_lev), time_step))
-  
+
   # Calculate the time series vs depth
   hovmuller <- NULL
   for(year in years[1]:years[2]){print(paste('Year : ', year))
@@ -87,24 +79,7 @@ ROMS_hovmuller_CT_latitude <- function(
       s_H_ratio <- (1 + exp(T_AH/T_H - T_AH/T_ref)) / (1 + exp(T_AH/T_H - T_AH/vari))
       TC_5      <- s_A * ((vari <= T_ref) * s_L_ratio + (vari > T_ref) * s_H_ratio)
       vari      <- TC_5
-      
-      # # If this is an inter-annual simulation, month 12 (December) must have an additional time step.
-      # if(month == 12) vari <- vari[1:time_step,,,]
-      
-      # # Convert to the classical dimension as R reads the ncdf [lon, lat, depth, time].
-      # vari2 <- array(data = NA, dim = rev(dim(vari)))
-      # for(i in 1:dim(vari)[1]){
-      #   for(j in 1:dim(vari)[2]){
-      #     subvari <- t(vari[i,j,,])
-      #     vari2[,,j,i] <- subvari
-      #   }
-      # }
-      # 
-      # vari <- vari2; rm(vari2)
-      
-      # # Multiply by 4D mask with zone indices
-      # vari <- vari * mask4D
-      
+
       # Extract only to the desired depth
       vari <- vari[,,1:which(ver_lev == z_depth),]
       

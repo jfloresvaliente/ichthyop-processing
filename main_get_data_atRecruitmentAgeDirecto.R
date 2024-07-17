@@ -9,8 +9,8 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/case1_kx1.6/'
-new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj/cfg/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
+new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/cfg/'
 variname <- c('length','MESO','temp')
 # variname <- NULL
 
@@ -31,19 +31,18 @@ freq_record     <- 1 # Record frequency in Ichthyop
 nc_close(nc)
 
 df <- get_data_atRecruitmentAgeDirecto(
-
-     dirpath           = dirpath
-    ,firstdrifter      = firstdrifter
-    ,lastdrifter       = lastdrifter
-    ,firsttime         = firsttime
-    ,lasttime          = lasttime
-    ,recruitmentzone   = 1
-    ,old_path          = old_path
-    ,new_path          = new_path
-    ,dates             = dates
-    ,variname          = variname
-    ,N0                = 1
-    ,freq_record       = 1
+  dirpath          = dirpath
+  ,firstdrifter    = firstdrifter
+  ,lastdrifter     = lastdrifter
+  ,firsttime       = firsttime
+  ,lasttime        = lasttime
+  ,recruitmentzone = recruitmentzone
+  ,old_path        = old_path
+  ,new_path        = new_path
+  ,dates           = dates
+  ,variname        = variname
+  ,N0              = 1
+  ,freq_record     = 1
 )
 
 dir.create(path = paste0(dirpath, 'results'), showWarnings = F)

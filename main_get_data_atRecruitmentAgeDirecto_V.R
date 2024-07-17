@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : main_get_data_atRecruitmentAgeDirecto_EH
+# Name   : main_get_data_atRecruitmentAgeDirecto_V
 # Author : C. Lett; modified by Jorge Flores-Valiente
 # Date   : 
 # Version:
@@ -7,7 +7,7 @@
 # URL    : 
 #=============================================================================#
 source('ichthyop_libraries.R')
-source('ichthyop_functions.R')
+source('source/get_data_atRecruitmentAgeDirecto_V.R')
 
 dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
 new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/cfg/'
@@ -28,10 +28,10 @@ recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
 N0              <- 1 # Initial value of the particle affected by mortality
 freq_record     <- 1 # Record frequency in Ichthyop
-EHj             <- 59.66
+V               <- 0.0039827 * 1000 # transformar de cm3 (DEB matlab) a mm3 (ichthyop-DEB)
 nc_close(nc)
 
-df <- get_data_atRecruitmentAgeDirecto_EH(
+df <- get_data_atRecruitmentAgeDirecto_V(
   dirpath          = dirpath
   ,firstdrifter    = firstdrifter
   ,lastdrifter     = lastdrifter
@@ -44,11 +44,11 @@ df <- get_data_atRecruitmentAgeDirecto_EH(
   ,variname        = variname
   ,N0              = 1
   ,freq_record     = 1
-  ,EHj             = EHj
+  ,V               = V
 )
 
-dir.create(path = paste0(dirpath, 'resultsEH'), showWarnings = F)
-Rdata  <- paste0(dirpath, '/resultsEH/data_atRecruitmentAge.Rdata')
+dir.create(path = paste0(dirpath, 'resultsV'), showWarnings = F)
+Rdata  <- paste0(dirpath, '/resultsV/data_atRecruitmentAge.Rdata')
 print(paste0('saving .....', Rdata))
 save(df, file = Rdata)
 #=============================================================================#

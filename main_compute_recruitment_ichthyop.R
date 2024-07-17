@@ -9,8 +9,8 @@
 source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
-dirpath  <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.4/'
-new_path <- 'E:/ICHTHYOP/rsodi1/DEB_TC5_TCseuil0.052abj_shape_pecq/cfg/'
+dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
+new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/cfg/'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -27,15 +27,16 @@ dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), 
 
 nc_close(nc)
 
-dat <- compute_recruitment_ichthyop(dirpath            = dirpath,
-                                    firstdrifter       = firstdrifter
-                                    ,lastdrifter       = lastdrifter
-                                    ,computeattime     = computeattime
-                                    ,nbreleasezones    = nbreleasezones
-                                    ,recruitmentzone   = recruitmentzone
-                                    ,old_path          = old_path
-                                    ,new_path          = new_path
-                                    ,dates             = dates
+dat <- compute_recruitment_ichthyop(
+  dirpath          = dirpath
+  ,firstdrifter    = firstdrifter
+  ,lastdrifter     = lastdrifter
+  ,computeattime   = computeattime
+  ,nbreleasezones  = nbreleasezones
+  ,recruitmentzone = recruitmentzone
+  ,old_path        = old_path
+  ,new_path        = new_path
+  ,dates           = dates
 )
 
 for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)

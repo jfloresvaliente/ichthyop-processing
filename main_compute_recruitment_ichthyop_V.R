@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : main_compute_recruitment_ichthyop_EHj
+# Name   : main_compute_recruitment_ichthyop_V
 # Author : Jorge Flores-Valiente
 # Date   : 
 # Version:
@@ -7,7 +7,7 @@
 # URL    : 
 #=============================================================================#
 source('ichthyop_libraries.R')
-source('ichthyop_functions.R')
+source('source/compute_recruitment_ichthyop_V.R')
 
 dirpath  <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1/'
 new_path <- 'E:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/cfg/'
@@ -24,11 +24,11 @@ computeattime   <- length(ncvar_get(nc, 'time'))
 nbreleasezones  <- ncatt_get(nc , 0 , 'nb_zones')$value - 1
 recruitmentzone <- 1
 dates           <- read.table(paste0(new_path, 'date_scrum_time_ichthyop.csv'), header = T, sep = ';')
-EHj             <- 59.66
+V               <- 0.0039827 * 1000 # transformar de cm3 (DEB matlab) a mm3 (ichthyop-DEB)
 
 nc_close(nc)
 
-dat <- compute_recruitment_ichthyop_EH(
+dat <- compute_recruitment_ichthyop_V(
   dirpath          = dirpath
   ,firstdrifter    = firstdrifter
   ,lastdrifter     = lastdrifter
@@ -38,13 +38,13 @@ dat <- compute_recruitment_ichthyop_EH(
   ,old_path        = old_path
   ,new_path        = new_path
   ,dates           = dates
-  ,EHj             = EHj
+  ,V = V
 )
 
 for(i in 1:9) dat$Zone_name[grep(pattern = paste0('zone', i), x = dat$Zone_name)] <- paste0('zone', i)
 
-dir.create(path = paste0(dirpath, '/resultsEH'), showWarnings = F)
-write.table(x = dat, file = paste0(dirpath, '/resultsEH/ichthyop_output.csv'), sep = ';', row.names = F)
+dir.create(path = paste0(dirpath, '/resultsV'), showWarnings = F)
+write.table(x = dat, file = paste0(dirpath, '/resultsV/ichthyop_output.csv'), sep = ';', row.names = F)
 
 #===== Para calcular el reclutamiento dia por dia =====#
 # days   <- seq(from = 1, to = 91, by = 1) # length(ncvar_get(nc, 'time'))
