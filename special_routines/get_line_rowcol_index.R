@@ -103,7 +103,7 @@ getline_rowcol_index <- function(
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
-dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+dirpath <- 'D:/ROMS_SILUMATIONS/10kmparent/'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 lon1 <- -80.50
 lat1 <- -6.75

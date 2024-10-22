@@ -1,5 +1,5 @@
 #=============================================================================#
-# Name   : plot_ROMS_hovmuller_latitude
+# Name   : plot_ROMS_kx_hovmuller_latitude
 # Author : Jorge Flores
 # Date   : 
 # Version:
@@ -10,55 +10,26 @@ source('ichthyop_libraries.R')
 
 dirpath   <- 'C:/Users/jflores/Documents/ICHTHYOP/rsodi1/'
 sufijo    <- 'release_zone'
-nlevels   <- 64  # Number of levels in the color palette
-z_depth   <- -45 # must be a negative number
+nlevels   <- 64 # Number of levels in the color palette
+z_depth   <- -45 # debe ser un numero negativo
 
-# #===== Config for temp var =====#
-# namevar  <- 'TEMP'
-# zlim     <- c(13, 28)
-# isolines <- seq(zlim[1], zlim[2], 3) # Isolines to be plotted
-# caption  <- 'Temperature (ºC)'
-
-#===== Config for MESO var =====#
+#===== Config for MESO kx var =====#
 namevar  <- 'MESO'
-zlim     <- c(0, 3.5)
-isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
-caption  <- 'Mesozooplankton (umol C L-1)'
-
-# #===== Config for salt var =====#
-# namevar  <- 'SALT'
-# zlim     <- c(34, 35.15)
-# isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
-# caption  <- 'Salinity (PSU)'
-
-# #===== Config for O2 var =====#
-# namevar  <- 'O2'
-# zlim     <- c(0, 250)
-# isolines <- seq(zlim[1], zlim[2], 20) # Isolines to be plotted
-# caption  <- 'Oxygen (umol L-1)'
-
-# #===== Config for V var =====#
-# namevar  <- 'V'
-# zlim     <- c(-0.2, 0.2)
-# isolines <- round(seq(zlim[1], zlim[2], 1), 2) # Isolines to be plotted
-# caption  <- 'Velocity V (m/s)'
-
-# #===== Config for U var =====#
-# namevar  <- 'U'
-# zlim     <- c(-0.24, 0.24)
-# isolines <- round(seq(zlim[1], zlim[2], 0.12), 2) # Isolines to be plotted
-# caption  <- 'Velocity U (m/s)'
+kx       <- 1.6
+zlim     <- c(0.1, 0.7)
+isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
+caption  <- 'Functional response (f)'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
 #=============================================================================#
 Rdata    <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller_latitude',0,z_depth,'m.Rdata')
-png_name <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, '_hovmuller_latitude',0,z_depth,'m.png')
+png_name <- paste0(dirpath, sufijo, '/',sufijo,'_', namevar, 'kx', kx,'_hovmuller_latitude',0,z_depth,'m.png')
 load(Rdata)
 
 x <- hovmuller$x
 y <- hovmuller$y
-z <- hovmuller$z
+z <- hovmuller$z/(hovmuller$z + kx)
 
 lev <- seq(from = zlim[1], to = zlim[2], length.out = nlevels) # Niveles para la paleta de color
 ytics <- seq(from = range(y)[1], to = range(y)[2], by = 2)

@@ -15,11 +15,7 @@ ROMS_hovmuller <- function(
   ,time_step = time_step
   ,years     = years
   ,months    = months
-  ,k_x       = k_x
   ){
-  
-  library(R.matlab)
-
   #============ ============ Arguments ============ ============#
   
   # dirpath   = Directory path which contains series interpolated ROMS files (.mat)
@@ -30,22 +26,21 @@ ROMS_hovmuller <- function(
   # time_step = ROMS file time step in days
   # years     = Years between which Hovmuller is to be calculated
   # months    = Months between which Hovmuller is to be calculated
-  # K_X       = mean saturation constant to calculate functional response (f)
 
   #============ ============ Arguments ============ ============#
-
+  library(R.matlab)
+  
   # Calculate the time series vs depth
   hovmuller <- NULL
-  for(year in years[1]:years[2]){print(paste('Year : ', year))
+  for(year in years[1]:years[2]){
     for(month in months[1]:months[2]){
+      
+      print(paste('Year : ', year))
       
       matfile <- paste0(dirpath, namevar, 'Y', year, 'M', month,'.Rdata')
       print(matfile)
       load(matfile)
 
-      # If you want to calculate the functional response
-      if(!is.null(k_x)) vari <- vari / (vari + k_x)
-      
       # Mean horizontally and leaving values for depth and time
       vari <- apply(vari, c(3,4), mean, na.rm = T)
       

@@ -9,13 +9,12 @@
 source('source/ROMS_hovmuller.R')
 library(ncdf4)
 
-dirpath   <- 'E:/ROMS_SIMULATIONS/rsodi1/'
-sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined.
-namevar   <- 'MESO'
-k_x       <- 0.4 # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
-years     <- c(1980,2000)  # Years comprising the simulation
+dirpath   <- 'E:/ROMS_SIMULATIONS/10kmparent/'
+sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined
+namevar   <- 'MESO'         # ROMS variable name
+years     <- c(2012,2014)   # Years comprising the simulation
 months    <- c(1,12)        # Months comprising the simulation
-clim      <- F # in case of climatological simulation
+clim      <- F              # in case of climatological simulation
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -39,7 +38,6 @@ ROMS_hovmuller(dirpath   = outpath,
                time_step = time_step,
                years     = years,
                months    = months,
-               k_x       = k_x
 )
 
 z <- hovmuller

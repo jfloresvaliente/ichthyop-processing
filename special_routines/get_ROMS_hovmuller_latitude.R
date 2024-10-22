@@ -9,15 +9,15 @@
 source('source/ROMS_hovmuller_latitude.R')
 library(ncdf4)
 
-dirpath   <- 'E:/ROMS_SIMULATIONS/rsodi1/'
-sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined.
-namevar   <- 'MESO'
-k_x       <- 0.4           # en caso se quiere calcular f, la 'namevar' debe ser MESO y k_x diferente de NULL
-years     <- c(1980,2000)   # Years comprising the simulation
+dirpath   <- 'E:/ROMS_SIMULATIONS/10kmparent/'
+sufijo    <- 'release_zone' # name of the directory where the map area to be averaged is defined
+namevar   <- 'MESO'         # ROMS variable name
+years     <- c(2012,2014)   # Years comprising the simulation
 months    <- c(1,12)        # Months comprising the simulation
 z_depth   <- -45            # Depth at which the variable is averaged. Must be a negative number
-lat_lim   <- c(-20,-2)
-clim      <- F # in case of climatological simulation
+lat_lim   <- c(-20,-2)      # latitudinal range
+lat_inter <- 2              # latitudinal interval, if smaller, takes longer to calculate
+clim      <- F              # in case of climatological simulation
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -34,21 +34,19 @@ nc_close(nc)
 
 depth_lim <- range(ver_lev)
 
-# new_dir <- paste0(dirpath, '/interpolatedYearMonth/', sufijo,'/')
-# dir.create(path = paste0(new_dir), showWarnings = F)
-
-ROMS_hovmuller_latitude(dirpath   = outpath,
-               namevar   = namevar,
-               mask      = mask,
-               xy        = xy,
-               ver_lev   = ver_lev,
-               time_step = time_step,
-               years     = years,
-               months    = months,
-               k_x       = k_x,
-               z_depth   = z_depth,
-               lat       = lat,
-               lat_lim   = lat_lim
+ROMS_hovmuller_latitude(
+  dirpath   = outpath,
+  namevar   = namevar,
+  mask      = mask,
+  xy        = xy,
+  ver_lev   = ver_lev,
+  time_step = time_step,
+  years     = years,
+  months    = months,
+  z_depth   = z_depth,
+  lat       = lat,
+  lat_lim   = lat_lim,
+  lat_inter = lat_inter
 )
 
 z <- hovmuller

@@ -10,9 +10,9 @@ source('ichthyop_libraries.R')
 source('ichthyop_functions.R')
 
 dirpath <- 'C:/Users/jflores/Desktop/'
-dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.4/results/ichthyop_output.csv', header = T, sep = ';')
-dat2 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.0/results/ichthyop_output.csv', header = T, sep = ';')
-dat3 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.6/results/ichthyop_output.csv', header = T, sep = ';')
+dat1 <- read.table('D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx0.4/results/ichthyop_output.csv', header = T, sep = ';')
+dat2 <- read.table('D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.0/results/ichthyop_output.csv', header = T, sep = ';')
+dat3 <- read.table('D:/ICHTHYOP/10kmparent/DEB_TC5_TCseuil0.052abj_shape_pecq/case1_kx1.6/results/ichthyop_output.csv', header = T, sep = ';')
 
 # dat1 <- read.table('C:/Users/jflores/Documents/ICHTHYOP/AnalisisSensibilidad/sen10km/out/ichthyop_output.csv', header = T, sep = ';')
 # dat1 <- subset(dat1, dat1$TotalParticles == 5000 & dat1$Coast_Behavior == 'Standstill')

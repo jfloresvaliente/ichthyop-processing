@@ -19,49 +19,37 @@ years     <- 1:3 # 10 km
 # namevar  <- 'TEMP'
 # zlim     <- c(13, 22)
 # isolines <- seq(zlim[1], zlim[2], 1) # Isolines to be plotted
-# caption  <- 'Temperature [ºC]'
-
-#===== Config for tempCT var =====#
-namevar  <- 'TEMPCTcase1encrasicolus'
-zlim     <- c(0.4, 1.2)
-isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
-caption  <- 'Correction factor'
+# caption  <- 'Temperature (ºC)'
 
 # #===== Config for MESO var =====#
 # namevar  <- 'MESO'
-# zlim     <- c(0.5, 4.5)
+# zlim     <- c(0, 4.5)
 # isolines <- seq(zlim[1], zlim[2], 0.5) # Isolines to be plotted
-# caption  <- 'Mesozooplankton [umol C L-1]'
-
-# #===== Config for functional response (f) var =====#
-# namevar  <- 'MESOkx1.6'
-# zlim     <- c(0.2, 0.7)
-# isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
-# caption  <- 'Functional response'
+# caption  <- 'Mesozooplankton (umol C L-1)'
 
 # #===== Config for salt var =====#
 # namevar  <- 'SALT'
 # zlim     <- c(34, 35.15)
 # isolines <- seq(zlim[1], zlim[2], 0.1) # Isolines to be plotted
-# caption  <- 'Salinity [PSU]'
+# caption  <- 'Salinity (PSU)'
 
 # #===== Config for O2 var =====#
 # namevar  <- 'O2'
 # zlim     <- c(0, 250)
 # isolines <- seq(zlim[1], zlim[2], 20) # Isolines to be plotted
-# caption  <- 'Oxygen [umol L-1]'
+# caption  <- 'Oxygen (umol L-1)'
 
 # #===== Config for V var =====#
 # namevar  <- 'V'
-# zlim     <- c(-0.05, 0.05)
-# isolines <- round(seq(zlim[1], zlim[2], 0.025), 2) # Isolines to be plotted
-# caption  <- 'Velocity V [m/s]'
-
-# #===== Config for U var =====#
-# namevar  <- 'U'
 # zlim     <- c(-0.09, 0.09)
 # isolines <- round(seq(zlim[1], zlim[2], 0.03), 2) # Isolines to be plotted
-# caption  <- 'Velocity U [m/s]'
+# caption  <- 'Velocity V (m/s)'
+
+#===== Config for U var =====#
+namevar  <- 'U'
+zlim     <- c(-0.09, 0.09)
+isolines <- round(seq(zlim[1], zlim[2], 0.03), 2) # Isolines to be plotted
+caption  <- 'Velocity U (m/s)'
 
 #=============================================================================#
 #===================== Do not change anything from here ======================#
@@ -90,8 +78,8 @@ ylabs <- paste0(abs(ytics), 'ºS')
 png(filename = png_name, width = 1850, height = 750, res = 120)
 par(mar = c(5, 5, 3.5, 3.5))
 filled.contour(x = x, y = y, z = z, zlim = zlim,
-               # col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),
-               col = tim.colors(length(lev)-1),
+               col = hcl.colors(n = length(lev)-1, palette = 'Blue-Red 3'),
+               # col = tim.colors(length(lev)-1),
                levels = lev,
                xlab = '', ylab = '',
                plot.axes = {
@@ -104,7 +92,7 @@ filled.contour(x = x, y = y, z = z, zlim = zlim,
 )
 mtext(side = 1, line = 3.0, font = 2, cex = 1.5, adj = 0.45, text = 'Months')
 mtext(side = 2, line = 3.8, font = 2, cex = 1.5, text = 'Latitude')
-mtext(side = 3, line = 0.2, font = 2, cex = 1.5, adj = 0.00, text = caption)
+mtext(side = 3, line = 0.2, font = 2, cex = 2.5, adj = 0.00, text = caption)
 
 dev.off()
 

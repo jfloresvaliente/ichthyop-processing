@@ -110,19 +110,42 @@ getpolygon_rowcol_index <- function(
 #=============================================================================#
 # END OF PROGRAM
 #=============================================================================#
-dirpath <- 'E:/ROMS_SILUMATIONS/10kmparent/'
+dirpath <- 'D:/ROMS_SIMULATIONS/10kmparent/'
 nc_file <- list.files(path = dirpath, pattern = '.nc', full.names = T)[1]
 
-# Polygon defined off the Peruvian coast (6-14 ºS, spatial resolution test)
+# Polygon defined for JumboSquid Norte
 lon1 <- -80 # esquina superior derecha
-lon2 <- -75 # esquina inferior derecha
-lon3 <- -77 # esquina inferior izquierda
-lon4 <- -82 # esquina superior izquierda
+lon2 <- -79 # esquina inferior derecha
+lon3 <- -83 # esquina inferior izquierda
+lon4 <- -84 # esquina superior izquierda
 
-lat1 <- -6  # esquina superior derecha
-lat2 <- -14 # esquina inferior derecha
-lat3 <- -14 # esquina inferior izquierda
-lat4 <- -6  # esquina superior izquierda
+lat1 <- -2  # esquina superior derecha
+lat2 <- -8 # esquina inferior derecha
+lat3 <- -8 # esquina inferior izquierda
+lat4 <- -2  # esquina superior izquierda
+
+# # Polygon defined for JumboSquid Sur
+# lon1 <- -72 # esquina superior derecha
+# lon2 <- -72 # esquina inferior derecha
+# lon3 <- -77 # esquina inferior izquierda
+# lon4 <- -80 # esquina superior izquierda
+# 
+# lat1 <- -14  # esquina superior derecha
+# lat2 <- -17 # esquina inferior derecha
+# lat3 <- -17 # esquina inferior izquierda
+# lat4 <- -14  # esquina superior izquierda
+
+
+# # Polygon defined off the Peruvian coast (6-14 S, spatial resolution test)
+# lon1 <- -80 # esquina superior derecha
+# lon2 <- -75 # esquina inferior derecha
+# lon3 <- -77 # esquina inferior izquierda
+# lon4 <- -82 # esquina superior izquierda
+# 
+# lat1 <- -6  # esquina superior derecha
+# lat2 <- -14 # esquina inferior derecha
+# lat3 <- -14 # esquina inferior izquierda
+# lat4 <- -6  # esquina superior izquierda
 
 # # Polygon defined off the Peruvian coast
 # lon1 <- -80
@@ -161,5 +184,12 @@ getpolygon_rowcol_index(nc_file = nc_file,
                         lon4 = lon4, lat4 = lat4
                      )
 
-txt_name <- paste0(dirpath, 'getpolygon_rowcol_index.txt')
+par(mfrow = c(1,2))
+plot(PolygIndex[,1], PolygIndex[,2])
+
+m <- seq(from = 1, to = dim(PolygIndex)[1], 6)
+PolygIndex <- PolygIndex[m,]
+
+plot(PolygIndex[,1], PolygIndex[,2])
+txt_name <- paste0(dirpath, 'getpolygon_rowcol_indexJumboNorte.txt')
 write.table(x = PolygIndex, file = txt_name, col.names = F, row.names = F)
